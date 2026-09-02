@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
 """
-Build drag-and-drop art packs the game can load directly.
+Build first-timer gen packs the game can load directly.
 
-EASIEST PATH (one DROP folder per scene):
+Each image gets a folder under public/gen/:
 
-  public/art/blaze-pit-lane/
-    0_POSITIVE.txt      ← copy into A1111 for peel 0
-    1_POSITIVE.txt
+  public/gen/01_raven-first-timer__0/
+    POSITIVE.txt
     NEGATIVE.txt
     SETTINGS.txt
     DROP/
-      0.png             ← drag A1111 output here (rename to 0.png)
-      1.png
-      2.png
-      3.png
+      README.txt          ← read this
+      (put image.png here)
 
-Also writes numbered packs under public/gen/…/DROP/image.png (same prompts).
+Save your A1111 output as:  DROP/image.png
+Refresh the game — that scene uses it. No copying into public/art/.
 """
 
 from __future__ import annotations
@@ -54,51 +52,33 @@ def settings_text(seed: int, save_hint: str) -> str:
             "",
             "Then click Generate.",
             "",
-            f"Save / drag the PNG to:  {save_hint}",
+            f"Save the PNG as:  {save_hint}",
             "",
         ]
     )
 
 
 def write_art_scene_packs(jobs: list[dict], manifest: dict[str, dict[str, str]]) -> None:
-    """One scene folder + one DROP/ for drag-and-drop peels."""
+    """Keep legacy public/art/<sceneId>/ folders in sync with gen packs."""
     by_scene: dict[str, list[dict]] = {}
     for job in jobs:
         by_scene.setdefault(job["scene_id"], []).append(job)
 
     ART.mkdir(parents=True, exist_ok=True)
 
-    # Preserve existing peels wherever they already live
+    # Preserve any existing PNGs under art/
     saved_pngs: dict[str, bytes] = {}
     if ART.exists():
         for png in ART.glob("*/*.png"):
             saved_pngs[f"{png.parent.name}/{png.name}"] = png.read_bytes()
-        for png in ART.glob("*/DROP/*.png"):
-            saved_pngs[f"{png.parent.parent.name}/DROP/{png.name}"] = png.read_bytes()
-
-    index_rows: list[str] = [
-        "# Drag & drop scene art",
-        "",
-        "Open a scene folder → open **`DROP/`** → drag your A1111 PNGs in as:",
-        "`0.png` `1.png` `2.png` `3.png`",
-        "",
-        "Copy that layer's `N_POSITIVE.txt` into A1111 first. Same NEGATIVE + SETTINGS for all layers.",
-        "",
-        "| Scene | Girl | DROP folder |",
-        "| --- | --- | --- |",
-    ]
 
     for scene_id, scene_jobs in by_scene.items():
         scene_jobs = sorted(scene_jobs, key=lambda j: j["layer"])
         folder = ART / scene_id
-        drop = folder / "DROP"
-        drop.mkdir(parents=True, exist_ok=True)
+        folder.mkdir(parents=True, exist_ok=True)
 
-        # Clear stale text helpers (keep DROP pngs / folder pngs)
+        # Clear stale text helpers but keep folder
         for p in folder.iterdir():
-            if p.is_file() and p.suffix.lower() != ".png":
-                p.unlink()
-        for p in drop.iterdir():
             if p.is_file() and p.suffix.lower() != ".png":
                 p.unlink()
 
@@ -106,110 +86,95 @@ def write_art_scene_packs(jobs: list[dict], manifest: dict[str, dict[str, str]])
         neg = scene_jobs[0]["negative"]
         (folder / "NEGATIVE.txt").write_text(neg + "\n", encoding="utf-8")
         (folder / "SETTINGS.txt").write_text(
-            settings_text(
-                scene_jobs[0]["seed"],
-                f"public/art/{scene_id}/DROP/0.png  (then 1.png, 2.png…)",
-            ),
+            settings_text(scene_jobs[0]["seed"], f"public/art/{scene_id}/0.png (then 1.png, 2.png…)"),
             encoding="utf-8",
         )
 
-        slot_lines: list[str] = []
+        peel_lines = []
+        gen_lines = []
         for job in scene_jobs:
             layer = job["layer"]
             (folder / f"{layer}_POSITIVE.txt").write_text(job["prompt"] + "\n", encoding="utf-8")
-            slot_lines.append(f"  {layer}.png  ← from {layer}_POSITIVE.txt")
+            peel_lines.append(f"  {layer}.png  ←  {layer}_POSITIVE.txt")
+            gen_name = manifest.get(scene_id, {}).get(str(layer), f"??_{scene_id}__{layer}")
+            gen_lines.append(
+                f"  layer {layer}: public/gen/{gen_name}/DROP/image.png"
+            )
 
-            # Restore into DROP/ (preferred)
-            for key in (
-                f"{scene_id}/DROP/{layer}.png",
-                f"{scene_id}/{layer}.png",
-            ):
-                if key in saved_pngs:
-                    (drop / f"{layer}.png").write_bytes(saved_pngs[key])
-                    break
-
-        (drop / ">>> DRAG 0.png 1.png 2.png 3.png HERE <<<.txt").write_text(
-            "\n".join(
-                [
-                    "DRAG AND DROP YOUR GENERATED PNGs INTO THIS FOLDER",
-                    "",
-                    "Rename each file exactly:",
-                    "",
-                    *slot_lines,
-                    "",
-                    "Then refresh the game. Done.",
-                    "",
-                    f"Scene: {scene_id}   Girl: {girl}",
-                    "",
-                ]
-            ),
-            encoding="utf-8",
-        )
-
-        # Empty placeholder names so the folder looks like drop slots in file UIs
-        for job in scene_jobs:
-            layer = job["layer"]
-            slot = drop / f"{layer}.png.txt"
-            if not (drop / f"{layer}.png").exists():
-                slot.write_text(
-                    f"Delete this file and drag your generation here as {layer}.png\n",
-                    encoding="utf-8",
-                )
+            # Restore PNG if present
+            key = f"{scene_id}/{layer}.png"
+            if key in saved_pngs:
+                (folder / f"{layer}.png").write_bytes(saved_pngs[key])
 
         readme = "\n".join(
             [
                 f"SCENE: {scene_id}",
                 f"GIRL: {girl}",
                 "",
-                "=== EASY DRAG & DROP ===",
+                "Two ways to drop art (game accepts both):",
                 "",
-                f"1. Open:  public/art/{scene_id}/DROP/",
-                "2. Generate each peel in A1111 (copy N_POSITIVE.txt)",
-                "3. Drag the PNG into DROP/ and name it 0.png / 1.png / 2.png / 3.png",
-                "4. Refresh the game",
+                "PREFERRED — numbered gen packs (prompts already split per layer):",
+                *gen_lines,
                 "",
-                "Slots:",
-                *slot_lines,
+                "OR legacy flat drop in THIS folder:",
+                *peel_lines,
                 "",
-                "Prompts live next to DROP/ (0_POSITIVE.txt, NEGATIVE.txt, SETTINGS.txt).",
-                "Poses change per layer. Same face/seed. Thick bold outlines.",
+                "How to generate (legacy path):",
+                "1. Copy NEGATIVE.txt → A1111 Negative",
+                "2. Match SETTINGS.txt (34 steps / CFG 7)",
+                "3. For each layer, copy N_POSITIVE.txt → Prompt, Generate",
+                "4. Save as N.png in this folder (0.png, 1.png, 2.png…)",
+                "5. Refresh the game",
+                "",
+                "Poses change per layer (coach → wet/spread → climax). Same face/seed.",
+                "Style: thick bold outlines, flat cel, slightly detailed face/hair.",
+                "",
+                "Also see: public/gen/INDEX.md",
                 "",
             ]
         )
         (folder / "README.txt").write_text(readme, encoding="utf-8")
-        index_rows.append(
-            f"| `{scene_id}` | {girl} | `public/art/{scene_id}/DROP/` |"
-        )
 
     (ART / "README.md").write_text(
         "\n".join(
             [
-                "# Drag & drop your generations here",
+                "# Scene art folders",
                 "",
-                "Every scene has a **`DROP/`** folder. Example — Blaze Pit Lane:",
+                "Every scene has a folder here, e.g. **`blaze-pit-lane/`**.",
+                "",
+                "## Preferred path",
+                "Use the numbered packs in [`../gen/INDEX.md`](../gen/INDEX.md):",
                 "",
                 "```",
-                "public/art/blaze-pit-lane/DROP/0.png   ← drag peel 0 here",
-                "public/art/blaze-pit-lane/DROP/1.png",
-                "public/art/blaze-pit-lane/DROP/2.png",
-                "public/art/blaze-pit-lane/DROP/3.png",
+                "public/gen/38_blaze-pit-lane__0/DROP/image.png",
+                "public/gen/39_blaze-pit-lane__1/DROP/image.png",
+                "…",
                 "```",
                 "",
-                "1. Copy `0_POSITIVE.txt` → A1111 → Generate",
-                "2. Drag the result into that scene’s `DROP/` as `0.png`",
-                "3. Repeat for 1 / 2 / 3",
-                "4. Refresh the game",
+                "## Legacy flat drop (still works)",
+                "Or put files straight in the scene folder:",
                 "",
-                "Full list: [`INDEX.md`](./INDEX.md)",
+                "```",
+                "public/art/blaze-pit-lane/0.png",
+                "public/art/blaze-pit-lane/1.png",
+                "public/art/blaze-pit-lane/2.png",
+                "public/art/blaze-pit-lane/3.png",
+                "```",
                 "",
-                "Also still works: `public/gen/NN_scene__layer/DROP/image.png`",
+                "Each scene folder now includes:",
+                "- `README.txt` — peels + both drop paths",
+                "- `N_POSITIVE.txt` — prompt per layer",
+                "- `NEGATIVE.txt` / `SETTINGS.txt`",
+                "",
+                "Game loads **gen DROP first**, then falls back to `art/<scene>/N.png`.",
+                "",
+                "Style: thick bold outlines, flat Mosbles cel, slightly detailed face/hair.",
                 "",
             ]
         ),
         encoding="utf-8",
     )
-    (ART / "INDEX.md").write_text("\n".join(index_rows) + "\n", encoding="utf-8")
-    print(f"Synced {len(by_scene)} art DROP folders → {ART}")
+    print(f"Synced {len(by_scene)} legacy art folders → {ART}")
 
 
 def main() -> None:
@@ -228,13 +193,27 @@ def main() -> None:
                 p.rmdir()
     GEN.mkdir(parents=True, exist_ok=True)
 
+    # manifest: sceneId -> { "0": "01_raven-first-timer__0", ... }
     manifest: dict[str, dict[str, str]] = {}
     index_lines = [
-        "# Numbered gen packs (optional)",
+        "# Generate here — one folder = one image",
         "",
-        "**Easier path:** use [`public/art/INDEX.md`](../art/INDEX.md) — one `DROP/` folder per scene.",
+        "Poses are locked to chapter + JOI dialogue (coach → peel → wet/spread → climax freaky).",
+        "Do not swap peels across layers — `__0` is clothed coach, last layer is finish-freaky.",
         "",
-        "These numbered packs also work: drag into each `DROP/` as `image.png`.",
+        "Style lock: thick bold outlines, flat cel color, slightly detailed face/hair/outfit.",
+        "Use SETTINGS.txt as written (34 steps / CFG 7). Lock one seed per girl.",
+        "",
+        "Legacy scene folders (`public/art/blaze-pit-lane/` etc.) are also synced —",
+        "you can drop `0.png`/`1.png` there instead if you prefer.",
+        "",
+        "For each folder, in order:",
+        "1. Copy `POSITIVE.txt` → A1111 Prompt",
+        "2. Copy `NEGATIVE.txt` → A1111 Negative prompt",
+        "3. Match `SETTINGS.txt`",
+        "4. Click **Generate**",
+        "5. Save the PNG into that folder's **`DROP/image.png`** (exact name)",
+        "6. Refresh the game — done.",
         "",
         "| # | Folder | Girl | Drop file |",
         "| --- | --- | --- | --- |",
@@ -248,33 +227,39 @@ def main() -> None:
 
         (folder / "POSITIVE.txt").write_text(job["prompt"] + "\n", encoding="utf-8")
         (folder / "NEGATIVE.txt").write_text(job["negative"] + "\n", encoding="utf-8")
+
         (folder / "SETTINGS.txt").write_text(
-            settings_text(
-                job["seed"],
-                f"public/art/{job['scene_id']}/DROP/{job['layer']}.png  (easiest)  OR  public/gen/{name}/DROP/image.png",
-            ),
+            settings_text(job["seed"], f"public/gen/{name}/DROP/image.png"),
             encoding="utf-8",
         )
 
-        (drop / ">>> DRAG image.png HERE <<<.txt").write_text(
+        (drop / "README.txt").write_text(
             "\n".join(
                 [
-                    "DRAG YOUR GENERATED PNG INTO THIS FOLDER",
+                    "PUT YOUR GENERATED PNG IN THIS FOLDER",
                     "",
-                    "Exact filename:",
+                    "Exact filename required:",
+                    "",
                     "    image.png",
                     "",
-                    "EASIER: use the scene DROP instead:",
-                    f"    public/art/{job['scene_id']}/DROP/{job['layer']}.png",
+                    "Steps:",
+                    "1. Generate in Automatic1111",
+                    "2. Download / save the image",
+                    "3. Move it here and rename it to image.png",
+                    "4. Refresh the game — this slot lights up automatically",
                     "",
                     f"Scene: {job['scene_id']}   layer: {job['layer']}   girl: {job['girl']}",
+                    f"Legacy alt: public/art/{job['scene_id']}/{job['layer']}.png",
                     "",
                 ]
             ),
             encoding="utf-8",
         )
+
+        # Keep an empty marker so git tracks the folder before any PNG exists
         (drop / ".gitkeep").write_text("", encoding="utf-8")
 
+        # Restore a previously dropped image if this folder name still matches
         if name in saved:
             (drop / "image.png").write_bytes(saved[name])
 
@@ -290,6 +275,7 @@ def main() -> None:
 
     write_art_scene_packs(jobs, manifest)
 
+    # Pointer from tools/ so old links still make sense
     if TOOLS_EASY.exists():
         for p in TOOLS_EASY.rglob("*"):
             if p.is_file():
@@ -301,17 +287,16 @@ def main() -> None:
     (TOOLS_EASY / "README.md").write_text(
         "\n".join(
             [
-                "# Drag & drop",
+                "# Moved",
                 "",
-                "Easiest: **[`public/art/`](../../../public/art/README.md)**",
+                "Gen packs now live where the game can load them:",
                 "",
-                "```",
-                "public/art/blaze-pit-lane/DROP/0.png",
-                "public/art/blaze-pit-lane/DROP/1.png",
-                "…",
-                "```",
+                "**[`public/gen/INDEX.md`](../../../public/gen/INDEX.md)**",
                 "",
-                "Open `DROP/`, drag PNGs in, refresh the game.",
+                "Each folder has a `DROP/` directory — put `image.png` there.",
+                "",
+                "Legacy scene folders still work too:",
+                "**[`public/art/`](../../../public/art/README.md)** e.g. `blaze-pit-lane/0.png`",
                 "",
             ]
         ),
@@ -319,7 +304,8 @@ def main() -> None:
     )
 
     print(f"Wrote {len(jobs)} gen folders → {GEN}")
-    print(f"Art DROP hubs → {ART} (see INDEX.md)")
+    print(f"Start at {GEN / 'INDEX.md'}")
+    print("Put each PNG in that folder's DROP/image.png")
     if saved:
         print(f"Restored {len(saved)} existing DROP/image.png file(s)")
 

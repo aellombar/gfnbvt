@@ -1,9 +1,0 @@
-DRAG YOUR GENERATED PNG INTO THIS FOLDER
-
-Exact filename:
-    image.png
-
-EASIER: use the scene DROP instead:
-    public/art/seraph-fallen-for-you/DROP/1.png
-
-Scene: seraph-fallen-for-you   layer: 1   girl: seraph

@@ -1,9 +1,0 @@
-DRAG YOUR GENERATED PNG INTO THIS FOLDER
-
-Exact filename:
-    image.png
-
-EASIER: use the scene DROP instead:
-    public/art/miko-only-you/DROP/2.png
-
-Scene: miko-only-you   layer: 2   girl: miko
