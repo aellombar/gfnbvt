@@ -1,11 +1,32 @@
 # Baddie Casino
 
+**Play in your browser:** https://aellombar.github.io/gfnbvt/
+
 An 18+ browser game where AI-generated anime characters host a hands-free
 pacing experience. Wins at the table unlock story chapters; chapters unlock
 sessions where she sets the rhythm and you follow along.
 
 **Adults only.** Fictional characters. Virtual chips only — no real-money
 wagering.
+
+## Running it locally
+
+```bash
+npm install
+npm run dev
+```
+
+Then open http://localhost:3000.
+
+```bash
+npm run build          # static production build (local paths)
+npm run build:pages    # static build for GitHub Pages (/gfnbvt base path)
+npm run typecheck      # tsc --noEmit
+npx eslint src         # lint
+```
+
+The live site is a static export deployed by GitHub Actions on every push to
+`main`. Local `next dev` still serves from `/` with no base path.
 
 ## Art direction
 
@@ -37,21 +58,6 @@ Three rules shape every system in the codebase:
    no punishment scenes, no humiliation, and no cruel denial.
 3. **Fast stroking, light on edging.** Sessions spend most of their runtime in
    the faster phases. Rest beats are 5–15 second breathers, not denial holds.
-
-## Running it
-
-```bash
-npm install
-npm run dev
-```
-
-Then open http://localhost:3000.
-
-```bash
-npm run build      # production build
-npm run typecheck  # tsc --noEmit
-npx eslint src     # lint
-```
 
 ## How it works
 

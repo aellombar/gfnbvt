@@ -34,7 +34,8 @@ export function useRigManifest(character: CharacterId): {
 
     let cancelled = false;
 
-    fetch(`/characters/${character}/rig.json`, { cache: "force-cache" })
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    fetch(`${base}/characters/${character}/rig.json`, { cache: "force-cache" })
       .then((response) => (response.ok ? response.json() : null))
       .catch(() => null)
       .then((data: RigManifest | null) => {
