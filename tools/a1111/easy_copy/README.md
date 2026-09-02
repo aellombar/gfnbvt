@@ -1,11 +1,10 @@
-# Drag & drop
+# Moved
 
-Easiest: **[`public/art/`](../../../public/art/README.md)**
+Gen packs now live where the game can load them:
 
-```
-public/art/blaze-pit-lane/DROP/0.png
-public/art/blaze-pit-lane/DROP/1.png
-…
-```
+**[`public/gen/INDEX.md`](../../../public/gen/INDEX.md)**
 
-Open `DROP/`, drag PNGs in, refresh the game.
+Each folder has a `DROP/` directory — put `image.png` there.
+
+Legacy scene folders still work too:
+**[`public/art/`](../../../public/art/README.md)** e.g. `blaze-pit-lane/0.png`

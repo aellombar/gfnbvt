@@ -13,4 +13,4 @@ Seed: -1  (random). After you like a face, copy the seed from the image info and
 
 Then click Generate.
 
-Save / drag the PNG to:  public/art/raven-off-the-clock/DROP/1.png  (easiest)  OR  public/gen/13_raven-off-the-clock__1/DROP/image.png
+Save the PNG as:  public/gen/13_raven-off-the-clock__1/DROP/image.png
