@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0710;
+  --color-velvet: #160d22;
+  --color-plum: #241436;
+  --color-blush: #ff5fa2;
+  --color-ember: #ff8bc4;
+  --color-gold: #ffcf6b;
+  --color-mint: #7be3c4;
+
+  --animate-fade-up: fade-up 320ms ease-out both;
+  --animate-rise: rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 700px at 50% -10%, #2a1030 0%, transparent 60%),
+    #0a0710;
+  color: #f4ecf5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+/* Frosted panel used across the lounge, settings and dialogue UI. */
+.panel {
+  background: color-mix(in srgb, #241436 55%, transparent);
+  border: 1px solid color-mix(in srgb, #ff5fa2 22%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.panel-soft {
+  background: color-mix(in srgb, #160d22 72%, transparent);
+  border: 1px solid color-mix(in srgb, #ffffff 8%, transparent);
+}
+
+.text-glow {
+  text-shadow: 0 0 18px currentColor;
+}
+
+input[type="range"] {
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #ff5fa2 30%, #160d22);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff5fa2;
+  box-shadow: 0 0 12px #ff5fa2aa;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: #ff5fa2;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
