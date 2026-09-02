@@ -51,26 +51,21 @@ SEEDS = {
     "seraph": -1,
 }
 
-# Flat Mosbles/Fappy cel look, but thicker outlines + a bit more face/outfit detail.
-# Keep composition tags stable across peels (no global pose tags — poses live in peels).
+# Default sexy anime / hentai illustration (not flat Mosbles cel).
 STYLE = """score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact,
-2d, anime, flat color, flat colors, cel shading, hard cel shadow,
-(thick lineart:1.3), (bold outlines:1.2), heavy black outlines, crisp clean lineart,
-outlined, comic linework, indie hentai illustration, comic style,
-detailed face, detailed eyes, detailed hair, slightly detailed clothing,
-expressive face, large expressive eyes, clear facial features,
-same character, consistent face, consistent anatomy, stable identity,
+anime, hentai, detailed anime illustration, soft shading, vibrant colors,
+detailed face, detailed eyes, detailed hair, detailed clothing,
+expressive face, large expressive eyes, attractive, sexy,
+same character, consistent face, consistent anatomy,
 lewd, erotic, NSFW, aroused, flushed, bedroom eyes,
 vertical composition, centered, simple background, erotic atmosphere"""
 
 NEGATIVE = """score_6, score_5, score_4, text, watermark, logo, signature, username,
 speech bubble, ui, border, frame, monochrome, sketch, rough, unfinished,
-thin lineart, thin outlines, sketchy lines, broken lineart, faded lines, soft outlines,
 3d, blender, cycles, raytracing, unreal engine, octane, cgi, plastic skin,
-soft shading, soft gradients, painterly, oil painting, watercolor, photorealistic,
-realistic photo, raw photo, subsurface scattering, ambient occlusion,
-busy background, cluttered, overdetailed background, glossy skin, shiny plastic,
+photorealistic, realistic photo, raw photo,
+busy background, cluttered, overdetailed background,
 inconsistent face, different person, face morph, style drift, mutated face,
 ugly, deformed, bad anatomy, bad hands, extra fingers, fused fingers, extra limbs,
 child, loli, underage, young, teen, flat chest, lowres, blurry"""
