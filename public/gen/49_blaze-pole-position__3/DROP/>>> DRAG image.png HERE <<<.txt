@@ -1,9 +1,0 @@
-DRAG YOUR GENERATED PNG INTO THIS FOLDER
-
-Exact filename:
-    image.png
-
-EASIER: use the scene DROP instead:
-    public/art/blaze-pole-position/DROP/3.png
-
-Scene: blaze-pole-position   layer: 3   girl: blaze

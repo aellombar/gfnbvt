@@ -1,9 +1,0 @@
-DRAG YOUR GENERATED PNG INTO THIS FOLDER
-
-Exact filename:
-    image.png
-
-EASIER: use the scene DROP instead:
-    public/art/raven-first-timer/DROP/0.png
-
-Scene: raven-first-timer   layer: 0   girl: raven

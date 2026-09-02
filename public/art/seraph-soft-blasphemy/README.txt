@@ -1,18 +1,28 @@
 SCENE: seraph-soft-blasphemy
 GIRL: seraph
 
-=== EASY DRAG & DROP ===
+Two ways to drop art (game accepts both):
 
-1. Open:  public/art/seraph-soft-blasphemy/DROP/
-2. Generate each peel in A1111 (copy N_POSITIVE.txt)
-3. Drag the PNG into DROP/ and name it 0.png / 1.png / 2.png / 3.png
-4. Refresh the game
+PREFERRED — numbered gen packs (prompts already split per layer):
+  layer 0: public/gen/57_seraph-soft-blasphemy__0/DROP/image.png
+  layer 1: public/gen/58_seraph-soft-blasphemy__1/DROP/image.png
+  layer 2: public/gen/59_seraph-soft-blasphemy__2/DROP/image.png
+  layer 3: public/gen/60_seraph-soft-blasphemy__3/DROP/image.png
 
-Slots:
-  0.png  ← from 0_POSITIVE.txt
-  1.png  ← from 1_POSITIVE.txt
-  2.png  ← from 2_POSITIVE.txt
-  3.png  ← from 3_POSITIVE.txt
+OR legacy flat drop in THIS folder:
+  0.png  ←  0_POSITIVE.txt
+  1.png  ←  1_POSITIVE.txt
+  2.png  ←  2_POSITIVE.txt
+  3.png  ←  3_POSITIVE.txt
 
-Prompts live next to DROP/ (0_POSITIVE.txt, NEGATIVE.txt, SETTINGS.txt).
-Poses change per layer. Same face/seed. Thick bold outlines.
+How to generate (legacy path):
+1. Copy NEGATIVE.txt → A1111 Negative
+2. Match SETTINGS.txt (34 steps / CFG 7)
+3. For each layer, copy N_POSITIVE.txt → Prompt, Generate
+4. Save as N.png in this folder (0.png, 1.png, 2.png…)
+5. Refresh the game
+
+Poses change per layer (coach → wet/spread → climax). Same face/seed.
+Style: thick bold outlines, flat cel, slightly detailed face/hair.
+
+Also see: public/gen/INDEX.md
