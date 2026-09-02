@@ -53,16 +53,19 @@ SEEDS = {
 
 STYLE = """score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background"""
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+lewd, erotic, NSFW, aroused, flushed, bedroom eyes, heavy breathing,
+vertical composition, centered, simple background,
+erotic atmosphere, JOI coach pose, watching viewer masturbate"""
 
 NEGATIVE = """score_6, score_5, score_4, text, watermark, logo, signature, username,
-speech bubble, ui, border, frame, comic, monochrome, sketch, lineart, rough,
+speech bubble, ui, border, frame, monochrome, sketch, rough, unfinished,
 3d, blender, cycles, raytracing, unreal engine, octane, cgi, plastic skin,
-realistic photo, raw photo, photorealistic, pore skin, freckles overload,
+soft shading, soft gradients, painterly, oil painting, photorealistic,
+realistic photo, raw photo, subsurface scattering, ambient occlusion,
+intricate details, busy background, hyper detailed, glossy skin,
 ugly, deformed, bad anatomy, bad hands, extra fingers, fused fingers, extra limbs,
 child, loli, underage, young, teen, flat chest, lowres, blurry"""
 
@@ -82,188 +85,258 @@ faint cracked golden halo behind head""",
 }
 
 # scene_id, girl, setting, peels[0..n]
+# Poses track chapter + JOI dialogue beat-for-beat:
+#   0 = clothed coach ("hands on yourself / eyes on me")
+#   1 = peel while she watches you stroke
+#   2 = wet / spreading / matching your pace with her body
+#   3 = finish-freaky climax pose + praise afterglow
+# Praise-freaky only — never mean. Hands-free JOI fantasy (she watches / coaches / rides the fantasy).
 SCENES: list[tuple[str, str, str, list[str]]] = [
     (
         "raven-first-timer",
         "raven",
-        "dark velvet casino booth, magenta rim light, violet ambient, low table cards soft bokeh",
+        "dark velvet casino booth after last call, magenta rim light, cards forgotten on table",
         [
-            "black lace dealer outfit, sleeveless lace bodice, short black skirt, choker, standing behind booth, composed",
-            "unbuttoned lace bodice, black lace bra, skirt hiked, choker, same pose, more flushed",
-            "black lace lingerie only, sheer bra, panties, choker, same pose, heavy blush, inviting",
+            # r1: Hands on your lap. Eyes on me. Last customer.
+            "black lace dealer outfit, short skirt, choker, leaning over booth toward viewer, finger to lips then pointing at viewer's lap, hungry half-lidded eyes, JOI command pose",
+            # lace opens while you find the rhythm; she squeezes thighs
+            "unbuttoned lace bodice, black lace bra, skirt hiked over hips, thighs pressed tightly together, hand sliding between her own thighs matching your stroke, flushed wet stain implication",
+            # finish: don't stop — she begs you to cum while touching herself
+            "black lace lingerie only, sitting on booth edge facing viewer, legs spread wide, spreading pussy with fingers, dripping, open mouth begging you to cum, heavy blush",
         ],
     ),
     (
         "raven-private-booth",
         "raven",
-        "dark velvet casino booth after close, magenta rim light, private booth bench",
+        "private booth after close, velvet rope shut, magenta glow, no dealers left",
         [
-            "black lace lounge wear, sheer robe half open over lingerie, sitting on booth bench",
-            "robe slipped off one shoulder, black lace bra and panties, same pose",
-            "bra unhooked hanging, panties, robe pooled, same pose, nipples soft light",
-            "nude except choker and thigh highs, same pose, soft afterglow lighting",
+            # r2: Take it out. Slow. I want to watch you get hard.
+            "sheer black robe half open over lace lingerie, reclining on booth bench, looking down at viewer's cock, licking lips, slow JOI tease",
+            # toes curling, stroking-air — matching your fist
+            "robe off one shoulder, black bra, panties, knees up soles toward viewer, toes curling, hand miming a stroke toward camera, bedroom eyes",
+            # post dialogue: had to squeeze thighs / still wet — peel shows it
+            "bra off, panties pulled aside, two fingers spreading pussy, shiny wet, breathy open mouth, watching you pump",
+            # sprint/finish freak: on all fours watching you cum for her
+            "nude except choker and thigh highs, on all fours on bench facing viewer, arched back, ass up, tongue out slightly, ahegao pleasure face, sweaty afterglow",
         ],
     ),
     (
         "raven-velvet-room",
         "raven",
-        "private velvet room, deep red curtains, no cameras, intimate lamp light",
+        "off-floor velvet room, deep red curtains, intimate lamp, no cameras",
         [
-            "velvet private dress, deep wine slip dress, thin straps, elegant",
-            "slip dress straps down, lace bra showing, same pose",
-            "dress around waist, lingerie only",
-            "nude, dress discarded beside her, soft lustful calm",
+            # r3: sits BESIDE you, twenty minutes, hand over yours
+            "wine silk slip dress, thin straps, sitting beside viewer not across, hand on viewer's thigh near cock, whispering close, lustful calm",
+            # greedy — grinding above your lap while you stroke
+            "dress straps down, breasts half out, straddling above viewer's lap, grinding pose, wet eyes, guiding your stroke pace with her hips",
+            # every throb she feels between her legs
+            "dress bunched at waist, no lingerie, cowgirl facing viewer, one hand on breast, other hand on her clit, riding while coaching your fist",
+            # came so hard — messy lap aftercare before her shift
+            "fully nude, dress discarded, sitting in viewer's lap, forehead to forehead, messy hair, cum on stomach implication, soft proud smile",
         ],
     ),
     (
         "raven-off-the-clock",
         "raven",
-        "dim apartment bedroom, warm lamp, rumpled sheets soft bokeh",
+        "her apartment bedroom, warm lamp, rumpled sheets, private and slow",
         [
-            "silk apartment slip, champagne silk nightgown, barefoot",
-            "nightgown half off, bare breasts, silk pooled at hips",
-            "nude from waist up, silk around thighs",
-            "fully nude on bed edge, sheets, soft aftercare lighting",
+            # r4: off the clock, missed your hands, not hiding how wet
+            "champagne silk nightgown, barefoot on bed edge, legs parted inviting, looking at viewer like she waited all day to watch you stroke",
+            # sinks on couch/bed, skirt up — presenting + touching herself
+            "nightgown half off, bare breasts presented, kneeling on bed, hand deep between legs, moaning open mouth, desperate for your eyes",
+            # stroke slow, hear you breathe — she's dripping open for you
+            "nude from waist up, silk around thighs, lying back propped on elbows, legs spread toward viewer, pussy dripping, filthy praise expression",
+            # post: she got off watching — aftercare with cum glow
+            "fully nude on rumpled sheets, aftercare cuddle pulling viewer in, soft proud smile, cum on her stomach, sweaty satisfied glow",
         ],
     ),
     (
         "raven-house-rules",
         "raven",
-        "velvet private suite, house lights off, only signal-pink rim light",
+        "velvet private suite, house lights off, pink signal rim light, her rules now",
         [
-            "private black lingerie set, garter, stockings, commanding calm",
-            "bra removed, garter and stockings",
-            "panties pulled aside, stockings",
-            "nude in stockings only, proud soft smile",
+            # r5: Rule two — stroke when I say. Standing over you.
+            "black lingerie, garter belt, stockings, standing over viewer looking down, finger pointing at viewer's cock, soft commanding praise smile",
+            # prove it — on her knees, mouth open for praise-JOI
+            "bra gone, stockings on, kneeling between viewer's legs POV from above, looking up, mouth open tongue ready, praise not mean",
+            # wet and urgent — riding while pinning, house rules are hers
+            "panties pulled aside, cowgirl riding facing viewer, hands pinning his wrists, dripping wet, urgent house-rules lust face",
+            # I'm keeping you — lap claim aftercare, stockings still on
+            "nude in stockings only, straddling viewer's lap aftercare pose, thighs framing him, forehead kiss, proud good-boy smirk, cum glow",
         ],
     ),
     (
         "miko-for-luck",
         "miko",
-        "quiet shrine alcove on casino slot floor, paper lanterns, warm gold light, incense haze",
+        "quiet shrine alcove on the slot floor, paper lanterns, warm gold, chips abandoned",
         [
-            "white shrine maiden outfit, red accents, wide sleeves, polite kneeling pose",
-            "hakama loosened, white top open, red ribbon bra, same pose, embarrassed smile",
-            "shrine lingerie, white-and-red lace, sleeves off, eager blush",
+            # m1: Hands on yourself. Let me watch you take it.
+            "white shrine maiden outfit, kneeling polite, sleeves raised, palms showing then gesturing to viewer's lap, shy bold smile, luck-blessing JOI",
+            # flushes at her own boldness — thighs pressed, watching strokes
+            "hakama open, white top undone, red ribbon bra, kneeling, thighs pressed together hard, watching your fist, embarrassed eager blush",
+            # good boy luck finish — prayer-mat present, cum for luck
+            "shrine lingerie only, on all fours on prayer mat, ass up toward viewer, looking back over shoulder, dripping, 'cum for luck' needy face",
         ],
     ),
     (
         "miko-closing-blessing",
         "miko",
-        "closed shrine floor, lights down, ceremonial lantern glow",
+        "closed shrine floor, lights down, ceremonial lanterns, good kimono night",
         [
-            "good kimono, ornate cream-and-crimson kimono, formal obi",
-            "obi undone, kimono open on chest",
-            "kimono slipped to waist, bare breasts",
-            "nude wrapped in open kimono only, worshipful expression",
+            # m2: good kimono, hands off everything but yourself
+            "ornate cream-crimson kimono, formal obi, kneeling close enough breath hits viewer's lap, devoted hungry eyes",
+            # everything I've got — kimono open, hovering near cock worship
+            "obi undone, kimono open on chest, bare cleavage, hands hovering near viewer's cock without touching, worshipful flush",
+            # watching every stroke — touching herself in seiza
+            "kimono at waist, bare breasts, seiza with thighs open, fingering herself while staring at your strokes, soft moan face",
+            # you deserve to cum — offering body under open kimono
+            "nude wrapped in open kimono like offering cloth, on her back legs spread wrapped around waist pose, tears of joy, 'you deserve this' expression",
         ],
     ),
     (
         "miko-private-offering",
         "miko",
-        "behind shrine curtain, private offering room, red lanterns",
+        "behind shrine curtain, private offering room, red lanterns, sacred and filthy",
         [
-            "lantern red ceremonial robe, sheer red fabric",
-            "robe open, red lace lingerie",
-            "lingerie half off",
-            "nude kneeling offering pose, hands on thighs, devoted eyes",
+            # m3: sacred devotion — cock in hand, eyes on me
+            "sheer red ceremonial robe, kneeling offering pose, palms up under viewer's cock height, looking at viewer like you are the blessing",
+            # crawling closer — hungry devotion
+            "robe open, red lace lingerie, crawling between viewer's knees, ass up, hungry devoted eyes, tongue slightly out",
+            # stroke into her mouth coaching — POV oral tease
+            "lingerie half off, POV between her knees, mouth open near cock, tongue out, not sucking yet, coaching you to stroke into her mouth",
+            # post: forehead on thigh — cum-on-face ready worship
+            "fully nude kneeling, forehead on viewer's thigh, both hands wrapping his cock with him, tongue out, cum-on-face ready worship expression",
         ],
     ),
     (
         "miko-only-you",
         "miko",
-        "empty shrine at night, moonlight through paper screens",
+        "empty shrine at night, moonlight through paper screens, only you",
         [
-            "devotion white silk kimono, pure white, red cord",
-            "white kimono open, bare skin",
-            "nude under open white silk",
-            "fully nude, white silk under her, soft tears of joy optional",
+            # m4: only you — lap claim
+            "white devotion silk kimono, sitting in viewer's lap facing him, forehead together, soft claim my-only-offering smile",
+            # grinding wet — desperate devoted
+            "kimono open, bare skin pressed to viewer, slow grinding, wet thighs shiny, desperate devoted blush",
+            # riding slow cowgirl while praising
+            "nude under open white silk, slow cowgirl riding, hands on his chest, whispering praise, sacred slut blush",
+            # owned-and-happy aftercare on shrine floor
+            "fully nude, clinging aftercare embrace on shrine floor, silk under her, soft happy tears, owned-and-devoted smile",
         ],
     ),
     (
         "blaze-rematch",
         "blaze",
-        "neon pit rail, cyan and orange neon signs, night asphalt bokeh, energetic lighting",
+        "neon pit rail night, cyan orange signs, asphalt bokeh, rematch energy",
         [
-            "race crew jacket, crop top, short shorts, gloves hanging, leaning on rail",
-            "jacket open, sports bra, shorts unbuttoned",
-            "sports bra and tiny shorts only, sweaty sheen, triumphant grin",
+            # b1: Hands off the table. Stroke when I say.
+            "race crew jacket, crop top, short shorts, leaning on rail over viewer, pointing at his cock, grin like she already won watching you stroke",
+            # pick up the pace — flashing, foot on rail
+            "jacket open, sports bra, shorts unbuttoned tugged down, one foot up on rail, flashing pussy, hyped pick-up-the-pace face",
+            # full throttle finish — straddling rail pumping air to your rhythm
+            "tiny shorts and bra only, sweaty sheen, straddling rail facing viewer, hand pumping air in stroke rhythm, shouting encouragement ahegao-edge face",
         ],
     ),
     (
         "blaze-pit-lane",
         "blaze",
-        "empty pit lane, neon overhead",
+        "empty pit lane, neon overhead, no chips just her calling RPM",
         [
-            "pit zip jacket, tight race pants",
-            "jacket off, tank top, pants low",
-            "sports lingerie",
-            "nude with racing gloves only, hyped blush",
+            # b2: I call the RPM. Eyes on me.
+            "pit zip jacket half open, tight race pants, bouncing on heels, pointing at viewer's cock, I-call-the-RPM grin",
+            # bent over tire looking back — stroke faster
+            "jacket off, tank top sweat-soaked, pants shoved under ass, bent over racing tire, looking back, stroke-faster hand gesture, wet shine",
+            # toolbox spread — fingering while staring at your strokes
+            "sports lingerie, sitting on toolbox legs spread wide, fingering pussy, staring at your fist, loud moan face",
+            # every drop — gloves on cock POV finish-line
+            "nude with racing gloves only, on knees POV, gloved hands wrapping his cock with him, tongue out, finish-line ahegao",
         ],
     ),
     (
         "blaze-redline",
         "blaze",
-        "locked redline lounge, neon red wash, door locked mood",
+        "locked redline lounge, neon red wash, door locked, full throttle",
         [
-            "redline mesh top, micro skirt, fishnets",
-            "mesh pulled up, bare breasts",
-            "skirt off, thong",
-            "nude, fishnets only, full throttle expression",
+            # b3: door locked, full throttle — pinning you
+            "red mesh top, micro skirt, fishnets, pinning viewer to couch, competitive lust grin, redline eyes",
+            # breasts in face, grinding over clothes
+            "mesh yanked up, bare breasts pressed to his face, grinding on lap over clothes, dripping through thong, redline eyes",
+            # reverse cowgirl don't you dare slow down
+            "skirt gone, thong aside, reverse cowgirl looking back over shoulder, bouncing hard, don't-you-dare-slow-down face",
+            # both finish — sweaty winner glow on his chest
+            "nude in fishnets, collapsed on his chest after both finish, sweaty proud laugh, cum glow, winner aftercare",
         ],
     ),
     (
         "blaze-pole-position",
         "blaze",
-        "winner circle lights, gold spark accents, soft afterglow neon",
+        "winner circle lights, gold sparks, soft neon afterglow, rivals to lovers",
         [
-            "winner circle sash over race lingerie",
-            "sash only, lingerie half off",
-            "nude with sash",
-            "fully nude, soft proud smile after the win",
+            # b4: no bet — dropping to knees for you
+            "winner sash over race lingerie, starting trophy pose then dropping to knees for viewer, hungry grin",
+            # sash only — presenting open on podium
+            "winner sash only, lingerie off, presenting on podium floor, legs spread, fingers spreading pussy, make-me-cum-like-you-mean-it face",
+            # mating press love+lust
+            "nude with sash across breasts, mating press under viewer, legs up, looking up in love and lust, moaning",
+            # soft for once — still holding your cock, pole position smile
+            "fully nude aftercare, forehead kiss, soft for once, gently holding his cock, pole position proud smile",
         ],
     ),
     (
         "seraph-descent",
         "seraph",
-        "empty roulette chapel, pale stone, cool blue-gold godrays, sacred quiet",
+        "empty roulette chapel, pale stone, cool blue-gold godrays, first fall",
         [
-            "pale silk ceremonial robe, gold trim, modest but clinging",
-            "robe open at chest, silk bra",
-            "pale silk lingerie, halo dimmer, calm lust",
+            # s1: Sit. Breathe with me. How obedient can you be.
+            "pale silk ceremonial robe, sitting at empty roulette table watching viewer, halo steady, calm stroke-invitation pose",
+            # between knees guiding breath — soft lust
+            "robe open at chest, silk bra, standing between viewer's knees, hand on his chest guiding breathing, soft sacred lust",
+            # prayer pose facing cock — cum as blessing
+            "pale silk lingerie, halo dimming, kneeling prayer pose facing viewer's cock, half-lidded devotion, mouth parted ready for cum blessing",
         ],
     ),
     (
         "seraph-halo-slip",
         "seraph",
-        "chapel side chamber, halo light flickering",
+        "chapel side chamber, halo tilted and flickering from thinking of you",
         [
-            "loose halo silk dress, slipping straps",
-            "dress fallen to waist",
-            "lingerie, broken halo shards floating",
-            "nude, faint halo remnant, serene devotion",
+            # s2: Hands on yourself only when I say. Halo tilted.
+            "loose halo silk dress slipping, sitting close, dress ridden up thighs, whispering stroke instructions, halo tilted",
+            # straddling grind, serene dirty talk
+            "dress at waist, bare breasts, halo cracked light, straddling lap grinding on clothed cock, serene filthy praise face",
+            # clit in time with your strokes
+            "lingerie, broken halo shards floating, on her back legs spread, fingering clit in time with your strokes, mouth open",
+            # missionary forehead press — stroke for me
+            "nude, faint halo remnant, missionary under viewer, forehead pressed to his, stroke-for-me whispered mid-thrust face",
         ],
     ),
     (
         "seraph-soft-blasphemy",
         "seraph",
-        "desecrated chapel alcove, gold cloth on floor, warm blasphemous light",
+        "desecrated chapel alcove, gold cloth on floor, she told them she was praying",
         [
-            "unwinged silk wrap, almost nothing underneath",
-            "wrap open, bare breasts",
-            "nude under open wrap",
-            "fully nude kneeling, offering pose, sacred calm",
+            # s3: thinking about your hands — offering bowl for your cock
+            "unwinged silk wrap barely closed, kneeling, half halo gone, hands clasped then opening under cock as offering bowl",
+            # forehead to knee — want your cum as holy offering
+            "wrap open, bare breasts, pressing forehead to viewer's knee, halo guttering, begging for cum as holy offering",
+            # spreading on gold cloth — blasphemous calm
+            "nude under open wrap, lying on gold cloth, legs open, fingers spreading pussy wide, blasphemous calm smile",
+            # sacrament on tongue POV
+            "fully nude kneeling, mouth open under viewer's cock POV, eyes wet with devotion, tongue out ready for cum sacrament",
         ],
     ),
     (
         "seraph-fallen-for-you",
         "seraph",
-        "night chapel, no halo left, moonlight and gold candles",
+        "night chapel, no halo left, only moonlight and gold candles, chosen fall",
         [
-            "chosen fall gown, sheer ivory",
-            "gown open",
-            "nude with open gown",
-            "fully nude, no halo, soft loving smile, fallen on purpose",
+            # s4: no halo — confession before she makes you stroke
+            "sheer ivory gown, no halo, holding viewer's face, soft confession pose before JOI, chosen fall eyes",
+            # grinding slow, tears of relief
+            "gown open, bare body pressed to viewer, slow grinding, tears of relief, fallen on purpose smile",
+            # sacred slut cowgirl praising every gasp
+            "nude with open gown, slow deep cowgirl, praising every gasp, sacred slut for only you expression",
+            # curled on chest — cum on stomach, chosen forever
+            "fully nude aftercare, curled on his chest on chapel floor, no halo, loving smile, cum drying on stomach, chosen forever",
         ],
     ),
 ]

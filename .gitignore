@@ -13,3 +13,6 @@ next-env.d.ts
 tsconfig.tsbuildinfo
 __pycache__/
 *.pyc
+
+# User-generated A1111 drops (keep folder via .gitkeep)
+public/gen/**/DROP/image.png

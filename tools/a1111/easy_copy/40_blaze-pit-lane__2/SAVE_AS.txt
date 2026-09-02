@@ -1,6 +1,0 @@
-Save the finished PNG exactly here in the game repo:
-
-  public/art/blaze-pit-lane/2.png
-
-Create the folder if needed. Name must be exact (0.png, 1.png, …).
-Then refresh the game — that scene will use your art.
