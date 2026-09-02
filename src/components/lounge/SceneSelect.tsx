@@ -146,7 +146,7 @@ export function SceneSelect({
                   <img
                     src={thumb}
                     alt=""
-                    className="absolute inset-0 h-full w-full object-cover object-[center_20%]"
+                    className="absolute inset-0 h-full w-full object-cover object-[center_36%]"
                     draggable={false}
                   />
                   <span className="absolute left-1.5 top-1.5 data text-[10px] text-paper">
