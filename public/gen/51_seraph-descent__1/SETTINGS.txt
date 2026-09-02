@@ -1,0 +1,16 @@
+In Automatic1111 / Forge txt2img tab:
+
+Checkpoint / model:  Pony Diffusion V6 XL
+Sampling method:     DPM++ 2M Karras   (or Euler a)
+Sampling steps:      30
+CFG Scale:           6.5
+Width:               832
+Height:              1216
+Batch count:         1
+Batch size:          1
+Clip skip:           2   (Settings → Stable Diffusion → Clip skip)
+Seed: -1  (random). After you like a face, copy the seed from the image info and reuse it for her other images.
+
+Then click Generate.
+
+Save the PNG as:  public/gen/51_seraph-descent__1/DROP/image.png

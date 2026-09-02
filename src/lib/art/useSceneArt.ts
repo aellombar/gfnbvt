@@ -3,26 +3,88 @@
 import { useEffect, useState } from "react";
 
 /**
- * Dead-simple scene art: drop PNGs in /public/art/{sceneId}/ as 0.png, 1.png…
- * No rig.json. No variants. The game picks the file for the current peel layer.
+ * Scene art from public/gen/.../DROP/image.png (preferred) or legacy
+ * public/art/{sceneId}/{layer}.png.
+ *
+ * Gen packs live under public/gen/01_raven-first-timer__0/DROP/image.png
+ * Manifest: public/gen/manifest.json
  */
-const cache = new Map<string, number[]>();
 
-async function probeLayer(sceneId: string, layer: number): Promise<boolean> {
-  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const url = `${base}/art/${sceneId}/${layer}.png`;
+type Manifest = Record<string, Record<string, string>>;
+
+const manifestCache: { value: Manifest | null; loading: Promise<Manifest | null> | null } =
+  { value: null, loading: null };
+
+const layerCache = new Map<string, { layers: number[]; urls: Record<number, string> }>();
+
+function basePath(): string {
+  return process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+}
+
+async function loadManifest(): Promise<Manifest | null> {
+  if (manifestCache.value) return manifestCache.value;
+  if (manifestCache.loading) return manifestCache.loading;
+
+  manifestCache.loading = (async () => {
+    try {
+      const res = await fetch(`${basePath()}/gen/manifest.json`, {
+        cache: "no-store",
+      });
+      if (!res.ok) return null;
+      const data = (await res.json()) as Manifest;
+      manifestCache.value = data;
+      return data;
+    } catch {
+      return null;
+    } finally {
+      manifestCache.loading = null;
+    }
+  })();
+
+  return manifestCache.loading;
+}
+
+async function probeUrl(url: string): Promise<boolean> {
   try {
-    const res = await fetch(url, { method: "HEAD", cache: "force-cache" });
-    if (res.ok) return true;
+    const head = await fetch(url, { method: "HEAD", cache: "no-store" });
+    if (head.ok) return true;
   } catch {
-    /* fall through — some hosts reject HEAD */
+    /* some hosts reject HEAD */
   }
   try {
-    const res = await fetch(url, { method: "GET", cache: "force-cache" });
-    return res.ok;
+    const get = await fetch(url, { method: "GET", cache: "no-store" });
+    return get.ok;
   } catch {
     return false;
   }
+}
+
+/** Candidate URLs for one peel layer, preferred first. */
+function candidates(
+  sceneId: string,
+  layer: number,
+  manifest: Manifest | null,
+): string[] {
+  const base = basePath();
+  const list: string[] = [];
+  const folder = manifest?.[sceneId]?.[String(layer)];
+  if (folder) {
+    list.push(`${base}/gen/${folder}/DROP/image.png`);
+  }
+  // Legacy flat drop
+  list.push(`${base}/art/${sceneId}/${layer}.png`);
+  return list;
+}
+
+async function resolveLayer(
+  sceneId: string,
+  layer: number,
+  manifest: Manifest | null,
+): Promise<string | null> {
+  for (const url of candidates(sceneId, layer, manifest)) {
+    if (await probeUrl(url)) return url;
+  }
+  return null;
 }
 
 export function useSceneArt(sceneId: string | undefined): {
@@ -30,35 +92,42 @@ export function useSceneArt(sceneId: string | undefined): {
   loading: boolean;
   srcFor: (outfitLayer: number) => string | null;
 } {
-  const [layers, setLayers] = useState<number[] | null>(() =>
-    sceneId ? (cache.get(sceneId) ?? null) : null,
-  );
+  const [entry, setEntry] = useState<{
+    layers: number[];
+    urls: Record<number, string>;
+  } | null>(() => (sceneId ? layerCache.get(sceneId) ?? null : null));
   const [loading, setLoading] = useState(() =>
-    Boolean(sceneId && !cache.has(sceneId)),
+    Boolean(sceneId && !layerCache.has(sceneId)),
   );
 
   useEffect(() => {
     if (!sceneId) {
-      setLayers(null);
+      setEntry(null);
       setLoading(false);
       return;
     }
-    if (cache.has(sceneId)) {
-      setLayers(cache.get(sceneId)!);
+    if (layerCache.has(sceneId)) {
+      setEntry(layerCache.get(sceneId)!);
       setLoading(false);
       return;
     }
 
     let cancelled = false;
     (async () => {
-      const found: number[] = [];
-      // Probe 0..3 — peels never go past 3 in this game.
+      const manifest = await loadManifest();
+      const urls: Record<number, string> = {};
+      const layers: number[] = [];
       for (let i = 0; i <= 3; i++) {
-        if (await probeLayer(sceneId, i)) found.push(i);
+        const url = await resolveLayer(sceneId, i, manifest);
+        if (url) {
+          layers.push(i);
+          urls[i] = url;
+        }
       }
-      cache.set(sceneId, found);
+      const next = { layers, urls };
+      layerCache.set(sceneId, next);
       if (!cancelled) {
-        setLayers(found);
+        setEntry(next);
         setLoading(false);
       }
     })();
@@ -69,19 +138,17 @@ export function useSceneArt(sceneId: string | undefined): {
   }, [sceneId]);
 
   const srcFor = (outfitLayer: number): string | null => {
-    if (!sceneId || !layers?.length) return null;
-    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const available = [...layers].sort((a, b) => a - b);
-    // Use the highest layer that exists and is ≤ current peel.
+    if (!entry?.layers.length) return null;
+    const available = [...entry.layers].sort((a, b) => a - b);
     let pick = available[0];
     for (const layer of available) {
       if (layer <= outfitLayer) pick = layer;
     }
-    return `${base}/art/${sceneId}/${pick}.png`;
+    return entry.urls[pick] ?? null;
   };
 
   return {
-    layers: layers && layers.length > 0 ? layers : null,
+    layers: entry && entry.layers.length > 0 ? entry.layers : null,
     loading,
     srcFor,
   };
