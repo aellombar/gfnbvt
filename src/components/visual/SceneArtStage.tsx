@@ -11,6 +11,8 @@ interface SceneArtStageProps {
   animate: boolean;
   beatPhase: () => number;
   ahegao?: boolean;
+  /** Side panels crop tighter so you get a second angle of the same still. */
+  fit?: "contain" | "cover";
 }
 
 /**
@@ -24,6 +26,7 @@ export function SceneArtStage({
   animate,
   beatPhase,
   ahegao = false,
+  fit = "contain",
 }: SceneArtStageProps) {
   const framing = SHOT_FRAMING[shot];
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -73,9 +76,11 @@ export function SceneArtStage({
       <img
         src={url}
         alt=""
-        className={`absolute inset-0 h-full w-full object-contain object-center ${
-          fading ? "animate-[cut-in_420ms_ease_both]" : ""
-        }`}
+        className={`absolute inset-0 h-full w-full ${
+          fit === "cover"
+            ? "object-cover object-[center_32%]"
+            : "object-contain object-center"
+        } ${fading ? "animate-[cut-in_420ms_ease_both]" : ""}`}
         draggable={false}
       />
     </>

@@ -94,7 +94,7 @@ async function resolveLayer(
 function optimisticEntry(sceneId: string) {
   const urls: Record<number, string> = {};
   const layers: number[] = [];
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 7; i++) {
     layers.push(i);
     urls[i] = dropPngUrl(sceneId, i);
   }
@@ -106,6 +106,7 @@ export function useSceneArt(sceneId: string | undefined): {
   loading: boolean;
   ahegaoSrc: string | null;
   srcFor: (outfitLayer: number) => string | null;
+  srcAt: (index: number) => string | null;
 } {
   const [entry, setEntry] = useState<{
     layers: number[];
@@ -136,7 +137,7 @@ export function useSceneArt(sceneId: string | undefined): {
       const manifest = await loadManifest();
       const urls: Record<number, string> = {};
       const layers: number[] = [];
-      for (let i = 0; i <= 3; i++) {
+      for (let i = 0; i <= 7; i++) {
         const url = await resolveLayer(sceneId, i, manifest);
         if (url) {
           layers.push(i);
@@ -171,10 +172,19 @@ export function useSceneArt(sceneId: string | undefined): {
     return entry.urls[pick] ?? null;
   };
 
+  const srcAt = (index: number): string | null => {
+    if (!entry?.layers.length) return null;
+    const available = [...entry.layers].sort((a, b) => a - b);
+    const n = available.length;
+    const layer = available[((index % n) + n) % n];
+    return entry.urls[layer] ?? null;
+  };
+
   return {
     layers: entry && entry.layers.length > 0 ? entry.layers : null,
     loading,
     ahegaoSrc: entry?.ahegaoUrl ?? null,
     srcFor,
+    srcAt,
   };
 }

@@ -18,6 +18,9 @@ interface CharacterViewProps {
   animate: boolean;
   sceneId?: string;
   ahegao?: boolean;
+  /** When set, cycle DROP stills by index instead of monotonic peel layer. */
+  photoIndex?: number;
+  fit?: "contain" | "cover";
 }
 
 /**
@@ -32,7 +35,9 @@ export function CharacterView(props: CharacterViewProps) {
     : props.outfitLayer;
   const sceneSrc = props.ahegao
     ? (sceneArt.ahegaoSrc ?? sceneArt.srcFor(maxLayer))
-    : sceneArt.srcFor(props.outfitLayer);
+    : props.photoIndex !== undefined
+      ? sceneArt.srcAt(props.photoIndex)
+      : sceneArt.srcFor(props.outfitLayer);
 
   if (!sceneSrc) return <div className="absolute inset-0 bg-ink" />;
 
@@ -44,6 +49,7 @@ export function CharacterView(props: CharacterViewProps) {
       animate={props.animate}
       beatPhase={props.beatPhase}
       ahegao={!!props.ahegao}
+      fit={props.fit ?? "contain"}
     />
   );
 }

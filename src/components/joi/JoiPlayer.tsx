@@ -176,6 +176,63 @@ export function JoiPlayer({
           animate={!paused}
           sceneId={scene.id}
           ahegao={ahegao}
+          photoIndex={state.photoIndex}
+          fit="contain"
+        />
+      </div>
+
+      {/* Extra angles — same girl, other DROP stills, tighter crop. */}
+      <div className="pointer-events-none absolute right-3 top-16 z-[15] flex h-[58%] w-[26%] flex-col gap-2 sm:right-5 sm:w-[22%]">
+        <div className="relative min-h-0 flex-1 overflow-hidden border border-white/20 bg-ink/40">
+          <CharacterView
+            profile={profile}
+            art={state.art}
+            outfitLayer={state.outfitLayer}
+            background={scene.background}
+            speaking={false}
+            strokePosition={strokePosition}
+            beatPhase={beatPhase}
+            shot="body"
+            intensity={intensity}
+            animate={false}
+            sceneId={scene.id}
+            photoIndex={state.photoIndex + 1}
+            fit="cover"
+          />
+        </div>
+        <div className="relative min-h-0 flex-1 overflow-hidden border border-white/20 bg-ink/40">
+          <CharacterView
+            profile={profile}
+            art={state.art}
+            outfitLayer={state.outfitLayer}
+            background={scene.background}
+            speaking={false}
+            strokePosition={strokePosition}
+            beatPhase={beatPhase}
+            shot="face"
+            intensity={intensity}
+            animate={false}
+            sceneId={scene.id}
+            photoIndex={state.photoIndex + 2}
+            fit="cover"
+          />
+        </div>
+      </div>
+      <div className="pointer-events-none absolute bottom-28 left-3 z-[15] h-36 w-28 overflow-hidden border border-white/20 bg-ink/40 sm:bottom-32 sm:h-44 sm:w-36">
+        <CharacterView
+          profile={profile}
+          art={state.art}
+          outfitLayer={state.outfitLayer}
+          background={scene.background}
+          speaking={false}
+          strokePosition={strokePosition}
+          beatPhase={beatPhase}
+          shot="face"
+          intensity={intensity}
+          animate={false}
+          sceneId={scene.id}
+          ahegao
+          fit="cover"
         />
       </div>
 
