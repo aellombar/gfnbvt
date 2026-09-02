@@ -13,4 +13,4 @@ Seed: -1  (random). After you like a face, copy the seed from the image info and
 
 Then click Generate.
 
-Save the PNG as:  public/gen/36_blaze-rematch__1/DROP/image.png
+Save / drag the PNG to:  public/art/blaze-rematch/DROP/1.png  (easiest)  OR  public/gen/36_blaze-rematch__1/DROP/image.png

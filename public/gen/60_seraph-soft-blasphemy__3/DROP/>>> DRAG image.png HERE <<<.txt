@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/seraph-soft-blasphemy/DROP/3.png
+
+Scene: seraph-soft-blasphemy   layer: 3   girl: seraph

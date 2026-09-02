@@ -1,31 +1,19 @@
-# Scene art folders
+# Drag & drop your generations here
 
-Every scene has a folder here, e.g. **`blaze-pit-lane/`**.
-
-## Preferred path
-Use the numbered packs in [`../gen/INDEX.md`](../gen/INDEX.md):
+Every scene has a **`DROP/`** folder. Example — Blaze Pit Lane:
 
 ```
-public/gen/38_blaze-pit-lane__0/DROP/image.png
-public/gen/39_blaze-pit-lane__1/DROP/image.png
-…
+public/art/blaze-pit-lane/DROP/0.png   ← drag peel 0 here
+public/art/blaze-pit-lane/DROP/1.png
+public/art/blaze-pit-lane/DROP/2.png
+public/art/blaze-pit-lane/DROP/3.png
 ```
 
-## Legacy flat drop (still works)
-Or put files straight in the scene folder:
+1. Copy `0_POSITIVE.txt` → A1111 → Generate
+2. Drag the result into that scene’s `DROP/` as `0.png`
+3. Repeat for 1 / 2 / 3
+4. Refresh the game
 
-```
-public/art/blaze-pit-lane/0.png
-public/art/blaze-pit-lane/1.png
-public/art/blaze-pit-lane/2.png
-public/art/blaze-pit-lane/3.png
-```
+Full list: [`INDEX.md`](./INDEX.md)
 
-Each scene folder now includes:
-- `README.txt` — peels + both drop paths
-- `N_POSITIVE.txt` — prompt per layer
-- `NEGATIVE.txt` / `SETTINGS.txt`
-
-Game loads **gen DROP first**, then falls back to `art/<scene>/N.png`.
-
-Style: thick bold outlines, flat Mosbles cel, slightly detailed face/hair.
+Also still works: `public/gen/NN_scene__layer/DROP/image.png`

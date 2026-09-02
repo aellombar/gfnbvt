@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/blaze-redline/DROP/2.png
+
+Scene: blaze-redline   layer: 2   girl: blaze

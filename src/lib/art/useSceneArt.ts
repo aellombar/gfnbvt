@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 
 /**
- * Scene art from public/gen/.../DROP/image.png (preferred) or legacy
- * public/art/{sceneId}/{layer}.png.
+ * Scene art drop paths (first hit wins):
+ *   1) public/art/{sceneId}/DROP/{layer}.png     ← easiest drag & drop
+ *   2) public/gen/{pack}/DROP/image.png          ← numbered packs
+ *   3) public/art/{sceneId}/{layer}.png          ← legacy flat
  *
- * Gen packs live under public/gen/01_raven-first-timer__0/DROP/image.png
  * Manifest: public/gen/manifest.json
  */
 
@@ -67,6 +68,8 @@ function candidates(
 ): string[] {
   const base = basePath();
   const list: string[] = [];
+  // Easiest: one DROP folder per scene — drag 0.png / 1.png / 2.png / 3.png
+  list.push(`${base}/art/${sceneId}/DROP/${layer}.png`);
   const folder = manifest?.[sceneId]?.[String(layer)];
   if (folder) {
     list.push(`${base}/gen/${folder}/DROP/image.png`);

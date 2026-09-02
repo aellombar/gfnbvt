@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/miko-for-luck/DROP/2.png
+
+Scene: miko-for-luck   layer: 2   girl: miko

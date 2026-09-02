@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/seraph-halo-slip/DROP/3.png
+
+Scene: seraph-halo-slip   layer: 3   girl: seraph

@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/raven-off-the-clock/DROP/3.png
+
+Scene: raven-off-the-clock   layer: 3   girl: raven

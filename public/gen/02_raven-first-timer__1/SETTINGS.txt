@@ -13,4 +13,4 @@ Seed: -1  (random). After you like a face, copy the seed from the image info and
 
 Then click Generate.
 
-Save the PNG as:  public/gen/02_raven-first-timer__1/DROP/image.png
+Save / drag the PNG to:  public/art/raven-first-timer/DROP/1.png  (easiest)  OR  public/gen/02_raven-first-timer__1/DROP/image.png

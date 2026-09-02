@@ -13,4 +13,4 @@ Seed: -1  (random). After you like a face, copy the seed from the image info and
 
 Then click Generate.
 
-Save the PNG as:  public/gen/23_miko-closing-blessing__0/DROP/image.png
+Save / drag the PNG to:  public/art/miko-closing-blessing/DROP/0.png  (easiest)  OR  public/gen/23_miko-closing-blessing__0/DROP/image.png

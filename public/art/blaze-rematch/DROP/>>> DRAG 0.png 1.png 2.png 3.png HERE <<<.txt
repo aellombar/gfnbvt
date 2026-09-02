@@ -1,0 +1,11 @@
+DRAG AND DROP YOUR GENERATED PNGs INTO THIS FOLDER
+
+Rename each file exactly:
+
+  0.png  ← from 0_POSITIVE.txt
+  1.png  ← from 1_POSITIVE.txt
+  2.png  ← from 2_POSITIVE.txt
+
+Then refresh the game. Done.
+
+Scene: blaze-rematch   Girl: blaze
