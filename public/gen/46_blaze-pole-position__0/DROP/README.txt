@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: blaze-pole-position   layer: 0   girl: blaze
+Legacy alt: public/art/blaze-pole-position/0.png

@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: miko-only-you   layer: 1   girl: miko
+Legacy alt: public/art/miko-only-you/1.png

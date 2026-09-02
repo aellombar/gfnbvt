@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: raven-off-the-clock   layer: 2   girl: raven
+Legacy alt: public/art/raven-off-the-clock/2.png

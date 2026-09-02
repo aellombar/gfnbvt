@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: miko-private-offering   layer: 0   girl: miko
+Legacy alt: public/art/miko-private-offering/0.png

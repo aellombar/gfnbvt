@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: raven-first-timer   layer: 2   girl: raven
+Legacy alt: public/art/raven-first-timer/2.png

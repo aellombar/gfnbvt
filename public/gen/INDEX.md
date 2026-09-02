@@ -6,13 +6,16 @@ Do not swap peels across layers — `__0` is clothed coach, last layer is finish
 Style lock: thick bold outlines, flat cel color, slightly detailed face/hair/outfit.
 Use SETTINGS.txt as written (34 steps / CFG 7). Lock one seed per girl.
 
+Legacy scene folders (`public/art/blaze-pit-lane/` etc.) are also synced —
+you can drop `0.png`/`1.png` there instead if you prefer.
+
 For each folder, in order:
 1. Copy `POSITIVE.txt` → A1111 Prompt
 2. Copy `NEGATIVE.txt` → A1111 Negative prompt
 3. Match `SETTINGS.txt`
 4. Click **Generate**
 5. Save the PNG into that folder's **`DROP/image.png`** (exact name)
-6. Refresh the game — done. Do **not** copy to `public/art/`.
+6. Refresh the game — done.
 
 | # | Folder | Girl | Drop file |
 | --- | --- | --- | --- |
