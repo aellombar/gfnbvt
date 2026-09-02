@@ -2,15 +2,17 @@
 
 ## Current state
 
-Roughly 190 lines exist across both characters — enough to prove the systems,
-well short of the target. The plan calls for 600–800 lines per girl.
+Each girl has a full spicy pace pool (~116 lines) plus a complete story arc:
 
-| File | What lives there |
-| --- | --- |
-| `src/data/lines/raven.ts` | Raven's pace lines, milestones, peel lines |
-| `src/data/lines/miko.ts` | Miko's equivalents |
-| `src/data/chapters/raven.ts` | Raven's story beats, choices, and her replies |
-| `src/data/chapters/miko.ts` | Miko's equivalents |
+| Girl | Pace lines | Chapters |
+| --- | --- | --- |
+| Raven | `src/data/lines/raven.ts` | 5 — Last Call → House Rules |
+| Miko | `src/data/lines/miko.ts` | 4 — For Luck → Only You |
+| Blaze | `src/data/lines/blaze.ts` | 4 — Rematch → Pole Position |
+| Seraph | `src/data/lines/seraph.ts` | 4 — Descent → Fallen For You |
+
+The plan's stretch goal is still 600–800 lines per girl if you want more
+mood-variant density. The engine already supports the extras below.
 
 The engine already supports things the current writing barely uses:
 

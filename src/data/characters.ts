@@ -19,7 +19,7 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
     },
     ambientHz: 196,
     homeBackground: "booth",
-    chapters: 3,
+    chapters: 5,
   },
   miko: {
     id: "miko",
@@ -39,7 +39,7 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
     },
     ambientHz: 262,
     homeBackground: "shrine",
-    chapters: 2,
+    chapters: 4,
   },
   blaze: {
     id: "blaze",
@@ -59,7 +59,7 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
     },
     ambientHz: 220,
     homeBackground: "neon",
-    chapters: 1,
+    chapters: 4,
   },
   seraph: {
     id: "seraph",
@@ -79,7 +79,7 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
     },
     ambientHz: 294,
     homeBackground: "chapel",
-    chapters: 1,
+    chapters: 4,
   },
 };
 
