@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CharacterStage } from "@/components/visual/CharacterStage";
+import { CharacterView } from "@/components/visual/CharacterView";
+import { LineText } from "@/components/dialogue/LineText";
 import { useSession } from "@/lib/joi/useSession";
 import { PHASE_COMMANDS } from "@/lib/joi/artStates";
+import { resolveShot, SHOT_LABELS } from "@/lib/art/shots";
 import type {
   CharacterProfile,
   Difficulty,
@@ -99,6 +101,11 @@ export function JoiPlayer({
 
   const command = PHASE_COMMANDS[state.segment.kind];
   const paused = externallyPaused || manualPause;
+  const shot = resolveShot(
+    state.segment.kind,
+    state.segment.shot,
+    paceMirror && scene.paceMirror,
+  );
 
   if (!ready) {
     return (
@@ -153,7 +160,7 @@ export function JoiPlayer({
   return (
     <div className="relative min-h-dvh overflow-hidden">
       <div className="absolute inset-0">
-        <CharacterStage
+        <CharacterView
           profile={profile}
           art={state.art}
           outfitLayer={state.outfitLayer}
@@ -161,7 +168,7 @@ export function JoiPlayer({
           speaking={state.speaking}
           strokePosition={strokePosition}
           beatPhase={beatPhase}
-          paceMirror={paceMirror && scene.paceMirror}
+          shot={shot}
           intensity={intensity}
           animate={!paused}
         />
@@ -178,6 +185,12 @@ export function JoiPlayer({
           </p>
           <p className="text-sm font-semibold tabular-nums text-white/85">
             {Math.round(state.bpm)} bpm
+          </p>
+          <p
+            className="mt-0.5 text-[10px] uppercase tracking-[0.14em]"
+            style={{ color: profile.theme.primary }}
+          >
+            {SHOT_LABELS[shot]}
           </p>
         </div>
 
@@ -205,20 +218,56 @@ export function JoiPlayer({
       </div>
 
       {/* Her line. */}
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/85 to-transparent px-4 pb-6 pt-24 sm:px-8">
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/90 to-transparent px-4 pb-6 pt-28 sm:px-8">
         <div className="mx-auto w-full max-w-3xl">
-          <div className="min-h-[5.5rem]">
+          <div className="min-h-[7rem]">
             {state.currentLine && (
-              <p
+              <div
                 key={state.currentLine.at}
-                className={`animate-[fade-up_320ms_ease-out_both] text-2xl leading-snug sm:text-3xl ${
-                  state.currentLine.kind === "thought"
-                    ? "italic text-white/50"
-                    : "font-medium text-white"
-                }`}
+                className="animate-[fade-up_320ms_ease-out_both]"
               >
-                {state.currentLine.display}
-              </p>
+                <div className="mb-2 flex items-center gap-2">
+                  <span
+                    className="h-px w-6"
+                    style={{ background: profile.theme.primary }}
+                  />
+                  <span
+                    className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+                    style={{ color: profile.theme.primary }}
+                  >
+                    {state.currentLine.kind === "thought"
+                      ? `${profile.name} — thinking`
+                      : profile.name}
+                  </span>
+                </div>
+
+                {state.currentLine.kind === "thought" ? (
+                  <p className="text-xl italic leading-snug text-white/55 sm:text-2xl">
+                    {state.currentLine.display}
+                  </p>
+                ) : (
+                  <p
+                    className={`font-semibold text-white ${
+                      state.currentLine.kind === "interrupt"
+                        ? "border-l-2 pl-3"
+                        : ""
+                    }`}
+                    style={{
+                      borderColor:
+                        state.currentLine.kind === "interrupt"
+                          ? profile.theme.primary
+                          : undefined,
+                      textShadow: "0 2px 24px rgba(0,0,0,0.85)",
+                    }}
+                  >
+                    <LineText
+                      text={state.currentLine.display}
+                      profile={profile}
+                      petName={petName}
+                    />
+                  </p>
+                )}
+              </div>
             )}
           </div>
 

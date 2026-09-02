@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CharacterStage } from "@/components/visual/CharacterStage";
+import { CharacterView } from "@/components/visual/CharacterView";
+import { LineText } from "@/components/dialogue/LineText";
 import { applyTokens } from "@/lib/dialogue/text";
 import { artStateFor } from "@/lib/joi/artStates";
 import { replyText } from "@/data";
@@ -124,7 +125,7 @@ export function Conversation({
   return (
     <div className="relative flex min-h-dvh flex-col">
       <div className="pointer-events-none absolute inset-0">
-        <CharacterStage
+        <CharacterView
           profile={profile}
           art={art}
           outfitLayer={outfitLayer}
@@ -132,7 +133,7 @@ export function Conversation({
           speaking={!complete}
           strokePosition={() => 0}
           beatPhase={() => 0}
-          paceMirror={false}
+          shot="full"
           intensity={0}
           animate
         />
@@ -140,21 +141,52 @@ export function Conversation({
 
       <div className="relative mt-auto w-full bg-gradient-to-t from-ink via-ink/90 to-transparent px-4 pb-6 pt-24 sm:px-8">
         <div className="mx-auto w-full max-w-3xl">
-          <div className="panel rounded-2xl p-5 sm:p-6">
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.24em]"
-              style={{ color: profile.theme.primary }}
-            >
-              {profile.name}
-            </p>
-            <p
-              className={`mt-3 min-h-[4.5rem] text-lg leading-relaxed sm:text-xl ${
+          <div
+            className="panel rounded-2xl p-5 sm:p-6"
+            style={{
+              borderColor: `${profile.theme.primary}44`,
+              boxShadow: `0 0 60px -20px ${profile.theme.primary}55`,
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <span
+                className="h-px w-6"
+                style={{ background: profile.theme.primary }}
+              />
+              <p
+                className="text-[11px] font-semibold uppercase tracking-[0.24em]"
+                style={{ color: profile.theme.primary }}
+              >
+                {isThought ? `${profile.name} — thinking` : profile.name}
+              </p>
+            </div>
+
+            <div
+              className={`mt-3 min-h-[5rem] ${
                 isThought ? "italic text-white/55" : "text-white/90"
               }`}
             >
-              {typed}
-              {!complete && <span className="ml-0.5 animate-pulse">▌</span>}
-            </p>
+              {isThought ? (
+                <span className="text-lg leading-relaxed sm:text-xl">
+                  {typed}
+                </span>
+              ) : (
+                <LineText
+                  text={typed}
+                  profile={profile}
+                  petName={petName}
+                  size="story"
+                />
+              )}
+              {!complete && (
+                <span
+                  className="ml-0.5 animate-pulse"
+                  style={{ color: profile.theme.primary }}
+                >
+                  ▌
+                </span>
+              )}
+            </div>
 
             {showChoices ? (
               <div className="mt-5 grid gap-2">

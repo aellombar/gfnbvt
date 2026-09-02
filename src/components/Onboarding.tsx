@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CharacterStage } from "@/components/visual/CharacterStage";
+import { CharacterView } from "@/components/visual/CharacterView";
 import { PaceEngine } from "@/lib/joi/PaceEngine";
 import { artStateFor } from "@/lib/joi/artStates";
 import { CHARACTERS } from "@/data/characters";
@@ -69,7 +69,7 @@ export function Onboarding() {
   return (
     <main className="relative min-h-dvh overflow-hidden">
       <div className="absolute inset-0 opacity-70">
-        <CharacterStage
+        <CharacterView
           profile={profile}
           art={art}
           outfitLayer={0}
@@ -77,7 +77,7 @@ export function Onboarding() {
           speaking={false}
           strokePosition={() => engineRef.current?.strokePosition() ?? 0}
           beatPhase={() => engineRef.current?.beatPhase() ?? 0}
-          paceMirror={demoing}
+          shot={demoing ? "pace-mirror" : "body"}
           intensity={demoing ? 0.5 : 0}
           animate
         />

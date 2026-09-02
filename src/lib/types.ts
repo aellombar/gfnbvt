@@ -37,6 +37,16 @@ export interface ArtState {
   arched: boolean;
 }
 
+/**
+ * What the camera is doing. Not every phase should be a stroking-hand shot —
+ * some are just for looking at her.
+ */
+export type ShotKind =
+  | "pace-mirror"
+  | "body"
+  | "face"
+  | "full";
+
 export interface PaceSegment {
   kind: PhaseKind;
   /** Target beats per minute for this segment. */
@@ -46,7 +56,19 @@ export interface PaceSegment {
   strokeLength: number;
   /** Which of her hand poses to use. */
   grip: "open" | "mid" | "closed";
+  /** Framing for this segment. Defaults to pace-mirror when omitted. */
+  shot?: ShotKind;
   label: string;
+}
+
+/** Camera framing per shot type: zoom plus focal offset in viewBox units. */
+export interface ShotFraming {
+  zoom: number;
+  offsetX: number;
+  offsetY: number;
+  showArm: boolean;
+  /** Slow drift added on top, for the admiring shots. */
+  drift: number;
 }
 
 export interface Scene {
@@ -73,6 +95,57 @@ export interface Line {
   /** Restrict this line to particular moods. Empty means any mood. */
   moods?: Mood[];
   art?: Partial<ArtState>;
+}
+
+/**
+ * Describes a set of generated PNGs for one character.
+ *
+ * Text-to-image models cannot reliably produce cleanly separated animation
+ * layers, so the rig is built around *variants of an identical framing*
+ * instead: the same pose regenerated with only one feature changed. The engine
+ * cross-fades between them, which reads as blinking and talking without any
+ * layer separation at all.
+ */
+export interface RigShot {
+  /** Full image for this framing. */
+  base: string;
+  /**
+   * Same pose, same framing, one feature changed. Every entry is optional —
+   * whatever is missing simply doesn't animate.
+   */
+  variants?: {
+    eyesClosed?: string;
+    mouthOpen?: string;
+    mouthWide?: string;
+    blushHeavy?: string;
+    ahegao?: string;
+  };
+  /**
+   * Genuinely separated transparent layers, if you can produce them. The arm
+   * layer is what enables the stroking pace mirror on real art.
+   */
+  layers?: {
+    hair?: string;
+    arm?: string;
+  };
+  /** Pivot for the arm layer, in image pixels. */
+  armPivot?: { x: number; y: number };
+}
+
+export interface RigManifest {
+  /** Native pixel size every image in this manifest shares. */
+  width: number;
+  height: number;
+  /** Keyed by outfit layer index, then shot kind. */
+  outfits: Record<
+    string,
+    {
+      name: string;
+      shots: Partial<Record<ShotKind, RigShot>>;
+    }
+  >;
+  /** Subtle vertical breathing amplitude as a fraction of height. */
+  breathing?: number;
 }
 
 export interface CharacterLines {

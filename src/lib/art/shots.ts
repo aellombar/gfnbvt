@@ -1,0 +1,49 @@
+import type { PhaseKind, ShotFraming, ShotKind } from "@/lib/types";
+
+/**
+ * Framing per shot type. Only `pace-mirror` shows her stroking hand — the
+ * others exist so a session can spend time simply looking at her.
+ */
+export const SHOT_FRAMING: Record<ShotKind, ShotFraming> = {
+  "pace-mirror": {
+    zoom: 1.05,
+    offsetX: 0,
+    offsetY: 20,
+    showArm: true,
+    drift: 0,
+  },
+  // Pulled back and slowly drifting, for admiring her.
+  body: { zoom: 0.98, offsetX: 0, offsetY: 40, showArm: false, drift: 1 },
+  // Tight on the face, where the escalation reads strongest.
+  face: { zoom: 1.9, offsetX: 0, offsetY: -108, showArm: false, drift: 0.35 },
+  full: { zoom: 1, offsetX: 0, offsetY: 0, showArm: false, drift: 0.5 },
+};
+
+/** Sensible default framing when a segment doesn't name one. */
+export const DEFAULT_SHOT: Record<PhaseKind, ShotKind> = {
+  warmup: "body",
+  groove: "full",
+  push: "pace-mirror",
+  sprint: "pace-mirror",
+  rest: "body",
+  finish: "face",
+  aftercare: "body",
+};
+
+export function resolveShot(
+  phase: PhaseKind,
+  shot: ShotKind | undefined,
+  paceMirrorEnabled: boolean,
+): ShotKind {
+  const resolved = shot ?? DEFAULT_SHOT[phase];
+  // Respect the player's setting without losing the shot variety.
+  if (resolved === "pace-mirror" && !paceMirrorEnabled) return "full";
+  return resolved;
+}
+
+export const SHOT_LABELS: Record<ShotKind, string> = {
+  "pace-mirror": "Follow her hand",
+  body: "Look at her",
+  face: "Watch her face",
+  full: "With her",
+};

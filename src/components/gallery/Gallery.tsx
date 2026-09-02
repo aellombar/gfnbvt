@@ -1,6 +1,6 @@
 "use client";
 
-import { CharacterStage } from "@/components/visual/CharacterStage";
+import { CharacterView } from "@/components/visual/CharacterView";
 import { CHARACTERS, CHARACTER_IDS } from "@/data/characters";
 import { chaptersFor, scenesFor } from "@/data";
 import { artStateFor } from "@/lib/joi/artStates";
@@ -89,7 +89,7 @@ export function Gallery({
                   >
                     <div className="relative h-40">
                       {unlocked ? (
-                        <CharacterStage
+                        <CharacterView
                           profile={profile}
                           art={artStateFor(
                             layer >= 3 ? "sprint" : "groove",
@@ -101,7 +101,7 @@ export function Gallery({
                           speaking={false}
                           strokePosition={() => 0}
                           beatPhase={() => 0}
-                          paceMirror={false}
+                          shot="body"
                           intensity={0}
                           animate={false}
                         />

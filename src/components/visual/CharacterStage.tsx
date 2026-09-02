@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Eyes, Mouth } from "@/components/visual/Face";
 import { Spring } from "@/lib/art/SpringChain";
+import { SHOT_FRAMING } from "@/lib/art/shots";
 import { blushAlpha, PHASE_GRADE } from "@/lib/joi/artStates";
-import type { ArtState, CharacterProfile } from "@/lib/types";
+import type { ArtState, CharacterProfile, ShotKind } from "@/lib/types";
 
 interface CharacterStageProps {
   profile: CharacterProfile;
@@ -15,7 +16,8 @@ interface CharacterStageProps {
   /** Live 0..1 stroke position. Read every frame so the hand tracks the audio. */
   strokePosition: () => number;
   beatPhase: () => number;
-  paceMirror: boolean;
+  /** Framing. Only "pace-mirror" shows her stroking hand. */
+  shot: ShotKind;
   /** Drives camera push-in and motion trail intensity. */
   intensity: number;
   animate: boolean;
@@ -37,10 +39,12 @@ export function CharacterStage({
   speaking,
   strokePosition,
   beatPhase,
-  paceMirror,
+  shot,
   intensity,
   animate,
 }: CharacterStageProps) {
+  const framing = SHOT_FRAMING[shot];
+  const paceMirror = framing.showArm;
   const rootRef = useRef<SVGGElement | null>(null);
   const bodyRef = useRef<SVGGElement | null>(null);
   const headRef = useRef<SVGGElement | null>(null);
@@ -60,12 +64,14 @@ export function CharacterStage({
   const artRef = useRef(art);
   const speakingRef = useRef(speaking);
   const intensityRef = useRef(intensity);
+  const framingRef = useRef(framing);
 
   useEffect(() => {
     artRef.current = art;
     speakingRef.current = speaking;
     intensityRef.current = intensity;
-  }, [art, speaking, intensity]);
+    framingRef.current = framing;
+  }, [art, speaking, intensity, framing]);
 
   useEffect(() => {
     if (!animate) return;
@@ -75,6 +81,11 @@ export function CharacterStage({
     const hairSpring = new Spring(0.075, 0.76);
     const clothSpring = new Spring(0.13, 0.8);
     const zoomSpring = new Spring(0.05, 0.85);
+    // Shot changes glide rather than cut, so framing shifts feel intentional.
+    const shotZoomSpring = new Spring(0.035, 0.86);
+    const shotYSpring = new Spring(0.035, 0.86);
+    shotZoomSpring.reset(framingRef.current.zoom);
+    shotYSpring.reset(framingRef.current.offsetY);
 
     let nextBlink = performance.now() + 1800 + Math.random() * 2600;
     let blinkEnd = 0;
@@ -116,7 +127,7 @@ export function CharacterStage({
       }
 
       // Pace mirror: her hand sweeps a full stroke every beat.
-      if (paceMirror) {
+      if (framingRef.current.showArm) {
         const span = 34 + power * 8;
         const angle = -span / 2 + stroke * span;
         const set = (el: SVGGElement | null, offset: number, opacity: number) => {
@@ -152,12 +163,20 @@ export function CharacterStage({
         `rotate(${cloth.toFixed(2)} 200 380)`,
       );
 
-      // Camera pushes in as the pace climbs, plus a small throb on every beat.
+      // Camera: shot framing, plus push-in with the pace and a per-beat throb.
+      const shotFraming = framingRef.current;
+      const shotZoom = shotZoomSpring.step(shotFraming.zoom, dt);
+      const shotY = shotYSpring.step(shotFraming.offsetY, dt);
+      // Admiring shots drift slowly so a still frame never feels dead.
+      const drift = shotFraming.drift
+        ? Math.sin(now / 4200) * shotFraming.drift * 6
+        : 0;
       const zoom = zoomSpring.step(1 + power * 0.1, dt);
       const bounce = 1 + (1 - phase) * 0.008 * (0.4 + power);
+      const scale = zoom * bounce * shotZoom;
       rootRef.current?.setAttribute(
         "transform",
-        `translate(200 320) scale(${(zoom * bounce).toFixed(4)}) translate(-200 -320)`,
+        `translate(${(shotFraming.offsetX + drift).toFixed(2)} ${(-shotY).toFixed(2)}) translate(200 320) scale(${scale.toFixed(4)}) translate(-200 -320)`,
       );
 
       // Drool drifts downward at peak.

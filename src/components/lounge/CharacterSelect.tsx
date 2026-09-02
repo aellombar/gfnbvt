@@ -1,6 +1,6 @@
 "use client";
 
-import { CharacterStage } from "@/components/visual/CharacterStage";
+import { CharacterView } from "@/components/visual/CharacterView";
 import { CHARACTERS, CHARACTER_IDS } from "@/data/characters";
 import { chaptersFor } from "@/data";
 import { artStateFor } from "@/lib/joi/artStates";
@@ -32,7 +32,7 @@ export function CharacterSelect({ progress, onSelect }: CharacterSelectProps) {
             className="panel group relative overflow-hidden rounded-3xl text-left transition hover:border-blush/50"
           >
             <div className="relative h-64 overflow-hidden">
-              <CharacterStage
+              <CharacterView
                 profile={profile}
                 art={art}
                 outfitLayer={0}
@@ -40,7 +40,7 @@ export function CharacterSelect({ progress, onSelect }: CharacterSelectProps) {
                 speaking={false}
                 strokePosition={() => 0}
                 beatPhase={() => 0}
-                paceMirror={false}
+                shot="body"
                 intensity={0}
                 animate
               />
