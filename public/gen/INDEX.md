@@ -1,5 +1,8 @@
 # Generate here — one folder = one image
 
+Poses are locked to chapter + JOI dialogue (coach → peel → wet/spread → climax freaky).
+Do not swap peels across layers — `__0` is clothed coach, last layer is finish-freaky.
+
 For each folder, in order:
 1. Copy `POSITIVE.txt` → A1111 Prompt
 2. Copy `NEGATIVE.txt` → A1111 Negative prompt
