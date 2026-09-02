@@ -36,7 +36,7 @@ export function CharacterSelect({ progress, onSelect }: CharacterSelectProps) {
               <img
                 src={portrait}
                 alt=""
-                className="absolute inset-0 h-full w-full object-cover object-[center_18%] transition-transform duration-500 group-hover:scale-[1.06]"
+                className="absolute inset-0 h-full w-full object-cover object-[center_36%] transition-transform duration-500 group-hover:scale-[1.06]"
                 draggable={false}
               />
               <div

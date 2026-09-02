@@ -66,6 +66,11 @@ export interface ShotFraming {
   zoom: number;
   offsetX: number;
   offsetY: number;
+  /**
+   * Vertical object-position of the portrait, in percent from the top.
+   * ~40 keeps face + chest in frame on wide desktop crops; ~12 was hair-only.
+   */
+  focusY: number;
   showArm: boolean;
   /** Slow drift added on top, for the admiring shots. */
   drift: number;

@@ -48,17 +48,13 @@ export function SceneArtStage({
       if (!el) return;
       const phase = beatPhase();
       const breath = (1 - Math.cos(phase * Math.PI * 2)) / 2;
-      const breathScale = 1 + breath * (ahegao ? 0.008 : 0.0012);
-      const zoom = framing.zoom * (ahegao ? 1.12 : 1);
-      const y = ahegao ? -6 : -framing.offsetY / 40;
-      el.style.transform = [
-        `translate(0, ${y.toFixed(3)}%)`,
-        `scale(${(zoom * breathScale).toFixed(5)})`,
-      ].join(" ");
+      const breathScale = 1 + breath * (ahegao ? 0.006 : 0.0012);
+      const zoom = framing.zoom * (ahegao ? 1.03 : 1);
+      el.style.transform = `scale(${(zoom * breathScale).toFixed(5)})`;
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [animate, beatPhase, framing.offsetY, framing.zoom, ahegao]);
+  }, [animate, beatPhase, framing.zoom, ahegao]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-ink">
@@ -71,7 +67,8 @@ export function SceneArtStage({
         <img
           src={visibleSrc}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[center_12%]"
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: `center ${ahegao ? 32 : framing.focusY}%` }}
           draggable={false}
         />
         {fadeSrc && (
@@ -79,7 +76,8 @@ export function SceneArtStage({
           <img
             src={fadeSrc}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover object-[center_12%] animate-[cut-in_420ms_ease_both]"
+            className="absolute inset-0 h-full w-full object-cover animate-[cut-in_420ms_ease_both]"
+            style={{ objectPosition: `center ${ahegao ? 32 : framing.focusY}%` }}
             draggable={false}
           />
         )}

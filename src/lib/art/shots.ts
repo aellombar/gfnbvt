@@ -8,13 +8,14 @@ export const SHOT_FRAMING: Record<ShotKind, ShotFraming> = {
   "pace-mirror": {
     zoom: 1,
     offsetX: 0,
-    offsetY: 4,
+    offsetY: 0,
+    focusY: 40,
     showArm: true,
     drift: 0,
   },
-  body: { zoom: 1, offsetX: 0, offsetY: 2, showArm: false, drift: 0.2 },
-  face: { zoom: 1.18, offsetX: 0, offsetY: -8, showArm: false, drift: 0.15 },
-  full: { zoom: 1, offsetX: 0, offsetY: 0, showArm: false, drift: 0.15 },
+  body: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 38, showArm: false, drift: 0.2 },
+  face: { zoom: 1.02, offsetX: 0, offsetY: 0, focusY: 30, showArm: false, drift: 0.1 },
+  full: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 42, showArm: false, drift: 0.12 },
 };
 
 /** Sensible default framing when a segment doesn't name one. */
