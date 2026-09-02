@@ -2,11 +2,10 @@
 
 ## Art direction (lock this in every prompt)
 
-**Target look:** like *Jedyne's Fappy Party* (Mosbles) intimate JOI artwork —
-polished **2D anime CG / visual-novel CG**, strong eye contact, expressive face,
-soft erotic lighting, full-body scrollable portrait energy. **Not 3D**, not
-Blender, not photoreal. Soft-shaded digital illustration, clean and glossy like
-a high-end hentai CG.
+**Target look:** like *Jedyne's Fappy Party* (Mosbles) — **flat simple colors**,
+hard cel shading, clean thick lineart, big expressive faces, indie hentai comic
+illustration. Not soft glossy CG, not painterly, **not 3D**. Keep backgrounds
+simple so she reads clearly.
 
 ### A1111 settings (use for every generate)
 
@@ -48,20 +47,22 @@ Paste this at the **start** of every positive prompt:
 ```text
 score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background,
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+vertical composition, centered, from thighs up, simple background,
+erotic atmosphere,
 ```
 
 ## Shared negative prompt (every image)
 
 ```text
 score_6, score_5, score_4, text, watermark, logo, signature, username,
-speech bubble, ui, border, frame, comic, monochrome, sketch, lineart, rough,
+speech bubble, ui, border, frame, monochrome, sketch, rough, unfinished,
 3d, blender, cycles, raytracing, unreal engine, octane, cgi, plastic skin,
-realistic photo, raw photo, photorealistic, pore skin, freckles overload,
+soft shading, soft gradients, painterly, oil painting, photorealistic,
+realistic photo, raw photo, subsurface scattering, ambient occlusion,
+intricate details, busy background, hyper detailed, glossy skin,
 ugly, deformed, bad anatomy, bad hands, extra fingers, fused fingers, extra limbs,
 child, loli, underage, young, teen, flat chest, lowres, blurry,
 ```
@@ -115,11 +116,11 @@ only changing the **PEEL** line. Save into the folder shown.
 ```text
 score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background,
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+vertical composition, centered, from thighs up, simple background,
+erotic atmosphere,
 raven, long straight black hair, blunt bangs, deep red eyes, pale skin,
 slim waist, medium breasts, calm confident expression, soft half-lidded eyes,
 dark velvet casino booth, magenta rim light, violet ambient, low table cards soft bokeh,
@@ -202,11 +203,11 @@ dark velvet casino booth, magenta rim light, violet ambient, low table cards sof
 ```text
 score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background,
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+vertical composition, centered, from thighs up, simple background,
+erotic atmosphere,
 miko, long dark brown almost-black hair with soft side bangs, warm amber-brown eyes,
 fair warm skin, gentle smile, soft blush, medium breasts, devoted expression,
 shrine maiden beauty,
@@ -275,11 +276,11 @@ quiet shrine alcove on casino slot floor, paper lanterns, warm gold light, incen
 ```text
 score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background,
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+vertical composition, centered, from thighs up, simple background,
+erotic atmosphere,
 blaze, short messy bright orange-red hair, cyan-teal eyes, tanned warm skin,
 athletic toned body, medium-large breasts, sharp playful grin, hyped expression,
 racing girlfriend energy,
@@ -348,11 +349,11 @@ neon pit rail, cyan and orange neon signs, night asphalt bokeh, energetic lighti
 ```text
 score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background,
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+vertical composition, centered, from thighs up, simple background,
+erotic atmosphere,
 seraph, long wavy pale platinum-blonde hair, soft lavender-blue eyes, porcelain skin,
 serene expression, large soft breasts, gentle smile, fallen angel beauty,
 faint cracked golden halo behind head,

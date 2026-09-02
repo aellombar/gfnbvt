@@ -53,16 +53,18 @@ SEEDS = {
 
 STYLE = """score_9, score_8_up, score_7_up, source_anime, rating_explicit,
 1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, anime cg, visual novel cg, digital illustration, soft shading,
-polished hentai cg, expressive face, beautiful detailed eyes, detailed face,
-smooth anime skin, soft gradients, clean linework, intimate portrait,
-vertical composition, centered, from thighs up, soft lighting, erotic atmosphere,
-highly detailed, clean background"""
+2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
+clean lineart, thick lineart, expressive face, large expressive eyes,
+indie hentai illustration, comic style, simple shapes, limited palette,
+vertical composition, centered, from thighs up, simple background,
+erotic atmosphere"""
 
 NEGATIVE = """score_6, score_5, score_4, text, watermark, logo, signature, username,
-speech bubble, ui, border, frame, comic, monochrome, sketch, lineart, rough,
+speech bubble, ui, border, frame, monochrome, sketch, rough, unfinished,
 3d, blender, cycles, raytracing, unreal engine, octane, cgi, plastic skin,
-realistic photo, raw photo, photorealistic, pore skin, freckles overload,
+soft shading, soft gradients, painterly, oil painting, photorealistic,
+realistic photo, raw photo, subsurface scattering, ambient occlusion,
+intricate details, busy background, hyper detailed, glossy skin,
 ugly, deformed, bad anatomy, bad hands, extra fingers, fused fingers, extra limbs,
 child, loli, underage, young, teen, flat chest, lowres, blurry"""
 
