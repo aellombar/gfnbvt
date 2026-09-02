@@ -50,13 +50,15 @@ Paste this at the **start** of every positive prompt (also baked into `public/ge
 
 ```text
 score_9, score_8_up, score_7_up, source_anime, rating_explicit,
-1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
-clean lineart, thick lineart, expressive face, large expressive eyes,
-indie hentai illustration, comic style, simple shapes, limited palette,
-lewd, erotic, NSFW, aroused, flushed, bedroom eyes, heavy breathing,
-vertical composition, centered, simple background,
-erotic atmosphere, JOI coach pose, watching viewer masturbate
+1girl, solo, adult woman, 20s, looking at viewer, eye contact,
+2d, anime, flat color, flat colors, cel shading, hard cel shadow,
+(thick lineart:1.3), (bold outlines:1.2), heavy black outlines, crisp clean lineart,
+outlined, comic linework, indie hentai illustration, comic style,
+detailed face, detailed eyes, detailed hair, slightly detailed clothing,
+expressive face, large expressive eyes, clear facial features,
+same character, consistent face, consistent anatomy, stable identity,
+lewd, erotic, NSFW, aroused, flushed, bedroom eyes,
+vertical composition, centered, simple background, erotic atmosphere
 ```
 
 ## Shared negative prompt (every image)
@@ -64,10 +66,12 @@ erotic atmosphere, JOI coach pose, watching viewer masturbate
 ```text
 score_6, score_5, score_4, text, watermark, logo, signature, username,
 speech bubble, ui, border, frame, monochrome, sketch, rough, unfinished,
+thin lineart, thin outlines, sketchy lines, broken lineart, faded lines, soft outlines,
 3d, blender, cycles, raytracing, unreal engine, octane, cgi, plastic skin,
-soft shading, soft gradients, painterly, oil painting, photorealistic,
+soft shading, soft gradients, painterly, oil painting, watercolor, photorealistic,
 realistic photo, raw photo, subsurface scattering, ambient occlusion,
-intricate details, busy background, hyper detailed, glossy skin,
+busy background, cluttered, overdetailed background, glossy skin, shiny plastic,
+inconsistent face, different person, face morph, style drift, mutated face,
 ugly, deformed, bad anatomy, bad hands, extra fingers, fused fingers, extra limbs,
 child, loli, underage, young, teen, flat chest, lowres, blurry
 ```
@@ -80,28 +84,28 @@ child, loli, underage, young, teen, flat chest, lowres, blurry
 ```text
 raven, long straight black hair, blunt bangs, deep red eyes, pale skin,
 slim waist, medium breasts, calm confident expression, soft half-lidded eyes,
-smoky beauty mark under left eye optional,
+smoky beauty mark under left eye, sharp jaw, same raven face every image,
 ```
 
 ### Miko
 ```text
 miko, long dark brown almost-black hair with soft side bangs, warm amber-brown eyes,
 fair warm skin, gentle smile, soft blush, medium breasts, devoted expression,
-shrine maiden beauty,
+shrine maiden beauty, small mole near collarbone, same miko face every image,
 ```
 
 ### Blaze
 ```text
 blaze, short messy bright orange-red hair, cyan-teal eyes, tanned warm skin,
 athletic toned body, medium-large breasts, sharp playful grin, hyped expression,
-racing girlfriend energy,
+racing girlfriend energy, freckles across nose, same blaze face every image,
 ```
 
 ### Seraph
 ```text
 seraph, long wavy pale platinum-blonde hair, soft lavender-blue eyes, porcelain skin,
 serene expression, large soft breasts, gentle smile, fallen angel beauty,
-faint golden halo remnant optional,
+faint cracked golden halo behind head, soft gold iris flecks, same seraph face every image,
 ```
 
 ---
