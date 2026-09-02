@@ -3,7 +3,7 @@
 import { chaptersFor } from "@/data";
 import { getScene } from "@/data/scenes";
 import { MOOD_BLURBS, MOOD_LABELS, moodFor } from "@/lib/dialogue/MoodSystem";
-import { SHOT_LABELS } from "@/lib/art/shots";
+import { dropPngUrl } from "@/lib/art/dropUrl";
 import { DEFAULT_SHOT } from "@/lib/art/shots";
 import type { CharacterProgress } from "@/lib/save/SaveCodec";
 import type { CharacterProfile, Difficulty } from "@/lib/types";
@@ -133,15 +133,23 @@ export function SceneSelect({
                 ),
               )
             : [];
+          const thumb = dropPngUrl(chapter.sceneId, 0);
 
           return (
             <div
               key={chapter.sceneId}
               className={`border-b border-rule ${unlocked ? "" : "opacity-40"}`}
             >
-              <div className="grid grid-cols-[3rem_1fr] gap-0 sm:grid-cols-[4.5rem_1fr]">
-                <div className="flex items-start justify-center border-r border-rule py-5">
-                  <span className="data text-xs text-paper-dim">
+              <div className="grid grid-cols-[5.5rem_1fr] gap-0 sm:grid-cols-[8.5rem_1fr]">
+                <div className="relative overflow-hidden border-r border-rule bg-ink">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={thumb}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover object-[center_20%]"
+                    draggable={false}
+                  />
+                  <span className="absolute left-1.5 top-1.5 data text-[10px] text-paper">
                     {String(chapter.chapter).padStart(2, "0")}
                   </span>
                 </div>

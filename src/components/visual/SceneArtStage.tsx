@@ -51,7 +51,7 @@ export function SceneArtStage({
       const breath = (1 - Math.cos(phase * Math.PI * 2)) / 2;
       const breathScale = 1 + breath * 0.0012;
       const zoom = framing.zoom;
-      const y = -framing.offsetY / 12;
+      const y = -framing.offsetY / 40;
       el.style.transform = [
         `translate(0, ${y.toFixed(3)}%)`,
         `scale(${(zoom * breathScale).toFixed(5)})`,
@@ -72,7 +72,7 @@ export function SceneArtStage({
         <img
           src={visibleSrc}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[center_20%]"
+          className="absolute inset-0 h-full w-full object-cover object-[center_12%]"
           draggable={false}
         />
         {fadeSrc && (
@@ -80,7 +80,7 @@ export function SceneArtStage({
           <img
             src={fadeSrc}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover object-[center_20%] animate-[cut-in_420ms_ease_both]"
+            className="absolute inset-0 h-full w-full object-cover object-[center_12%] animate-[cut-in_420ms_ease_both]"
             draggable={false}
           />
         )}

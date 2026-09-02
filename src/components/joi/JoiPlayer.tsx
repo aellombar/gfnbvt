@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CharacterView } from "@/components/visual/CharacterView";
+import { LineText } from "@/components/dialogue/LineText";
 import { useSession } from "@/lib/joi/useSession";
 import { resolveShot } from "@/lib/art/shots";
 import type { CharacterProfile, Difficulty, Mood, Scene } from "@/lib/types";
@@ -160,7 +161,7 @@ export function JoiPlayer({
       style={{ ["--signal" as string]: signal }}
       className="relative min-h-dvh overflow-hidden"
     >
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <CharacterView
           profile={profile}
           art={state.art}
@@ -179,12 +180,11 @@ export function JoiPlayer({
       {/* Beat-synced frame edge. */}
       <div
         ref={borderRef}
-        className="pointer-events-none absolute inset-2 border sm:inset-3"
+        className="pointer-events-none absolute inset-2 z-10 border sm:inset-3"
         style={{ borderColor: signal }}
       />
 
-      {/* Minimal chrome only — no dialogue / command text over the art. */}
-      <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5 sm:p-7">
+      <div className="absolute inset-x-0 top-0 z-20 flex items-start justify-between p-5 sm:p-7">
         <div className="flex items-center gap-3">
           <span className="rec-dot" style={{ background: signal }} />
           <p className="data text-[11px] tracking-[0.18em]">
@@ -202,8 +202,20 @@ export function JoiPlayer({
         </button>
       </div>
 
-      {/* Thin progress only. */}
-      <div className="absolute inset-x-0 bottom-0">
+      <div className="absolute inset-x-0 bottom-0 z-20">
+        {state.currentLine && (
+          <div className="bg-gradient-to-t from-ink via-ink/90 to-transparent px-5 pb-5 pt-16 sm:px-8">
+            <p className="tag mb-2" style={{ color: signal }}>
+              {profile.name} · {state.segment.label}
+            </p>
+            <LineText
+              text={state.currentLine.display}
+              profile={profile}
+              petName={petName}
+              size="session"
+            />
+          </div>
+        )}
         <div className="flex h-1.5 w-full gap-px bg-ink">
           <div
             className="h-full"

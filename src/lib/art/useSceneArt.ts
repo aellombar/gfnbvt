@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { dropPngUrl } from "@/lib/art/dropUrl";
 
 /**
  * Scene art drop paths (first hit wins):
@@ -60,7 +61,6 @@ async function probeUrl(url: string): Promise<boolean> {
   }
 }
 
-/** Candidate URLs for one peel layer, preferred first. */
 function candidates(
   sceneId: string,
   layer: number,
@@ -68,13 +68,11 @@ function candidates(
 ): string[] {
   const base = basePath();
   const list: string[] = [];
-  // Easiest: one DROP folder per scene — drag 0.png / 1.png / 2.png / 3.png
-  list.push(`${base}/art/${sceneId}/DROP/${layer}.png`);
+  list.push(dropPngUrl(sceneId, layer));
   const folder = manifest?.[sceneId]?.[String(layer)];
   if (folder) {
     list.push(`${base}/gen/${folder}/DROP/image.png`);
   }
-  // Legacy flat drop
   list.push(`${base}/art/${sceneId}/${layer}.png`);
   return list;
 }
@@ -90,6 +88,16 @@ async function resolveLayer(
   return null;
 }
 
+function optimisticEntry(sceneId: string) {
+  const urls: Record<number, string> = {};
+  const layers: number[] = [];
+  for (let i = 0; i <= 3; i++) {
+    layers.push(i);
+    urls[i] = dropPngUrl(sceneId, i);
+  }
+  return { layers, urls };
+}
+
 export function useSceneArt(sceneId: string | undefined): {
   layers: number[] | null;
   loading: boolean;
@@ -98,10 +106,11 @@ export function useSceneArt(sceneId: string | undefined): {
   const [entry, setEntry] = useState<{
     layers: number[];
     urls: Record<number, string>;
-  } | null>(() => (sceneId ? layerCache.get(sceneId) ?? null : null));
-  const [loading, setLoading] = useState(() =>
-    Boolean(sceneId && !layerCache.has(sceneId)),
-  );
+  } | null>(() => {
+    if (!sceneId) return null;
+    return layerCache.get(sceneId) ?? optimisticEntry(sceneId);
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!sceneId) {
@@ -115,6 +124,8 @@ export function useSceneArt(sceneId: string | undefined): {
       return;
     }
 
+    setEntry(optimisticEntry(sceneId));
+
     let cancelled = false;
     (async () => {
       const manifest = await loadManifest();
@@ -127,7 +138,8 @@ export function useSceneArt(sceneId: string | undefined): {
           urls[i] = url;
         }
       }
-      const next = { layers, urls };
+      const next =
+        layers.length > 0 ? { layers, urls } : optimisticEntry(sceneId);
       layerCache.set(sceneId, next);
       if (!cancelled) {
         setEntry(next);

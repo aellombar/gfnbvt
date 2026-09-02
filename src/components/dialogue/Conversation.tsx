@@ -148,7 +148,7 @@ export function Conversation({
         />
       </div>
 
-      <div className="relative mt-auto w-full bg-gradient-to-t from-ink via-ink/92 to-transparent px-4 pb-5 pt-28 sm:px-8">
+      <div className="relative z-20 mt-auto w-full bg-gradient-to-t from-ink via-ink/92 to-transparent px-4 pb-5 pt-28 sm:px-8">
         <div className="mx-auto w-full max-w-4xl">
           {/* Speaker plate, flush against the text block. */}
           <div className="flex items-center gap-2">

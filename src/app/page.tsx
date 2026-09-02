@@ -295,21 +295,35 @@ export default function Page() {
 
           {screen.name === "lounge" && (
             <div className="animate-[cut-in_180ms_steps(3,end)_both]">
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <h1 className="display text-6xl leading-[0.85] sm:text-8xl">
-                  Who&apos;s
-                  <br />
-                  dealing
-                  <br />
-                  tonight
-                </h1>
-                <p className="max-w-xs text-sm leading-relaxed text-paper-dim">
-                  Four channels. Her mood rolls over at midnight and her story
-                  picks up exactly where you left it.
-                </p>
+              <div className="relative overflow-hidden border border-rule bg-ink-2">
+                <div className="pointer-events-none absolute inset-0 opacity-40">
+                  <div className="absolute -left-10 top-0 h-full w-1/2 rotate-6 bg-[var(--color-signal)]/20 blur-3xl" />
+                  <div className="absolute right-0 top-10 h-40 w-40 rounded-full bg-[var(--color-signal-2)]/15 blur-2xl" />
+                </div>
+                <div className="relative flex flex-wrap items-end justify-between gap-6 px-5 py-8 sm:px-8">
+                  <div>
+                    <p className="tag">after hours · four live feeds</p>
+                    <h1 className="display mt-2 text-6xl leading-[0.85] chroma sm:text-8xl">
+                      Who&apos;s
+                      <br />
+                      dealing
+                      <br />
+                      tonight
+                    </h1>
+                  </div>
+                  <p className="max-w-xs text-sm leading-relaxed text-paper-dim">
+                    Pick a channel. Her photo is the feed — no placeholders.
+                    Mood rolls at midnight; her story picks up where you left it.
+                  </p>
+                </div>
+                <div className="relative overflow-hidden border-t border-rule">
+                  <p className="tag animate-[ticker_26s_linear_infinite] whitespace-nowrap py-2 text-paper-dim">
+                    LIVE · Raven booth · Miko shrine · Blaze pit · Seraph chapel · hands-free JOI · praise only · good boys welcome · LIVE · Raven booth · Miko shrine · Blaze pit · Seraph chapel ·
+                  </p>
+                </div>
               </div>
 
-              <div className="mt-10">
+              <div className="mt-6">
                 <CharacterSelect
                   progress={save.characters}
                   onSelect={(character) =>

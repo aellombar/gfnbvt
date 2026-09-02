@@ -199,8 +199,9 @@ export function useSession(options: UseSessionOptions) {
       const segment = segments[index];
       const progress = totalMs > 0 ? elapsed / totalMs : 0;
 
-      // Entering a new phase: ease the tempo across, and peel if scheduled.
-      let outfitLayer: number | null = null;
+      const peelLayers = Object.values(peels);
+      const maxPeel = peelLayers.length ? Math.max(0, ...peelLayers) : 3;
+      let nextLayer = Math.min(maxPeel, Math.floor(progress * (maxPeel + 0.001)));
       if (index !== segmentIndex) {
         segmentIndex = index;
         const targetBpm = segment.bpm * baseSpeedRef.current;
@@ -212,7 +213,7 @@ export function useSession(options: UseSessionOptions) {
 
         const peel = peels[index];
         if (peel !== undefined) {
-          outfitLayer = peel;
+          nextLayer = Math.max(nextLayer, peel);
           speak(lines.peels);
         } else {
           speak(lines.phases[segment.kind]);
@@ -250,7 +251,7 @@ export function useSession(options: UseSessionOptions) {
         speaking,
         art: artStateFor(segment.kind, ahegao, progress),
         currentLine: line ?? prev.currentLine,
-        outfitLayer: outfitLayer ?? prev.outfitLayer,
+        outfitLayer: Math.max(nextLayer, prev.outfitLayer),
         peakBpm,
       }));
 
