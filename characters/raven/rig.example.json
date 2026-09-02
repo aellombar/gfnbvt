@@ -1,0 +1,89 @@
+{
+  "$comment": "Rename this file to rig.json once the PNGs listed below exist in this folder. The game auto-detects it and switches from the placeholder SVG to your art. Every field except width/height and outfits.0 is optional — missing pieces simply don't animate.",
+  "width": 1024,
+  "height": 1536,
+  "breathing": 0.008,
+  "outfits": {
+    "0": {
+      "name": "Dealer Lace",
+      "shots": {
+        "body": {
+          "base": "l0-body-base.png",
+          "variants": {
+            "eyesClosed": "l0-body-eyes-closed.png",
+            "mouthOpen": "l0-body-mouth-open.png"
+          }
+        },
+        "full": {
+          "base": "l0-full-base.png",
+          "variants": {
+            "eyesClosed": "l0-full-eyes-closed.png",
+            "mouthOpen": "l0-full-mouth-open.png",
+            "mouthWide": "l0-full-mouth-wide.png"
+          }
+        },
+        "face": {
+          "base": "l0-face-base.png",
+          "variants": {
+            "eyesClosed": "l0-face-eyes-closed.png",
+            "mouthOpen": "l0-face-mouth-open.png",
+            "mouthWide": "l0-face-mouth-wide.png",
+            "blushHeavy": "l0-face-blush-heavy.png",
+            "ahegao": "l0-face-ahegao.png"
+          }
+        },
+        "pace-mirror": {
+          "base": "l0-pace-base.png",
+          "variants": {
+            "eyesClosed": "l0-pace-eyes-closed.png",
+            "mouthOpen": "l0-pace-mouth-open.png"
+          },
+          "layers": {
+            "arm": "l0-pace-arm.png"
+          },
+          "armPivot": { "x": 660, "y": 700 }
+        }
+      }
+    },
+    "1": {
+      "name": "Lace Lounge",
+      "shots": {
+        "body": { "base": "l1-body-base.png" },
+        "full": { "base": "l1-full-base.png" },
+        "face": {
+          "base": "l1-face-base.png",
+          "variants": {
+            "eyesClosed": "l1-face-eyes-closed.png",
+            "mouthOpen": "l1-face-mouth-open.png",
+            "ahegao": "l1-face-ahegao.png"
+          }
+        },
+        "pace-mirror": {
+          "base": "l1-pace-base.png",
+          "layers": { "arm": "l1-pace-arm.png" },
+          "armPivot": { "x": 660, "y": 700 }
+        }
+      }
+    },
+    "2": {
+      "name": "Underneath",
+      "shots": {
+        "body": { "base": "l2-body-base.png" },
+        "full": { "base": "l2-full-base.png" },
+        "face": {
+          "base": "l2-face-base.png",
+          "variants": {
+            "eyesClosed": "l2-face-eyes-closed.png",
+            "mouthOpen": "l2-face-mouth-open.png",
+            "ahegao": "l2-face-ahegao.png"
+          }
+        },
+        "pace-mirror": {
+          "base": "l2-pace-base.png",
+          "layers": { "arm": "l2-pace-arm.png" },
+          "armPivot": { "x": 660, "y": 700 }
+        }
+      }
+    }
+  }
+}
