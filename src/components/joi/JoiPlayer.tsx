@@ -48,6 +48,7 @@ export function JoiPlayer({
 }: JoiPlayerProps) {
   const [ready, setReady] = useState(false);
   const [manualPause, setManualPause] = useState(false);
+  const [ahegao, setAhegao] = useState(false);
   const borderRef = useRef<HTMLDivElement | null>(null);
 
   const { state, start, setPaused, strokePosition, beatPhase } = useSession({
@@ -170,10 +171,11 @@ export function JoiPlayer({
           speaking={false}
           strokePosition={strokePosition}
           beatPhase={beatPhase}
-          shot={shot}
+          shot={ahegao ? "face" : shot}
           intensity={intensity}
           animate={!paused}
           sceneId={scene.id}
+          ahegao={ahegao}
         />
       </div>
 
@@ -192,14 +194,28 @@ export function JoiPlayer({
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setManualPause((p) => !p)}
-          aria-label={manualPause ? "Resume" : "Pause"}
-          className="tag border border-rule bg-ink/60 px-2 py-1 hover:text-paper"
-        >
-          {manualPause ? "▶" : "II"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setAhegao((v) => !v)}
+            className="tag border px-2 py-1"
+            style={
+              ahegao
+                ? { background: signal, color: "#08080a", borderColor: signal }
+                : { borderColor: "var(--color-rule)", background: "rgba(8,8,10,0.6)" }
+            }
+          >
+            ahegao
+          </button>
+          <button
+            type="button"
+            onClick={() => setManualPause((p) => !p)}
+            aria-label={manualPause ? "Resume" : "Pause"}
+            className="tag border border-rule bg-ink/60 px-2 py-1 hover:text-paper"
+          >
+            {manualPause ? "▶" : "II"}
+          </button>
+        </div>
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-20">

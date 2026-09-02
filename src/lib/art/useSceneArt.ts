@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { dropPngUrl } from "@/lib/art/dropUrl";
+import { ahegaoPngUrl, dropPngUrl } from "@/lib/art/dropUrl";
 
 /**
  * Scene art drop paths (first hit wins):
@@ -17,7 +17,10 @@ type Manifest = Record<string, Record<string, string>>;
 const manifestCache: { value: Manifest | null; loading: Promise<Manifest | null> | null } =
   { value: null, loading: null };
 
-const layerCache = new Map<string, { layers: number[]; urls: Record<number, string> }>();
+const layerCache = new Map<
+  string,
+  { layers: number[]; urls: Record<number, string>; ahegaoUrl: string | null }
+>();
 
 function basePath(): string {
   return process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -95,17 +98,19 @@ function optimisticEntry(sceneId: string) {
     layers.push(i);
     urls[i] = dropPngUrl(sceneId, i);
   }
-  return { layers, urls };
+  return { layers, urls, ahegaoUrl: ahegaoPngUrl(sceneId) };
 }
 
 export function useSceneArt(sceneId: string | undefined): {
   layers: number[] | null;
   loading: boolean;
+  ahegaoSrc: string | null;
   srcFor: (outfitLayer: number) => string | null;
 } {
   const [entry, setEntry] = useState<{
     layers: number[];
     urls: Record<number, string>;
+    ahegaoUrl: string | null;
   } | null>(() => {
     if (!sceneId) return null;
     return layerCache.get(sceneId) ?? optimisticEntry(sceneId);
@@ -138,8 +143,12 @@ export function useSceneArt(sceneId: string | undefined): {
           urls[i] = url;
         }
       }
+      const ahegaoHit = await probeUrl(ahegaoPngUrl(sceneId));
+      const ahegaoUrl = ahegaoHit ? ahegaoPngUrl(sceneId) : null;
       const next =
-        layers.length > 0 ? { layers, urls } : optimisticEntry(sceneId);
+        layers.length > 0
+          ? { layers, urls, ahegaoUrl }
+          : optimisticEntry(sceneId);
       layerCache.set(sceneId, next);
       if (!cancelled) {
         setEntry(next);
@@ -165,6 +174,7 @@ export function useSceneArt(sceneId: string | undefined): {
   return {
     layers: entry && entry.layers.length > 0 ? entry.layers : null,
     loading,
+    ahegaoSrc: entry?.ahegaoUrl ?? null,
     srcFor,
   };
 }

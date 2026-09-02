@@ -17,6 +17,7 @@ interface CharacterViewProps {
   intensity: number;
   animate: boolean;
   sceneId?: string;
+  ahegao?: boolean;
 }
 
 /**
@@ -26,17 +27,23 @@ interface CharacterViewProps {
 export function CharacterView(props: CharacterViewProps) {
   const sceneId = props.sceneId ?? homeSceneId(props.profile.id);
   const sceneArt = useSceneArt(sceneId);
-  const sceneSrc = sceneArt.srcFor(props.outfitLayer);
+  const maxLayer = sceneArt.layers?.length
+    ? Math.max(...sceneArt.layers)
+    : props.outfitLayer;
+  const sceneSrc = props.ahegao
+    ? (sceneArt.ahegaoSrc ?? sceneArt.srcFor(maxLayer))
+    : sceneArt.srcFor(props.outfitLayer);
 
   if (!sceneSrc) return <div className="absolute inset-0 bg-ink" />;
 
   return (
     <SceneArtStage
       src={sceneSrc}
-      shot={props.shot}
+      shot={props.ahegao ? "face" : props.shot}
       intensity={props.intensity}
       animate={props.animate}
       beatPhase={props.beatPhase}
+      ahegao={!!props.ahegao}
     />
   );
 }

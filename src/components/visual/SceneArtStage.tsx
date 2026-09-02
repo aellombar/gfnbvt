@@ -7,10 +7,10 @@ import type { ShotKind } from "@/lib/types";
 interface SceneArtStageProps {
   src: string;
   shot: ShotKind;
-  /** Kept for API parity — motion is intentionally near-zero. */
   intensity: number;
   animate: boolean;
   beatPhase: () => number;
+  ahegao?: boolean;
 }
 
 /**
@@ -22,20 +22,20 @@ export function SceneArtStage({
   shot,
   animate,
   beatPhase,
+  ahegao = false,
 }: SceneArtStageProps) {
   const framing = SHOT_FRAMING[shot];
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [visibleSrc, setVisibleSrc] = useState(src);
   const [fadeSrc, setFadeSrc] = useState<string | null>(null);
 
-  // Soft cross-fade when the peel layer swaps.
   useEffect(() => {
     if (src === visibleSrc) return;
     setFadeSrc(src);
     const t = window.setTimeout(() => {
       setVisibleSrc(src);
       setFadeSrc(null);
-    }, 420);
+    }, 280);
     return () => window.clearTimeout(t);
   }, [src, visibleSrc]);
 
@@ -47,11 +47,10 @@ export function SceneArtStage({
       const el = rootRef.current;
       if (!el) return;
       const phase = beatPhase();
-      // Almost unnoticeable breathing — was ~0.8–1.5% before.
       const breath = (1 - Math.cos(phase * Math.PI * 2)) / 2;
-      const breathScale = 1 + breath * 0.0012;
-      const zoom = framing.zoom;
-      const y = -framing.offsetY / 40;
+      const breathScale = 1 + breath * (ahegao ? 0.008 : 0.0012);
+      const zoom = framing.zoom * (ahegao ? 1.12 : 1);
+      const y = ahegao ? -6 : -framing.offsetY / 40;
       el.style.transform = [
         `translate(0, ${y.toFixed(3)}%)`,
         `scale(${(zoom * breathScale).toFixed(5)})`,
@@ -59,7 +58,7 @@ export function SceneArtStage({
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [animate, beatPhase, framing.offsetY, framing.zoom]);
+  }, [animate, beatPhase, framing.offsetY, framing.zoom, ahegao]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-ink">
@@ -85,14 +84,17 @@ export function SceneArtStage({
           />
         )}
       </div>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
-        }}
-      />
+        {ahegao && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 28%, rgba(255,80,140,0.28), transparent 42%)",
+              mixBlendMode: "soft-light",
+            }}
+          />
+        )}
     </div>
   );
 }
