@@ -9,13 +9,13 @@ export const SHOT_FRAMING: Record<ShotKind, ShotFraming> = {
     zoom: 1,
     offsetX: 0,
     offsetY: 0,
-    focusY: 40,
+    focusY: 34,
     showArm: true,
     drift: 0,
   },
-  body: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 38, showArm: false, drift: 0.2 },
-  face: { zoom: 1.02, offsetX: 0, offsetY: 0, focusY: 30, showArm: false, drift: 0.1 },
-  full: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 42, showArm: false, drift: 0.12 },
+  body: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 32, showArm: false, drift: 0.2 },
+  face: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 28, showArm: false, drift: 0.1 },
+  full: { zoom: 1, offsetX: 0, offsetY: 0, focusY: 36, showArm: false, drift: 0.12 },
 };
 
 /** Sensible default framing when a segment doesn't name one. */

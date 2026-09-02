@@ -14,8 +14,9 @@ interface SceneArtStageProps {
 }
 
 /**
- * Full-bleed scene PNG. One image per peel layer; camera shots are CSS crops
- * of that same portrait so you only generate 0.png / 1.png / 2.png / 3.png.
+ * Full-bleed scene PNG. Wide screens used to crop portraits to forehead;
+ * the girl is now shown with object-contain so face and chest stay in frame,
+ * with a blurred copy behind so the stage still fills the screen.
  */
 export function SceneArtStage({
   src,
@@ -48,13 +49,37 @@ export function SceneArtStage({
       if (!el) return;
       const phase = beatPhase();
       const breath = (1 - Math.cos(phase * Math.PI * 2)) / 2;
-      const breathScale = 1 + breath * (ahegao ? 0.006 : 0.0012);
-      const zoom = framing.zoom * (ahegao ? 1.03 : 1);
+      const breathScale = 1 + breath * 0.001;
+      const zoom = ahegao ? 1.02 : framing.zoom;
       el.style.transform = `scale(${(zoom * breathScale).toFixed(5)})`;
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, [animate, beatPhase, framing.zoom, ahegao]);
+
+  const portrait = (url: string, fading: boolean) => (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={url}
+        alt=""
+        aria-hidden
+        className={`absolute inset-0 h-full w-full object-cover opacity-45 blur-2xl scale-110 ${
+          fading ? "animate-[cut-in_420ms_ease_both]" : ""
+        }`}
+        draggable={false}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={url}
+        alt=""
+        className={`absolute inset-0 h-full w-full object-contain object-center ${
+          fading ? "animate-[cut-in_420ms_ease_both]" : ""
+        }`}
+        draggable={false}
+      />
+    </>
+  );
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-ink">
@@ -63,36 +88,20 @@ export function SceneArtStage({
         className="absolute inset-0 origin-center will-change-transform"
         style={{ transition: "none" }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={visibleSrc}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: `center ${ahegao ? 32 : framing.focusY}%` }}
-          draggable={false}
-        />
-        {fadeSrc && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={fadeSrc}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover animate-[cut-in_420ms_ease_both]"
-            style={{ objectPosition: `center ${ahegao ? 32 : framing.focusY}%` }}
-            draggable={false}
-          />
-        )}
+        {portrait(visibleSrc, false)}
+        {fadeSrc && portrait(fadeSrc, true)}
       </div>
-        {ahegao && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 28%, rgba(255,80,140,0.28), transparent 42%)",
-              mixBlendMode: "soft-light",
-            }}
-          />
-        )}
+      {ahegao && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 36%, rgba(255,80,140,0.22), transparent 48%)",
+            mixBlendMode: "soft-light",
+          }}
+        />
+      )}
     </div>
   );
 }
