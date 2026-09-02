@@ -118,17 +118,17 @@ export function ImageStage({
 
       const breath = (1 - Math.cos(phase * Math.PI * 2)) / 2;
       const tremble =
-        state.tremble > 0 ? Math.sin(now / 26) * state.tremble * 1.4 : 0;
+        state.tremble > 0 ? Math.sin(now / 26) * state.tremble * 0.1 : 0;
       const drift = shotFraming.drift
-        ? Math.sin(now / 4200) * shotFraming.drift * 0.8
+        ? Math.sin(now / 4200) * shotFraming.drift * 0.15
         : 0;
 
       const zoom = zoomSpring.step(shotFraming.zoom, dt);
       const offsetY = ySpring.step(shotFraming.offsetY, dt);
-      // Breathing on a flat image: a small vertical squash plus a lift.
-      const breathScale = 1 + breath * (manifest.breathing ?? 0.008);
-      const bounce = 1 + (1 - phase) * 0.008 * (0.4 + power);
-      const push = 1 + power * 0.08;
+      // Near-zero breathing — flat Pony art should barely move.
+      const breathScale = 1 + breath * Math.min(0.0015, manifest.breathing ?? 0.0015);
+      const bounce = 1 + (1 - phase) * 0.001;
+      const push = 1 + power * 0.01;
 
       if (rootRef.current) {
         rootRef.current.style.transform = [
@@ -146,7 +146,7 @@ export function ImageStage({
       }
 
       if (hairRef.current) {
-        const sway = (stroke - 0.5) * (2 + power * 3);
+        const sway = (stroke - 0.5) * 0.25;
         hairRef.current.style.transform = `rotate(${sway.toFixed(2)}deg)`;
       }
 
@@ -160,18 +160,14 @@ export function ImageStage({
         eyesRef.current.style.opacity = blinkEnd ? "1" : "0";
       }
 
-      // Mouth flap while she is mid-line.
+      // No mouth-flap reaction to dialogue.
       if (mouthRef.current) {
-        if (speakingRef.current) {
-          if (now >= nextFlap) {
-            nextFlap = now + 110 + Math.random() * 90;
-            flapOpen = !flapOpen;
-          }
-        } else {
-          flapOpen = false;
-        }
-        mouthRef.current.style.opacity = flapOpen ? "1" : "0";
+        flapOpen = false;
+        mouthRef.current.style.opacity = "0";
       }
+      void speakingRef.current;
+      void nextFlap;
+      void power;
     };
 
     raf = requestAnimationFrame(frame);

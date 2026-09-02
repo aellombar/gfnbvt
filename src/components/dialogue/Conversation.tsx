@@ -25,6 +25,7 @@ interface ConversationProps {
   affection: number;
   background: string;
   outfitLayer: number;
+  sceneId?: string;
   onChoice: (option: ChoiceOption) => void;
   onDone: () => void;
   ctaLabel: string;
@@ -39,6 +40,7 @@ export function Conversation({
   affection,
   background,
   outfitLayer,
+  sceneId,
   onChoice,
   onDone,
   ctaLabel,
@@ -136,12 +138,13 @@ export function Conversation({
           art={art}
           outfitLayer={outfitLayer}
           background={background}
-          speaking={!complete}
+          speaking={false}
           strokePosition={() => 0}
           beatPhase={() => 0}
           shot="full"
           intensity={0}
           animate
+          sceneId={sceneId}
         />
       </div>
 
