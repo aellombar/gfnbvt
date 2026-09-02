@@ -4,7 +4,7 @@ import { chaptersFor } from "@/data";
 import { getScene } from "@/data/scenes";
 import { MOOD_BLURBS, MOOD_LABELS, moodFor } from "@/lib/dialogue/MoodSystem";
 import { dropPngUrl } from "@/lib/art/dropUrl";
-import { DEFAULT_SHOT } from "@/lib/art/shots";
+import { DEFAULT_SHOT, SHOT_LABELS } from "@/lib/art/shots";
 import type { CharacterProgress } from "@/lib/save/SaveCodec";
 import type { CharacterProfile, Difficulty } from "@/lib/types";
 
