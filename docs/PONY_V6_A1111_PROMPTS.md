@@ -2,10 +2,10 @@
 
 ## Art direction (lock this in every prompt)
 
-**Target look:** like *Jedyne's Fappy Party* (Mosbles) — **flat simple colors**,
-hard cel shading, clean thick lineart, big expressive faces, indie hentai comic
-illustration. Not soft glossy CG, not painterly, **not 3D**. Keep backgrounds
-simple so she reads clearly.
+**Target look:** like *Jedyne's Fappy Party* (Mosbles) — **flat cel colors**,
+**thick bold outlines**, hard shadows, slightly more face/hair/outfit detail than
+a pure doodle, big expressive faces. Not soft glossy CG, not painterly, **not 3D**.
+Keep backgrounds simple so she reads clearly.
 
 ### A1111 settings (use for every generate)
 
@@ -13,16 +13,20 @@ simple so she reads clearly.
 | --- | --- |
 | Model | **Pony Diffusion V6 XL** (or your Pony merge that keeps `score_` tags) |
 | Sampling | DPM++ 2M Karras or Euler a |
-| Steps | 28–32 |
-| CFG | 6–7 |
+| Steps | **34** |
+| CFG | **7** |
 | Size | **832 × 1216** (portrait) |
 | Clip skip | 2 |
 | Seed | pick one seed **per girl** and reuse it for her peels so face stays locked |
 
+**Consistency tips:** lock seed per girl, keep the character block identical, only
+swap the peel line. FaceID / character LoRA still helps across scenes — see
+[`CHARACTER_CONSISTENCY.md`](./CHARACTER_CONSISTENCY.md).
+
 **Workflow per scene**
 1. Generate `0.png` (clothed) until the face/body are perfect. **Lock that seed.**
 2. Reuse the **same seed + same prompt**, only swap the outfit/peel tags → save as `1.png`, `2.png`, `3.png`.
-3. Drop files into `public/art/<scene-id>/` exactly as named. Done.
+3. Drop files into each pack's `DROP/image.png` (or `public/art/<scene-id>/`). Done.
 
 ### Queue ALL scenes at once
 
