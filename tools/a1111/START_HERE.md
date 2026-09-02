@@ -15,7 +15,7 @@ What *would* work later (optional, advanced):
 - Or you generate locally and just drop PNGs into `public/art/…` (this guide).
 
 Cursor’s built-in image tool is a **different model**, not Pony Diffusion V6,
-so it won’t match the Fappy-like 3D look you asked for.
+so it won’t match the Fappy Party 2D CG look.
 
 **Easiest path for a first-timer: use the WebUI with the copy folders below.**
 

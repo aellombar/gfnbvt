@@ -35,7 +35,7 @@ Copy-paste Automatic1111 prompts for every scene live in:
 
 **[`docs/PONY_V6_A1111_PROMPTS.md`](../docs/PONY_V6_A1111_PROMPTS.md)**
 
-Art direction: **Fappy Party–like intimate JOI CG, but more 3D** (anime Blender/Cycles look, soft SSS skin, expressive face).
+Art direction: **Fappy Party–style 2D anime CG** (polished visual-novel / hentai CG, expressive face — **not** 3D/Blender).
 
 ## Queue everything + same-girl lock
 
