@@ -39,13 +39,14 @@ Art direction: **Fappy Party–like intimate JOI CG, but more 3D** (anime Blende
 
 ## Queue everything + same-girl lock
 
-```bash
-python3 tools/a1111/build_queue.py
-```
+**First time?** Ignore the queue. Open:
 
-Then in A1111: Script → **Prompts from file or textbox** → load
-`tools/a1111/queue_prompts_from_file.txt`.
+1. [`tools/a1111/START_HERE.md`](../tools/a1111/START_HERE.md)
+2. [`tools/a1111/easy_copy/INDEX.md`](../tools/a1111/easy_copy/INDEX.md)
 
-How she stays the same girl across outfits/scenes:
-**[`docs/CHARACTER_CONSISTENCY.md`](../docs/CHARACTER_CONSISTENCY.md)**
-(short version: tags alone won't do it — lock a seed + FaceID/LoRA).
+Each `easy_copy/NN_…` folder has `POSITIVE.txt` + `NEGATIVE.txt` to paste
+straight into the WebUI, and `SAVE_AS.txt` for where the PNG goes.
+
+Cursor **cannot** drive your local A1111 API from the cloud (it can’t see your PC).
+
+How she stays the same girl: [`docs/CHARACTER_CONSISTENCY.md`](../docs/CHARACTER_CONSISTENCY.md)

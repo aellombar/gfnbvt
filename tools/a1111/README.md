@@ -1,45 +1,30 @@
-# Automatic1111 batch queue
+# Automatic1111 / Forge
+
+## First time? Start here
+
+**[`START_HERE.md`](./START_HERE.md)** — click-by-click WebUI guide.
+
+Then open **[`easy_copy/INDEX.md`](./easy_copy/INDEX.md)** and do one folder at a time
+(`POSITIVE.txt` / `NEGATIVE.txt` / `SAVE_AS.txt`).
+
+## Can Cursor attach to my A1111 API?
+
+No from the cloud agent — it cannot see `localhost` on your PC.
+Generate in the WebUI, drop PNGs into `public/art/…`, then commit.
 
 ## Same girl across scenes?
 
-SD does **not** remember characters by name. Read:
-
 **[`docs/CHARACTER_CONSISTENCY.md`](../../docs/CHARACTER_CONSISTENCY.md)**
 
-Minimum: lock one seed per girl in `build_queue.py` → `SEEDS`.
-Better: IP-Adapter FaceID reference, or a character LoRA.
-
-## Build the queue
+## Advanced overnight queue (later)
 
 ```bash
 python3 tools/a1111/build_queue.py
+python3 tools/a1111/make_easy_copy.py   # also refreshes easy_copy/
 ```
 
-Outputs:
-
-| File | What |
-| --- | --- |
-| `queue_prompts_from_file.txt` | Load in A1111 → Script → **Prompts from file or textbox** |
-| `queue_jobs.json` | Same jobs, machine-readable |
-| `rename_map.txt` | Where each finished PNG should land in `public/art/` |
-
-64 jobs = every peel of every scene.
-
-## Run in the WebUI
-
-1. Paste seeds into `SEEDS` in `build_queue.py`, rebuild
-2. Open Automatic1111 / Forge
-3. Script → **Prompts from file or textbox**
-4. Load `queue_prompts_from_file.txt`
-5. Generate — it walks the list
-6. Rename outputs using `rename_map.txt` into `public/art/<scene>/<n>.png`
-
-## Or hit the API (auto-saves into the game folders)
-
-Launch WebUI with `--api`, then:
+Or API (only if WebUI launched with `--api` **on your machine**):
 
 ```bash
 python3 tools/a1111/build_queue.py --api http://127.0.0.1:7860
 ```
-
-Refuses to run until all four `SEEDS` are set (not `-1`).
