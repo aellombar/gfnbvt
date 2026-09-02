@@ -180,7 +180,7 @@ export function ImageStage({
 
   if (!rig) return null;
 
-  const base = `/characters/${characterId}/`;
+  const base = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/characters/${characterId}/`;
   const grade = PHASE_GRADE[art.grade];
   const variants = rig.variants ?? {};
 
