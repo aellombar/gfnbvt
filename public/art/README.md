@@ -36,3 +36,16 @@ Copy-paste Automatic1111 prompts for every scene live in:
 **[`docs/PONY_V6_A1111_PROMPTS.md`](../docs/PONY_V6_A1111_PROMPTS.md)**
 
 Art direction: **Fappy Party–like intimate JOI CG, but more 3D** (anime Blender/Cycles look, soft SSS skin, expressive face).
+
+## Queue everything + same-girl lock
+
+```bash
+python3 tools/a1111/build_queue.py
+```
+
+Then in A1111: Script → **Prompts from file or textbox** → load
+`tools/a1111/queue_prompts_from_file.txt`.
+
+How she stays the same girl across outfits/scenes:
+**[`docs/CHARACTER_CONSISTENCY.md`](../docs/CHARACTER_CONSISTENCY.md)**
+(short version: tags alone won't do it — lock a seed + FaceID/LoRA).
