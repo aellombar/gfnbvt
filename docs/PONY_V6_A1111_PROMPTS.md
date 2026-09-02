@@ -25,6 +25,20 @@ not photoreal live-action.
 2. Reuse the **same seed + same prompt**, only swap the outfit/peel tags → save as `1.png`, `2.png`, `3.png`.
 3. Drop files into `public/art/<scene-id>/` exactly as named. Done.
 
+### Queue ALL scenes at once
+
+See **[`CHARACTER_CONSISTENCY.md`](./CHARACTER_CONSISTENCY.md)** (how the model
+keeps the same girl) and run:
+
+```bash
+python3 tools/a1111/build_queue.py
+```
+
+That writes `tools/a1111/queue_prompts_from_file.txt` for A1111's
+**Prompts from file or textbox** script — one line per peel, overnight-able.
+
+Without a locked seed / FaceID / LoRA, faces will drift. Tags alone are not enough.
+
 ---
 
 ## Shared positive style block
