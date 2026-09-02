@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: raven-house-rules   layer: 2   girl: raven
+Legacy alt: public/art/raven-house-rules/2.png

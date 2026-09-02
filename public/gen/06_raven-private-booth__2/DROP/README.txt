@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: raven-private-booth   layer: 2   girl: raven
+Legacy alt: public/art/raven-private-booth/2.png

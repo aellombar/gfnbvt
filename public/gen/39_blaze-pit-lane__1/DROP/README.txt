@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: blaze-pit-lane   layer: 1   girl: blaze
+Legacy alt: public/art/blaze-pit-lane/1.png

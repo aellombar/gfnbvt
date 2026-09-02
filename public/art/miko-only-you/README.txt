@@ -1,17 +1,28 @@
-SCENE: Only You (miko-only-you)
-GIRL: Miko
-OUTFIT START: Devotion White
+SCENE: miko-only-you
+GIRL: miko
 
-Drop your Pony Diffusion V6 PNGs in THIS folder with these exact names:
-  0.png, 1.png, 2.png, 3.png
+Two ways to drop art (game accepts both):
 
-Rules:
-  - 0.png = fully clothed / starting outfit
-  - 1.png = first peel (more revealing)
-  - 2.png = second peel
-  - 3.png = most revealing (only if listed above)
-  - Vertical portrait ~832x1216 or 1024x1536
-  - Same pose & camera across 0/1/2/3 — only clothes change
-  - No text, watermark, UI, or speech bubbles in the image
+PREFERRED — numbered gen packs (prompts already split per layer):
+  layer 0: public/gen/31_miko-only-you__0/DROP/image.png
+  layer 1: public/gen/32_miko-only-you__1/DROP/image.png
+  layer 2: public/gen/33_miko-only-you__2/DROP/image.png
+  layer 3: public/gen/34_miko-only-you__3/DROP/image.png
 
-That's it. Refresh the game. This scene will auto-switch from the SVG placeholder.
+OR legacy flat drop in THIS folder:
+  0.png  ←  0_POSITIVE.txt
+  1.png  ←  1_POSITIVE.txt
+  2.png  ←  2_POSITIVE.txt
+  3.png  ←  3_POSITIVE.txt
+
+How to generate (legacy path):
+1. Copy NEGATIVE.txt → A1111 Negative
+2. Match SETTINGS.txt (34 steps / CFG 7)
+3. For each layer, copy N_POSITIVE.txt → Prompt, Generate
+4. Save as N.png in this folder (0.png, 1.png, 2.png…)
+5. Refresh the game
+
+Poses change per layer (coach → wet/spread → climax). Same face/seed.
+Style: thick bold outlines, flat cel, slightly detailed face/hair.
+
+Also see: public/gen/INDEX.md

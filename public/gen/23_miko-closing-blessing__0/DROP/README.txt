@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: miko-closing-blessing   layer: 0   girl: miko
+Legacy alt: public/art/miko-closing-blessing/0.png

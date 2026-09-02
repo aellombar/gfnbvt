@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: seraph-fallen-for-you   layer: 1   girl: seraph
+Legacy alt: public/art/seraph-fallen-for-you/1.png

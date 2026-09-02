@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: blaze-rematch   layer: 2   girl: blaze
+Legacy alt: public/art/blaze-rematch/2.png

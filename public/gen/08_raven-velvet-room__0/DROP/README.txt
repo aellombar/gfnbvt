@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: raven-velvet-room   layer: 0   girl: raven
+Legacy alt: public/art/raven-velvet-room/0.png

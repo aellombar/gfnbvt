@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: seraph-soft-blasphemy   layer: 1   girl: seraph
+Legacy alt: public/art/seraph-soft-blasphemy/1.png

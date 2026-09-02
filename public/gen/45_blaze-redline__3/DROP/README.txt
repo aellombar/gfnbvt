@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: blaze-redline   layer: 3   girl: blaze
+Legacy alt: public/art/blaze-redline/3.png

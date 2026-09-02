@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: seraph-descent   layer: 1   girl: seraph
+Legacy alt: public/art/seraph-descent/1.png

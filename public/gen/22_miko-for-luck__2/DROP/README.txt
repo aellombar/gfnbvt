@@ -11,3 +11,4 @@ Steps:
 4. Refresh the game — this slot lights up automatically
 
 Scene: miko-for-luck   layer: 2   girl: miko
+Legacy alt: public/art/miko-for-luck/2.png

@@ -1,19 +1,31 @@
-# WHERE TO PUT YOUR ART
+# Scene art folders
 
-**Use the numbered folders in [`public/gen/`](../gen/INDEX.md).**
+Every scene has a folder here, e.g. **`blaze-pit-lane/`**.
+
+## Preferred path
+Use the numbered packs in [`../gen/INDEX.md`](../gen/INDEX.md):
 
 ```
-public/gen/01_raven-first-timer__0/
-  POSITIVE.txt      ← copy into A1111
-  NEGATIVE.txt
-  SETTINGS.txt
-  DROP/
-    image.png       ← put your generation HERE (exact name)
+public/gen/38_blaze-pit-lane__0/DROP/image.png
+public/gen/39_blaze-pit-lane__1/DROP/image.png
+…
 ```
 
-Refresh the game. No other copy step.
+## Legacy flat drop (still works)
+Or put files straight in the scene folder:
 
-Style locked in those prompts: **Fappy Party / Mosbles-like** — flat simple
-colors, hard cel shading, thick lineart, expressive face (not soft CG, not 3D).
+```
+public/art/blaze-pit-lane/0.png
+public/art/blaze-pit-lane/1.png
+public/art/blaze-pit-lane/2.png
+public/art/blaze-pit-lane/3.png
+```
 
-Legacy flat files (`public/art/<scene>/0.png`) still work if you prefer them.
+Each scene folder now includes:
+- `README.txt` — peels + both drop paths
+- `N_POSITIVE.txt` — prompt per layer
+- `NEGATIVE.txt` / `SETTINGS.txt`
+
+Game loads **gen DROP first**, then falls back to `art/<scene>/N.png`.
+
+Style: thick bold outlines, flat Mosbles cel, slightly detailed face/hair.
