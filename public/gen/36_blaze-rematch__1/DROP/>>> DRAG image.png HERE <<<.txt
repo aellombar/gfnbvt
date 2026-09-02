@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/blaze-rematch/DROP/1.png
+
+Scene: blaze-rematch   layer: 1   girl: blaze

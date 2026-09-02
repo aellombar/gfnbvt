@@ -13,4 +13,4 @@ Seed: -1  (random). After you like a face, copy the seed from the image info and
 
 Then click Generate.
 
-Save the PNG as:  public/gen/56_seraph-halo-slip__3/DROP/image.png
+Save / drag the PNG to:  public/art/seraph-halo-slip/DROP/3.png  (easiest)  OR  public/gen/56_seraph-halo-slip__3/DROP/image.png

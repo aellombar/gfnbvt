@@ -1,0 +1,9 @@
+DRAG YOUR GENERATED PNG INTO THIS FOLDER
+
+Exact filename:
+    image.png
+
+EASIER: use the scene DROP instead:
+    public/art/raven-velvet-room/DROP/3.png
+
+Scene: raven-velvet-room   layer: 3   girl: raven

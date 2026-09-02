@@ -13,4 +13,4 @@ Seed: -1  (random). After you like a face, copy the seed from the image info and
 
 Then click Generate.
 
-Save the PNG as:  public/gen/29_miko-private-offering__2/DROP/image.png
+Save / drag the PNG to:  public/art/miko-private-offering/DROP/2.png  (easiest)  OR  public/gen/29_miko-private-offering__2/DROP/image.png
