@@ -2,7 +2,9 @@
 
 import { CharacterStage } from "@/components/visual/CharacterStage";
 import { ImageStage } from "@/components/visual/ImageStage";
+import { SceneArtStage } from "@/components/visual/SceneArtStage";
 import { useRigManifest } from "@/lib/art/useRigManifest";
+import { useSceneArt } from "@/lib/art/useSceneArt";
 import type { ArtState, CharacterProfile, ShotKind } from "@/lib/types";
 
 interface CharacterViewProps {
@@ -16,17 +18,32 @@ interface CharacterViewProps {
   shot: ShotKind;
   intensity: number;
   animate: boolean;
+  /** When set, prefer drop-in PNGs from /public/art/{sceneId}/{layer}.png */
+  sceneId?: string;
 }
 
 /**
- * Single entry point for drawing a character.
- *
- * If a generated art pack exists at /characters/{id}/rig.json it is used;
- * otherwise the procedural SVG rig stands in. Every caller is identical
- * either way, so adding art never touches game code.
+ * Drawing order:
+ * 1. Per-scene drop-in art at /public/art/{sceneId}/0.png… (easiest — use this)
+ * 2. Legacy per-character rig.json packs
+ * 3. Procedural SVG placeholder
  */
 export function CharacterView(props: CharacterViewProps) {
+  const sceneArt = useSceneArt(props.sceneId);
   const { manifest } = useRigManifest(props.profile.id);
+
+  const sceneSrc = sceneArt.srcFor(props.outfitLayer);
+  if (sceneSrc) {
+    return (
+      <SceneArtStage
+        src={sceneSrc}
+        shot={props.shot}
+        intensity={props.intensity}
+        animate={props.animate}
+        beatPhase={props.beatPhase}
+      />
+    );
+  }
 
   if (manifest) {
     return (

@@ -117,6 +117,7 @@ export default function Page() {
           affection={save.characters[screen.character].affection}
           background={scene.background}
           outfitLayer={isPre ? 0 : 2}
+          sceneId={chapter.sceneId}
           ctaLabel={isPre ? "Hands off — begin" : "Back to the floor"}
           onChoice={(option) => onChoice(screen.character, option)}
           onDone={() => {

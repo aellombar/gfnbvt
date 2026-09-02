@@ -104,15 +104,15 @@ export function CharacterStage({
       const power = intensityRef.current;
       const state = artRef.current;
 
-      // Breathing: a slow chest rise locked to the pulse.
+      // Near-zero body reaction — just enough to not look frozen.
       const breath = (1 - Math.cos(phase * Math.PI * 2)) / 2;
       const tremble =
         state.tremble > 0
-          ? Math.sin(now / 26) * state.tremble * 1.6
+          ? Math.sin(now / 26) * state.tremble * 0.12
           : 0;
 
       if (bodyRef.current) {
-        const lift = 1 + breath * (0.010 + power * 0.008);
+        const lift = 1 + breath * 0.0015;
         bodyRef.current.setAttribute(
           "transform",
           `translate(${tremble} 0) translate(200 330) scale(1 ${lift.toFixed(4)}) translate(-200 -330)`,
@@ -120,11 +120,11 @@ export function CharacterStage({
       }
 
       if (headRef.current) {
-        const bob = breath * (1.6 + power * 1.4);
-        const tilt = state.arched ? -2.5 : 0;
+        const bob = breath * 0.15;
+        const tilt = state.arched ? -0.4 : 0;
         headRef.current.setAttribute(
           "transform",
-          `translate(${tremble * 0.6} ${bob.toFixed(2)}) rotate(${tilt} 200 170)`,
+          `translate(${tremble * 0.4} ${bob.toFixed(2)}) rotate(${tilt} 200 170)`,
         );
       }
 
@@ -148,8 +148,8 @@ export function CharacterStage({
         set(trailBRef.current, dir * 9, trail * 0.55);
       }
 
-      // Hair and cloth chase the body with a little lag.
-      const swayTarget = (stroke - 0.5) * (3 + power * 4) + (breath - 0.5) * 2;
+      // Tiny hair/cloth sway — no reaction to speaking.
+      const swayTarget = (stroke - 0.5) * 0.35 + (breath - 0.5) * 0.2;
       const hair = hairSpring.step(swayTarget, dt);
       hairBackRef.current?.setAttribute(
         "transform",
@@ -159,22 +159,21 @@ export function CharacterStage({
         "transform",
         `rotate(${(hair * 0.45).toFixed(2)} 200 128)`,
       );
-      const cloth = clothSpring.step(swayTarget * 1.3, dt);
+      const cloth = clothSpring.step(swayTarget * 0.8, dt);
       clothRef.current?.setAttribute(
         "transform",
         `rotate(${cloth.toFixed(2)} 200 380)`,
       );
 
-      // Camera: shot framing, plus push-in with the pace and a per-beat throb.
+      // Camera: shot framing only — almost no pulse push / throb.
       const shotFraming = framingRef.current;
       const shotZoom = shotZoomSpring.step(shotFraming.zoom, dt);
       const shotY = shotYSpring.step(shotFraming.offsetY, dt);
-      // Admiring shots drift slowly so a still frame never feels dead.
       const drift = shotFraming.drift
-        ? Math.sin(now / 4200) * shotFraming.drift * 6
+        ? Math.sin(now / 4200) * shotFraming.drift * 0.8
         : 0;
-      const zoom = zoomSpring.step(1 + power * 0.1, dt);
-      const bounce = 1 + (1 - phase) * 0.008 * (0.4 + power);
+      const zoom = zoomSpring.step(1 + power * 0.012, dt);
+      const bounce = 1 + (1 - phase) * 0.001;
       const scale = zoom * bounce * shotZoom;
       rootRef.current?.setAttribute(
         "transform",
@@ -197,17 +196,14 @@ export function CharacterStage({
         setBlinking(false);
       }
 
-      // Mouth flaps while she is mid-line.
-      if (speakingRef.current) {
-        if (now >= nextFlap) {
-          nextFlap = now + 110 + Math.random() * 90;
-          flapState = !flapState;
-          setMouthOpen(flapState);
-        }
-      } else if (flapState) {
+      // No mouth-flap reaction to dialogue text.
+      if (flapState) {
         flapState = false;
         setMouthOpen(false);
       }
+      void speakingRef.current;
+      void nextFlap;
+      void power;
     };
 
     raf = requestAnimationFrame(frame);

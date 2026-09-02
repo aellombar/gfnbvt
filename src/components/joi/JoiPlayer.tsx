@@ -2,10 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CharacterView } from "@/components/visual/CharacterView";
-import { LineText } from "@/components/dialogue/LineText";
 import { useSession } from "@/lib/joi/useSession";
-import { PHASE_COMMANDS } from "@/lib/joi/artStates";
-import { resolveShot, SHOT_LABELS } from "@/lib/art/shots";
+import { resolveShot } from "@/lib/art/shots";
 import type { CharacterProfile, Difficulty, Mood, Scene } from "@/lib/types";
 
 interface JoiPlayerProps {
@@ -90,7 +88,6 @@ export function JoiPlayer({
     setReady(true);
   }, [start]);
 
-  const command = PHASE_COMMANDS[state.segment.kind];
   const paused = externallyPaused || manualPause;
   const shot = resolveShot(
     state.segment.kind,
@@ -169,12 +166,13 @@ export function JoiPlayer({
           art={state.art}
           outfitLayer={state.outfitLayer}
           background={scene.background}
-          speaking={state.speaking}
+          speaking={false}
           strokePosition={strokePosition}
           beatPhase={beatPhase}
           shot={shot}
           intensity={intensity}
           animate={!paused}
+          sceneId={scene.id}
         />
       </div>
 
@@ -185,117 +183,27 @@ export function JoiPlayer({
         style={{ borderColor: signal }}
       />
 
-      {/* Top-left: broadcast state. Top-right: controls. */}
+      {/* Minimal chrome only — no dialogue / command text over the art. */}
       <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5 sm:p-7">
         <div className="flex items-center gap-3">
           <span className="rec-dot" style={{ background: signal }} />
-          <div>
-            <p className="data text-[11px] tracking-[0.18em]">
-              {timecode(state.elapsedMs)}
-            </p>
-            <p className="tag mt-0.5">
-              {profile.name} · ch {String(scene.chapter).padStart(2, "0")}
-            </p>
-          </div>
+          <p className="data text-[11px] tracking-[0.18em]">
+            {timecode(state.elapsedMs)}
+          </p>
         </div>
 
-        <div className="flex items-start gap-4">
-          <div className="text-right">
-            <p className="data text-[11px] tracking-[0.18em]">
-              {Math.round(state.bpm)} BPM
-            </p>
-            <p className="tag mt-0.5" style={{ color: signal }}>
-              {SHOT_LABELS[shot]}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setManualPause((p) => !p)}
-            aria-label={manualPause ? "Resume" : "Pause"}
-            className="tag border border-rule px-2 py-1 hover:text-paper"
-          >
-            {manualPause ? "▶" : "II"}
-          </button>
-        </div>
-      </div>
-
-      {/* Phase label, set vertically down the left edge. */}
-      <p
-        className="tag absolute left-5 top-1/2 hidden -translate-y-1/2 sm:block"
-        style={{
-          writingMode: "vertical-rl",
-          letterSpacing: "0.3em",
-          color: signal,
-        }}
-      >
-        {state.segment.label}
-      </p>
-
-      {/* Command word. */}
-      <div className="pointer-events-none absolute inset-x-0 top-[38%] text-center">
-        <p
-          className="display chroma text-[17vw] leading-none sm:text-[9rem]"
-          style={{
-            color: "#ece7dd",
-            opacity: state.segment.kind === "aftercare" ? 0.3 : 0.5,
-          }}
+        <button
+          type="button"
+          onClick={() => setManualPause((p) => !p)}
+          aria-label={manualPause ? "Resume" : "Pause"}
+          className="tag border border-rule bg-ink/60 px-2 py-1 hover:text-paper"
         >
-          {command}
-        </p>
+          {manualPause ? "▶" : "II"}
+        </button>
       </div>
 
-      {/* Lower third. */}
+      {/* Thin progress only. */}
       <div className="absolute inset-x-0 bottom-0">
-        <div className="bg-gradient-to-t from-ink via-ink/92 to-transparent px-5 pb-5 pt-28 sm:px-7">
-          <div className="mx-auto w-full max-w-4xl">
-            <div className="min-h-[7.5rem]">
-              {state.currentLine && (
-                <div
-                  key={state.currentLine.at}
-                  className="animate-[cut-in_180ms_steps(3,end)_both]"
-                >
-                  <div className="mb-2 flex items-center gap-2">
-                    <span
-                      className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] text-ink"
-                      style={{ background: signal }}
-                    >
-                      {profile.name}
-                    </span>
-                    {state.currentLine.kind === "thought" && (
-                      <span className="tag">thinking</span>
-                    )}
-                  </div>
-
-                  {state.currentLine.kind === "thought" ? (
-                    <p className="text-xl italic leading-snug text-paper-dim sm:text-2xl">
-                      {state.currentLine.display}
-                    </p>
-                  ) : (
-                    <p
-                      className={
-                        state.currentLine.kind === "interrupt"
-                          ? "border-l-2 pl-3"
-                          : ""
-                      }
-                      style={{
-                        borderColor: signal,
-                        textShadow: "0 2px 20px rgba(0,0,0,0.9)",
-                      }}
-                    >
-                      <LineText
-                        text={state.currentLine.display}
-                        profile={profile}
-                        petName={petName}
-                      />
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Segmented progress: one cell per phase, filled as you go. */}
         <div className="flex h-1.5 w-full gap-px bg-ink">
           <div
             className="h-full"
@@ -310,9 +218,6 @@ export function JoiPlayer({
           <div className="slab-signal w-full max-w-sm p-6">
             <p className="tag">[ paused ]</p>
             <p className="display mt-3 text-3xl">She&apos;ll wait</p>
-            <p className="mt-3 text-sm text-paper-dim">
-              Take your time. Nothing is lost.
-            </p>
             <button
               type="button"
               onClick={() => setManualPause(false)}
