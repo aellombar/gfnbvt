@@ -4,6 +4,7 @@ import { CharacterView } from "@/components/visual/CharacterView";
 import { CHARACTERS, CHARACTER_IDS } from "@/data/characters";
 import { chaptersFor, scenesFor } from "@/data";
 import { artStateFor } from "@/lib/joi/artStates";
+import { homeSceneId } from "@/lib/art/dropUrl";
 import type { SaveState } from "@/lib/save/SaveCodec";
 
 const LAYER_NAMES = ["Dressed", "Open", "Underneath", "Bare"];
@@ -94,6 +95,7 @@ export function Gallery({
                           )}
                           outfitLayer={layer}
                           background={profile.homeBackground}
+                          sceneId={homeSceneId(id)}
                           speaking={false}
                           strokePosition={() => 0}
                           beatPhase={() => 0}

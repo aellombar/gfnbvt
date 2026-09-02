@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ahegaoPngUrl, dropPngUrl } from "@/lib/art/dropUrl";
 
 /**
- * Scene art from public/gen/.../DROP/image.png (preferred) or legacy
- * public/art/{sceneId}/{layer}.png.
+ * Scene art drop paths (first hit wins):
+ *   1) public/art/{sceneId}/DROP/{layer}.png     ← easiest drag & drop
+ *   2) public/gen/{pack}/DROP/image.png          ← numbered packs
+ *   3) public/art/{sceneId}/{layer}.png          ← legacy flat
  *
- * Gen packs live under public/gen/01_raven-first-timer__0/DROP/image.png
  * Manifest: public/gen/manifest.json
  */
 
@@ -15,7 +17,10 @@ type Manifest = Record<string, Record<string, string>>;
 const manifestCache: { value: Manifest | null; loading: Promise<Manifest | null> | null } =
   { value: null, loading: null };
 
-const layerCache = new Map<string, { layers: number[]; urls: Record<number, string> }>();
+const layerCache = new Map<
+  string,
+  { layers: number[]; urls: Record<number, string>; ahegaoUrl: string | null }
+>();
 
 function basePath(): string {
   return process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -59,7 +64,6 @@ async function probeUrl(url: string): Promise<boolean> {
   }
 }
 
-/** Candidate URLs for one peel layer, preferred first. */
 function candidates(
   sceneId: string,
   layer: number,
@@ -67,11 +71,11 @@ function candidates(
 ): string[] {
   const base = basePath();
   const list: string[] = [];
+  list.push(dropPngUrl(sceneId, layer));
   const folder = manifest?.[sceneId]?.[String(layer)];
   if (folder) {
     list.push(`${base}/gen/${folder}/DROP/image.png`);
   }
-  // Legacy flat drop
   list.push(`${base}/art/${sceneId}/${layer}.png`);
   return list;
 }
@@ -87,18 +91,31 @@ async function resolveLayer(
   return null;
 }
 
+function optimisticEntry(sceneId: string) {
+  const urls: Record<number, string> = {};
+  const layers: number[] = [];
+  for (let i = 0; i <= 3; i++) {
+    layers.push(i);
+    urls[i] = dropPngUrl(sceneId, i);
+  }
+  return { layers, urls, ahegaoUrl: ahegaoPngUrl(sceneId) };
+}
+
 export function useSceneArt(sceneId: string | undefined): {
   layers: number[] | null;
   loading: boolean;
+  ahegaoSrc: string | null;
   srcFor: (outfitLayer: number) => string | null;
 } {
   const [entry, setEntry] = useState<{
     layers: number[];
     urls: Record<number, string>;
-  } | null>(() => (sceneId ? layerCache.get(sceneId) ?? null : null));
-  const [loading, setLoading] = useState(() =>
-    Boolean(sceneId && !layerCache.has(sceneId)),
-  );
+    ahegaoUrl: string | null;
+  } | null>(() => {
+    if (!sceneId) return null;
+    return layerCache.get(sceneId) ?? optimisticEntry(sceneId);
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!sceneId) {
@@ -112,6 +129,8 @@ export function useSceneArt(sceneId: string | undefined): {
       return;
     }
 
+    setEntry(optimisticEntry(sceneId));
+
     let cancelled = false;
     (async () => {
       const manifest = await loadManifest();
@@ -124,7 +143,12 @@ export function useSceneArt(sceneId: string | undefined): {
           urls[i] = url;
         }
       }
-      const next = { layers, urls };
+      const ahegaoHit = await probeUrl(ahegaoPngUrl(sceneId));
+      const ahegaoUrl = ahegaoHit ? ahegaoPngUrl(sceneId) : null;
+      const next =
+        layers.length > 0
+          ? { layers, urls, ahegaoUrl }
+          : optimisticEntry(sceneId);
       layerCache.set(sceneId, next);
       if (!cancelled) {
         setEntry(next);
@@ -150,6 +174,7 @@ export function useSceneArt(sceneId: string | undefined): {
   return {
     layers: entry && entry.layers.length > 0 ? entry.layers : null,
     loading,
+    ahegaoSrc: entry?.ahegaoUrl ?? null,
     srcFor,
   };
 }

@@ -6,17 +6,15 @@ import type { PhaseKind, ShotFraming, ShotKind } from "@/lib/types";
  */
 export const SHOT_FRAMING: Record<ShotKind, ShotFraming> = {
   "pace-mirror": {
-    zoom: 1.05,
+    zoom: 1,
     offsetX: 0,
-    offsetY: 20,
+    offsetY: 4,
     showArm: true,
     drift: 0,
   },
-  // Pulled back and slowly drifting, for admiring her.
-  body: { zoom: 0.98, offsetX: 0, offsetY: 40, showArm: false, drift: 1 },
-  // Tight on the face, where the escalation reads strongest.
-  face: { zoom: 1.9, offsetX: 0, offsetY: -108, showArm: false, drift: 0.35 },
-  full: { zoom: 1, offsetX: 0, offsetY: 0, showArm: false, drift: 0.5 },
+  body: { zoom: 1, offsetX: 0, offsetY: 2, showArm: false, drift: 0.2 },
+  face: { zoom: 1.18, offsetX: 0, offsetY: -8, showArm: false, drift: 0.15 },
+  full: { zoom: 1, offsetX: 0, offsetY: 0, showArm: false, drift: 0.15 },
 };
 
 /** Sensible default framing when a segment doesn't name one. */

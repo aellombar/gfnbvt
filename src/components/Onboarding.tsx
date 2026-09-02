@@ -6,6 +6,7 @@ import { PaceEngine } from "@/lib/joi/PaceEngine";
 import { artStateFor } from "@/lib/joi/artStates";
 import { CHARACTERS } from "@/data/characters";
 import { useGameStore } from "@/stores/gameStore";
+import { homeSceneId } from "@/lib/art/dropUrl";
 
 const STEPS = [
   {
@@ -80,6 +81,7 @@ export function Onboarding() {
           shot={demoing ? "pace-mirror" : "body"}
           intensity={demoing ? 0.5 : 0}
           animate
+          sceneId={homeSceneId(profile.id)}
         />
       </div>
 
