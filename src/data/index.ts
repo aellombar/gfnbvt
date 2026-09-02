@@ -9,11 +9,13 @@ import { BLAZE_CHAPTERS, BLAZE_REPLIES } from "@/data/chapters/blaze";
 import { SERAPH_CHAPTERS, SERAPH_REPLIES } from "@/data/chapters/seraph";
 import { SCENES } from "@/data/scenes";
 
+import { withGoonHeat } from "@/data/lines/goon";
+
 export const LINES: Record<CharacterId, CharacterLines> = {
-  raven: RAVEN_LINES,
-  miko: MIKO_LINES,
-  blaze: BLAZE_LINES,
-  seraph: SERAPH_LINES,
+  raven: withGoonHeat("raven", RAVEN_LINES),
+  miko: withGoonHeat("miko", MIKO_LINES),
+  blaze: withGoonHeat("blaze", BLAZE_LINES),
+  seraph: withGoonHeat("seraph", SERAPH_LINES),
 };
 
 export const CHAPTERS: Record<CharacterId, Chapter[]> = {

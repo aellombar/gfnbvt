@@ -17,15 +17,15 @@ import type {
   Scene,
 } from "@/lib/types";
 
-/** How often she speaks during each phase. Faster pace, more encouragement. */
+/** How often she speaks during each phase. Fast praise, faster finish. */
 const LINE_INTERVAL_MS: Record<PaceSegment["kind"], number> = {
-  warmup: 7000,
-  groove: 6500,
-  push: 5500,
-  sprint: 4200,
-  rest: 5000,
-  finish: 3400,
-  aftercare: 6000,
+  warmup: 3800,
+  groove: 3200,
+  push: 2400,
+  sprint: 1800,
+  rest: 3200,
+  finish: 1400,
+  aftercare: 3600,
 };
 
 /** How long her mouth keeps moving after a new line appears. */
@@ -54,6 +54,8 @@ export interface SessionState {
   currentLine: SpokenLine | null;
   speaking: boolean;
   outfitLayer: number;
+  /** Cycles DROP stills every few seconds so JOI is not stuck on one photo. */
+  photoIndex: number;
   peakBpm: number;
 }
 
@@ -126,6 +128,7 @@ export function useSession(options: UseSessionOptions) {
     currentLine: null,
     speaking: false,
     outfitLayer: 0,
+    photoIndex: 0,
     peakBpm: 0,
   }));
 
@@ -240,6 +243,9 @@ export function useSession(options: UseSessionOptions) {
       const line = pendingLine;
       pendingLine = null;
 
+      const PHOTO_MS = 3200;
+      const photoIndex = Math.floor(elapsed / PHOTO_MS);
+
       setState((prev) => ({
         ...prev,
         started: true,
@@ -252,6 +258,7 @@ export function useSession(options: UseSessionOptions) {
         art: artStateFor(segment.kind, ahegao, progress),
         currentLine: line ?? prev.currentLine,
         outfitLayer: Math.max(nextLayer, prev.outfitLayer),
+        photoIndex,
         peakBpm,
       }));
 
