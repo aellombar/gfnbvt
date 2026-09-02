@@ -51,37 +51,43 @@ SEEDS = {
     "seraph": -1,
 }
 
+# Flat Mosbles/Fappy cel look, but thicker outlines + a bit more face/outfit detail.
+# Keep composition tags stable across peels (no global pose tags — poses live in peels).
 STYLE = """score_9, score_8_up, score_7_up, source_anime, rating_explicit,
-1girl, solo, adult woman, 20s, looking at viewer, eye contact, seductive smile,
-2d, anime, flat color, flat colors, simple coloring, cel shading, hard shadow,
-clean lineart, thick lineart, expressive face, large expressive eyes,
-indie hentai illustration, comic style, simple shapes, limited palette,
-lewd, erotic, NSFW, aroused, flushed, bedroom eyes, heavy breathing,
-vertical composition, centered, simple background,
-erotic atmosphere, JOI coach pose, watching viewer masturbate"""
+1girl, solo, adult woman, 20s, looking at viewer, eye contact,
+2d, anime, flat color, flat colors, cel shading, hard cel shadow,
+(thick lineart:1.3), (bold outlines:1.2), heavy black outlines, crisp clean lineart,
+outlined, comic linework, indie hentai illustration, comic style,
+detailed face, detailed eyes, detailed hair, slightly detailed clothing,
+expressive face, large expressive eyes, clear facial features,
+same character, consistent face, consistent anatomy, stable identity,
+lewd, erotic, NSFW, aroused, flushed, bedroom eyes,
+vertical composition, centered, simple background, erotic atmosphere"""
 
 NEGATIVE = """score_6, score_5, score_4, text, watermark, logo, signature, username,
 speech bubble, ui, border, frame, monochrome, sketch, rough, unfinished,
+thin lineart, thin outlines, sketchy lines, broken lineart, faded lines, soft outlines,
 3d, blender, cycles, raytracing, unreal engine, octane, cgi, plastic skin,
-soft shading, soft gradients, painterly, oil painting, photorealistic,
+soft shading, soft gradients, painterly, oil painting, watercolor, photorealistic,
 realistic photo, raw photo, subsurface scattering, ambient occlusion,
-intricate details, busy background, hyper detailed, glossy skin,
+busy background, cluttered, overdetailed background, glossy skin, shiny plastic,
+inconsistent face, different person, face morph, style drift, mutated face,
 ugly, deformed, bad anatomy, bad hands, extra fingers, fused fingers, extra limbs,
 child, loli, underage, young, teen, flat chest, lowres, blurry"""
 
 CHARS = {
     "raven": """raven, long straight black hair, blunt bangs, deep red eyes, pale skin,
 slim waist, medium breasts, calm confident expression, soft half-lidded eyes,
-smoky beauty mark under left eye""",
+smoky beauty mark under left eye, sharp jaw, same raven face every image""",
     "miko": """miko, long dark brown almost-black hair with soft side bangs, warm amber-brown eyes,
 fair warm skin, gentle smile, soft blush, medium breasts, devoted expression,
-shrine maiden beauty""",
+shrine maiden beauty, small mole near collarbone, same miko face every image""",
     "blaze": """blaze, short messy bright orange-red hair, cyan-teal eyes, tanned warm skin,
 athletic toned body, medium-large breasts, sharp playful grin, hyped expression,
-racing girlfriend energy""",
+racing girlfriend energy, freckles across nose, same blaze face every image""",
     "seraph": """seraph, long wavy pale platinum-blonde hair, soft lavender-blue eyes, porcelain skin,
 serene expression, large soft breasts, gentle smile, fallen angel beauty,
-faint cracked golden halo behind head""",
+faint cracked golden halo behind head, soft gold iris flecks, same seraph face every image""",
 }
 
 # scene_id, girl, setting, peels[0..n]
@@ -353,7 +359,7 @@ def build_jobs() -> list[dict]:
         for layer, peel in enumerate(peels):
             prompt = clean(
                 f"{STYLE}, {CHARS[girl]}, {setting}, {peel}, "
-                f"same character identity, consistent face, character sheet lock"
+                f"character sheet, official character art, identity lock"
             )
             filename = f"{scene_id}__{layer}.png"
             jobs.append(
@@ -382,7 +388,7 @@ def write_files(jobs: list[dict]) -> None:
         # Keep prompt on one line; escape nothing special needed for the script.
         lines.append(
             f'{job["prompt"]} --negative_prompt "{job["negative"]}"'
-            f"{seed_flag} --steps 30 --cfg_scale 6.5 --width 832 --height 1216 "
+            f"{seed_flag} --steps 34 --cfg_scale 7 --width 832 --height 1216 "
             f"--clip_skip 2  # => {job['save_as']}  DROP: {job['drop_to']}"
         )
         rename.append(f"{job['save_as']}  ->  {job['drop_to']}")
@@ -415,8 +421,8 @@ def queue_api(jobs: list[dict], base: str) -> None:
             "prompt": job["prompt"],
             "negative_prompt": job["negative"],
             "seed": job["seed"],
-            "steps": 30,
-            "cfg_scale": 6.5,
+            "steps": 34,
+            "cfg_scale": 7,
             "width": 832,
             "height": 1216,
             "sampler_name": "DPM++ 2M Karras",

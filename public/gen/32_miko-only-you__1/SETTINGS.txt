@@ -2,8 +2,8 @@ In Automatic1111 / Forge txt2img tab:
 
 Checkpoint / model:  Pony Diffusion V6 XL
 Sampling method:     DPM++ 2M Karras   (or Euler a)
-Sampling steps:      30
-CFG Scale:           6.5
+Sampling steps:      34
+CFG Scale:           7
 Width:               832
 Height:              1216
 Batch count:         1

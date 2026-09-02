@@ -3,6 +3,9 @@
 Poses are locked to chapter + JOI dialogue (coach → peel → wet/spread → climax freaky).
 Do not swap peels across layers — `__0` is clothed coach, last layer is finish-freaky.
 
+Style lock: thick bold outlines, flat cel color, slightly detailed face/hair/outfit.
+Use SETTINGS.txt as written (34 steps / CFG 7). Lock one seed per girl.
+
 For each folder, in order:
 1. Copy `POSITIVE.txt` → A1111 Prompt
 2. Copy `NEGATIVE.txt` → A1111 Negative prompt
