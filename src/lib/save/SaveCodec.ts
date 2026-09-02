@@ -40,7 +40,14 @@ export interface SaveState {
   stats: SaveStats;
 }
 
-const CHARACTER_ORDER: CharacterId[] = ["raven", "miko"];
+/** Append-only: adding a character must not shift existing slots in a code. */
+const CHARACTER_ORDER: CharacterId[] = ["raven", "miko", "blaze", "seraph"];
+const CHARACTER_NAMES: Record<CharacterId, string> = {
+  raven: "Raven",
+  miko: "Miko",
+  blaze: "Blaze",
+  seraph: "Seraph",
+};
 const STYLE_ORDER: ResponseStyle[] = [
   "sweet",
   "flirty",
@@ -77,7 +84,12 @@ export function createEmptySave(): SaveState {
     playerName: "",
     petName: "good boy",
     chips: 200,
-    characters: { raven: character(), miko: character() },
+    characters: {
+      raven: character(),
+      miko: character(),
+      blaze: character(),
+      seraph: character(),
+    },
     settings: {
       pulseVolume: 0.8,
       voiceVolume: 0.9,
@@ -289,14 +301,17 @@ export function decodeSave(code: string): SaveState {
 
 /** Short human summary shown before an import overwrites a slot. */
 export function describeSave(state: SaveState): string {
-  const parts = CHARACTER_ORDER.map((id) => {
-    const c = state.characters[id];
-    const name = id === "raven" ? "Raven" : "Miko";
-    return `${name} Ch.${c.chapter}`;
-  });
+  // Only mention girls the player has actually started, so the summary stays
+  // readable as the cast grows.
+  const started = CHARACTER_ORDER.filter(
+    (id) => state.characters[id].completedScenes.length > 0,
+  ).map((id) => `${CHARACTER_NAMES[id]} Ch.${state.characters[id].chapter}`);
+
   const outfits = CHARACTER_ORDER.reduce(
     (total, id) => total + state.characters[id].unlockedOutfits.length,
     0,
   );
-  return `${parts.join(" · ")} · ${outfits} outfits · ${state.chips} chips`;
+
+  const progress = started.length ? started.join(" · ") : "Fresh start";
+  return `${progress} · ${outfits} outfits · ${state.chips} chips`;
 }

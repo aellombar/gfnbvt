@@ -24,30 +24,28 @@ export function Gallery({
   const stats = save.stats;
 
   return (
-    <div className="animate-[fade-up_320ms_ease-out_both] space-y-8">
+    <div className="animate-[cut-in_180ms_steps(3,end)_both] space-y-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Collection</h2>
+        <h2 className="display text-5xl">Archive</h2>
         <button
           type="button"
           onClick={onClose}
-          className="text-xs uppercase tracking-[0.2em] text-white/45 transition hover:text-white"
+          className="tag hover:text-paper"
         >
           Close
         </button>
       </div>
 
-      <section className="panel grid grid-cols-2 gap-4 rounded-2xl p-5 sm:grid-cols-4">
+      <section className="grid grid-cols-2 gap-px border border-rule bg-rule sm:grid-cols-4">
         {[
           { label: "Sessions", value: String(stats.sessionsCompleted) },
           { label: "Longest", value: formatDuration(stats.longestSessionMs) },
           { label: "Peak pace", value: stats.peakBpm ? `${stats.peakBpm} bpm` : "—" },
           { label: "Day streak", value: String(stats.streakDays) },
         ].map((stat) => (
-          <div key={stat.label}>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-white/40">
-              {stat.label}
-            </p>
-            <p className="mt-1 text-xl font-semibold tabular-nums">{stat.value}</p>
+          <div key={stat.label} className="bg-ink-2 p-4">
+            <p className="tag">{stat.label}</p>
+            <p className="data mt-1 text-lg">{stat.value}</p>
           </div>
         ))}
       </section>
@@ -71,9 +69,9 @@ export function Gallery({
         return (
           <section key={id} className="space-y-4">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <h3 className="text-lg font-semibold">{profile.name}</h3>
-              <span className="text-xs text-white/45">
-                {completion}% complete · affection {progress.affection}
+              <h3 className="display text-3xl">{profile.name}</h3>
+              <span className="data text-[11px] text-paper-dim">
+                {completion}% · aff {progress.affection}
               </span>
             </div>
 
@@ -83,9 +81,7 @@ export function Gallery({
                 return (
                   <div
                     key={layer}
-                    className={`panel overflow-hidden rounded-2xl ${
-                      unlocked ? "" : "opacity-30"
-                    }`}
+                    className={`border border-rule bg-ink-2 ${unlocked ? "" : "opacity-30"}`}
                   >
                     <div className="relative h-40">
                       {unlocked ? (
@@ -97,7 +93,7 @@ export function Gallery({
                             0,
                           )}
                           outfitLayer={layer}
-                          background={id === "miko" ? "shrine" : "booth"}
+                          background={profile.homeBackground}
                           speaking={false}
                           strokePosition={() => 0}
                           beatPhase={() => 0}
@@ -106,12 +102,12 @@ export function Gallery({
                           animate={false}
                         />
                       ) : (
-                        <div className="flex h-full items-center justify-center text-xs text-white/30">
-                          Locked
+                        <div className="flex h-full items-center justify-center">
+                          <span className="tag">locked</span>
                         </div>
                       )}
                     </div>
-                    <p className="px-3 py-2 text-[11px] text-white/55">
+                    <p className="tag border-t border-rule px-3 py-2">
                       {LAYER_NAMES[layer]}
                     </p>
                   </div>
@@ -119,21 +115,18 @@ export function Gallery({
               })}
             </div>
 
-            <div className="panel rounded-2xl p-4">
-              <p className="text-[10px] uppercase tracking-[0.18em] text-white/40">
-                Still to unlock
-              </p>
-              <ul className="mt-2 space-y-1.5 text-xs text-white/60">
+            <div className="slab p-4">
+              <p className="tag border-b border-rule pb-2">still to unlock</p>
+              <ul className="mt-3 space-y-1.5 text-xs text-paper-dim">
                 {scenes.map((scene) => {
                   const done = progress.completedScenes.includes(scene.id);
                   return (
                     <li key={scene.id} className="flex items-center gap-2">
                       <span
-                        className={`inline-block h-1.5 w-1.5 rounded-full ${
-                          done ? "bg-mint" : "bg-white/25"
-                        }`}
+                        className="inline-block h-1.5 w-1.5"
+                        style={{ background: done ? profile.theme.primary : "var(--color-rule)" }}
                       />
-                      <span className={done ? "text-white/40 line-through" : ""}>
+                      <span className={done ? "text-paper-dim/50 line-through" : ""}>
                         {scene.title} — {scene.outfit}
                       </span>
                     </li>

@@ -13,79 +13,124 @@ interface CharacterSelectProps {
   onSelect: (id: CharacterId) => void;
 }
 
+/** Channel list rather than a grid of cards — big index numbers, hard rules. */
 export function CharacterSelect({ progress, onSelect }: CharacterSelectProps) {
   const art = artStateFor("groove", "none", 0);
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2">
-      {CHARACTER_IDS.map((id) => {
+    <div className="border-t border-rule">
+      {CHARACTER_IDS.map((id, index) => {
         const profile = CHARACTERS[id];
         const chapters = chaptersFor(id);
         const done = progress[id].completedScenes.length;
         const mood = moodFor(id);
+        const seeded = chapters.length <= 1;
 
         return (
           <button
             key={id}
             type="button"
             onClick={() => onSelect(id)}
-            className="panel group relative overflow-hidden rounded-3xl text-left transition hover:border-blush/50"
+            data-signal
+            style={{ ["--signal" as string]: profile.theme.primary }}
+            className="group relative block w-full border-b border-rule text-left transition-colors hover:bg-ink-2"
           >
-            <div className="relative h-64 overflow-hidden">
-              <CharacterView
-                profile={profile}
-                art={art}
-                outfitLayer={0}
-                background={id === "miko" ? "shrine" : "booth"}
-                speaking={false}
-                strokePosition={() => 0}
-                beatPhase={() => 0}
-                shot="body"
-                intensity={0}
-                animate
-              />
-              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-velvet to-transparent" />
-              <span
-                className="absolute left-4 top-4 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                style={{
-                  background: profile.theme.glow,
-                  color: profile.theme.primary,
-                }}
-              >
-                {MOOD_LABELS[mood]} today
-              </span>
-            </div>
-
-            <div className="p-5">
-              <div className="flex items-baseline justify-between gap-3">
-                <h3 className="text-xl font-semibold">{profile.name}</h3>
-                <span className="text-[11px] uppercase tracking-[0.16em] text-white/40">
-                  {done}/{chapters.length} chapters
+            <div className="grid grid-cols-[3.25rem_1fr] items-stretch sm:grid-cols-[4.5rem_11rem_1fr]">
+              {/* Channel number. */}
+              <div className="flex items-start justify-center border-r border-rule py-5">
+                <span className="data text-xs text-paper-dim">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
               </div>
-              <p
-                className="mt-1 text-xs uppercase tracking-[0.16em]"
-                style={{ color: profile.theme.primary }}
-              >
-                {profile.archetype}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">
-                {profile.tagline}
-              </p>
-              <p className="mt-3 text-xs italic text-white/40">
-                {MOOD_BLURBS[mood]}
-              </p>
 
-              <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/10">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${(done / chapters.length) * 100}%`,
-                    background: `linear-gradient(90deg, ${profile.theme.secondary}, ${profile.theme.primary})`,
-                  }}
+              {/* Preview feed. */}
+              <div className="relative hidden h-44 overflow-hidden border-r border-rule sm:block">
+                <CharacterView
+                  profile={profile}
+                  art={art}
+                  outfitLayer={0}
+                  background={profile.homeBackground}
+                  speaking={false}
+                  strokePosition={() => 0}
+                  beatPhase={() => 0}
+                  shot="body"
+                  intensity={0}
+                  animate
                 />
+                <span
+                  className="absolute left-0 top-0 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-ink"
+                  style={{ background: profile.theme.primary }}
+                >
+                  live
+                </span>
+              </div>
+
+              {/* Details. */}
+              <div className="flex flex-col justify-between gap-4 p-4 sm:p-5">
+                <div>
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <h3 className="display text-3xl sm:text-4xl">
+                      {profile.name}
+                    </h3>
+                    <span
+                      className="tag"
+                      style={{ color: profile.theme.primary }}
+                    >
+                      {profile.archetype}
+                    </span>
+                  </div>
+
+                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-paper-dim">
+                    {profile.tagline}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                  <span className="tag">
+                    mood · {MOOD_LABELS[mood].toLowerCase()}
+                  </span>
+                  <span className="tag hidden md:inline">
+                    {MOOD_BLURBS[mood]}
+                  </span>
+                  <span className="data ml-auto text-[11px] text-paper-dim">
+                    {done}/{chapters.length} ch
+                  </span>
+                  {seeded && (
+                    <span
+                      className="border px-1.5 py-0.5 text-[9px] uppercase tracking-[0.16em]"
+                      style={{
+                        borderColor: "var(--color-warn)",
+                        color: "var(--color-warn)",
+                      }}
+                    >
+                      seed script
+                    </span>
+                  )}
+                </div>
+
+                {/* Progress as a segmented bar, one cell per chapter. */}
+                <div className="flex gap-0.5">
+                  {chapters.map((chapter, i) => (
+                    <span
+                      key={chapter.sceneId}
+                      className="h-1 flex-1"
+                      style={{
+                        background:
+                          i < done
+                            ? profile.theme.primary
+                            : "var(--color-rule)",
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
+
+            {/* Hover marker. */}
+            <span
+              className="absolute bottom-0 left-0 top-0 w-[3px] opacity-0 transition-opacity group-hover:opacity-100"
+              style={{ background: profile.theme.primary }}
+            />
           </button>
         );
       })}

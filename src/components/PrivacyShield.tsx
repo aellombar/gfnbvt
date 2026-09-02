@@ -54,8 +54,8 @@ export function PrivacyShield({
           ))}
         </div>
         <div className="mt-10 h-32 rounded-lg bg-[#eef1f4]" />
-        <p className="mt-10 text-[11px] text-[#98a2ad]">
-          Press any key to resume.
+        <p className="mt-10 font-mono text-[10px] tracking-[0.2em] text-[#98a2ad]">
+          PRESS ANY KEY TO RESUME
         </p>
       </div>
     </div>

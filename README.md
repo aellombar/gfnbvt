@@ -7,6 +7,26 @@ sessions where she sets the rhythm and you follow along.
 **Adults only.** Fictional characters. Virtual chips only — no real-money
 wagering.
 
+## Art direction
+
+The UI is deliberately **late-night analog broadcast**, not generic dark mode:
+
+- Near-black ground with a fixed film-grain and scanline overlay
+- **Nothing is rounded and nothing is frosted.** Hard edges, hairline 1px
+  rules, and offset hard shadows instead of blurs
+- Oversized heavy condensed uppercase headlines (Anton), angular body text
+  (Chakra Petch), and monospace (JetBrains Mono) for every number, label,
+  timecode and save code
+- One **solid signal colour per character**, never a gradient. It is exposed as
+  a `--signal` CSS variable on a `[data-signal]` wrapper so nested components
+  pick it up without prop drilling
+- Broadcast furniture as real UI: channel numbers, a blinking rec dot, running
+  timecode, colour bars, vertical rail type, and chromatic-offset display text
+
+Design tokens and utilities live in
+[`src/app/globals.css`](src/app/globals.css) — `.display`, `.tag`, `.data`,
+`.slab`, `.btn-paper`, `.btn-ghost`, `.chroma`, `.field`.
+
 ## Design rules
 
 Three rules shape every system in the codebase:

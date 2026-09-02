@@ -60,7 +60,7 @@ export function LineText({
 
         if (isBreath) {
           return (
-            <span key={index} className="italic text-white/55">
+            <span key={index} className="italic text-paper-dim">
               {part}
             </span>
           );

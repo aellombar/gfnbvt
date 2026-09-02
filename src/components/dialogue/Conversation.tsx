@@ -122,8 +122,14 @@ export function Conversation({
     [],
   );
 
+  const signal = profile.theme.primary;
+
   return (
-    <div className="relative flex min-h-dvh flex-col">
+    <div
+      data-signal
+      style={{ ["--signal" as string]: signal }}
+      className="relative flex min-h-dvh flex-col"
+    >
       <div className="pointer-events-none absolute inset-0">
         <CharacterView
           profile={profile}
@@ -139,31 +145,30 @@ export function Conversation({
         />
       </div>
 
-      <div className="relative mt-auto w-full bg-gradient-to-t from-ink via-ink/90 to-transparent px-4 pb-6 pt-24 sm:px-8">
-        <div className="mx-auto w-full max-w-3xl">
-          <div
-            className="panel rounded-2xl p-5 sm:p-6"
-            style={{
-              borderColor: `${profile.theme.primary}44`,
-              boxShadow: `0 0 60px -20px ${profile.theme.primary}55`,
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <span
-                className="h-px w-6"
-                style={{ background: profile.theme.primary }}
-              />
-              <p
-                className="text-[11px] font-semibold uppercase tracking-[0.24em]"
-                style={{ color: profile.theme.primary }}
-              >
-                {isThought ? `${profile.name} — thinking` : profile.name}
-              </p>
-            </div>
+      <div className="relative mt-auto w-full bg-gradient-to-t from-ink via-ink/92 to-transparent px-4 pb-5 pt-28 sm:px-8">
+        <div className="mx-auto w-full max-w-4xl">
+          {/* Speaker plate, flush against the text block. */}
+          <div className="flex items-center gap-2">
+            <span
+              className="px-2 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-ink"
+              style={{ background: signal }}
+            >
+              {profile.name}
+            </span>
+            {isThought && <span className="tag">thinking</span>}
+            <span className="ml-auto tag">
+              {String(index + 1).padStart(2, "0")}/
+              {String(entries.length).padStart(2, "0")}
+            </span>
+          </div>
 
+          <div
+            className="border-l-2 bg-ink/70 p-4 sm:p-5"
+            style={{ borderColor: signal }}
+          >
             <div
-              className={`mt-3 min-h-[5rem] ${
-                isThought ? "italic text-white/55" : "text-white/90"
+              className={`min-h-[5.5rem] ${
+                isThought ? "italic text-paper-dim" : ""
               }`}
             >
               {isThought ? (
@@ -179,53 +184,62 @@ export function Conversation({
                 />
               )}
               {!complete && (
-                <span
-                  className="ml-0.5 animate-pulse"
-                  style={{ color: profile.theme.primary }}
-                >
+                <span className="animate-[blink_1.1s_steps(2,end)_infinite]">
                   ▌
                 </span>
               )}
             </div>
 
             {showChoices ? (
-              <div className="mt-5 grid gap-2">
+              <div className="mt-5">
                 {entry.beat.choice?.prompt && (
-                  <p className="mb-1 text-xs uppercase tracking-[0.2em] text-white/40">
-                    {entry.beat.choice.prompt}
-                  </p>
+                  <p className="tag mb-2">{entry.beat.choice.prompt}</p>
                 )}
-                {entry.beat.choice?.options.map((option) => {
-                  const locked =
-                    option.requiresAffection !== undefined &&
-                    affection < option.requiresAffection;
-                  return (
-                    <button
-                      key={option.text}
-                      type="button"
-                      disabled={locked}
-                      onClick={() => pick(option)}
-                      className={`group flex items-center justify-between rounded-xl border px-4 py-3 text-left text-sm transition ${
-                        locked
-                          ? "cursor-not-allowed border-white/8 text-white/25"
-                          : "border-white/15 text-white/85 hover:border-blush/60 hover:bg-blush/10"
-                      }`}
-                    >
-                      <span>{option.text}</span>
-                      <span className="ml-4 shrink-0 text-[10px] uppercase tracking-[0.18em] text-white/35">
-                        {locked
-                          ? `needs ${option.requiresAffection} affection`
-                          : option.style}
-                      </span>
-                    </button>
-                  );
-                })}
+                <div className="border border-rule">
+                  {entry.beat.choice?.options.map((option, i) => {
+                    const locked =
+                      option.requiresAffection !== undefined &&
+                      affection < option.requiresAffection;
+                    return (
+                      <button
+                        key={option.text}
+                        type="button"
+                        disabled={locked}
+                        onClick={() => pick(option)}
+                        className={`group flex w-full items-baseline gap-3 px-4 py-3 text-left text-sm transition-colors ${
+                          i > 0 ? "border-t border-rule" : ""
+                        } ${
+                          locked
+                            ? "cursor-not-allowed text-paper-dim/40"
+                            : "hover:bg-ink-3"
+                        }`}
+                      >
+                        <span className="data text-[10px] text-paper-dim">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="flex-1">{option.text}</span>
+                        <span
+                          className="tag shrink-0"
+                          style={
+                            locked ? undefined : { color: signal }
+                          }
+                        >
+                          {locked
+                            ? `locked · ${option.requiresAffection} aff`
+                            : option.style}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             ) : (
               <button
                 type="button"
                 onClick={advance}
-                className="mt-5 w-full rounded-xl bg-white/10 px-5 py-3 text-sm font-medium text-white/80 transition hover:bg-white/15"
+                className={`mt-5 w-full ${
+                  atEnd && entry?.kind !== "choice" ? "btn-paper" : "btn-ghost"
+                }`}
               >
                 {!complete
                   ? "Skip"

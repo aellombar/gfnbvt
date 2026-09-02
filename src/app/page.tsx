@@ -74,7 +74,9 @@ export default function Page() {
   if (!hydrated) {
     return (
       <main className="flex min-h-dvh items-center justify-center">
-        <p className="text-sm text-white/40">Warming up the lounge…</p>
+        <p className="tag animate-[blink_1.1s_steps(2,end)_infinite]">
+          [ tuning signal ]
+        </p>
       </main>
     );
   }
@@ -186,132 +188,179 @@ export default function Page() {
   }
 
   // Chrome-wrapped screens.
+  const navItems: { id: Screen["name"]; label: string; screen: Screen }[] = [
+    { id: "lounge", label: "Channels", screen: { name: "lounge" } },
+    ...(settings.skipCasino
+      ? []
+      : ([
+          { id: "casino", label: "Table", screen: { name: "casino" } },
+        ] as const)),
+    { id: "gallery", label: "Archive", screen: { name: "gallery" } },
+    { id: "settings", label: "Setup", screen: { name: "settings" } },
+  ];
+
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-5xl px-4 pb-16 pt-6 sm:px-6">
+    <main className="min-h-dvh">
       {shield}
 
-      <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <button
-          type="button"
-          onClick={() => setScreen({ name: "lounge" })}
-          className="text-left"
+      {/* Fixed left rail with the wordmark set vertically. */}
+      <div className="pointer-events-none fixed inset-y-0 left-0 z-30 hidden w-14 border-r border-rule bg-ink lg:block">
+        <p
+          className="display absolute left-1/2 top-8 -translate-x-1/2 text-sm"
+          style={{ writingMode: "vertical-rl", letterSpacing: "0.34em" }}
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-blush">
-            Baddie Casino
-          </p>
-          <p className="text-[11px] text-white/35">
-            Hands-free · praise only · 18+
-          </p>
-        </button>
+          Baddie Casino
+        </p>
+        <p
+          className="tag absolute bottom-8 left-1/2 -translate-x-1/2"
+          style={{ writingMode: "vertical-rl", letterSpacing: "0.28em" }}
+        >
+          after hours · 18+
+        </p>
+      </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {!settings.skipCasino && (
-            <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs tabular-nums text-gold">
-              {save.chips} chips
-            </span>
-          )}
-          {!settings.skipCasino && (
-            <button
-              type="button"
-              onClick={() => setScreen({ name: "casino" })}
-              className="rounded-lg border border-white/12 px-3 py-1.5 text-xs transition hover:bg-white/5"
+      <div className="lg:pl-14">
+        {/* Status bar. */}
+        <div className="sticky top-0 z-20 border-b border-rule bg-ink/95 backdrop-blur-[2px]">
+          <div className="mx-auto flex max-w-5xl items-stretch">
+            <div className="flex items-center gap-3 border-r border-rule px-4 py-3">
+              <span className="rec-dot" />
+              <p className="tag lg:hidden">Baddie Casino</p>
+              <p className="tag hidden lg:block">on air</p>
+            </div>
+
+            <nav className="flex flex-1 items-stretch overflow-x-auto">
+              {navItems.map((item) => {
+                const active = screen.name === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setScreen(item.screen)}
+                    className={`tag border-r border-rule px-4 py-3 whitespace-nowrap transition-colors ${
+                      active ? "text-paper" : "hover:text-paper"
+                    }`}
+                    style={
+                      active
+                        ? { background: "var(--color-ink-3)", color: "#ece7dd" }
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {!settings.skipCasino && (
+              <div className="flex items-center gap-2 border-l border-rule px-4 py-3">
+                <span className="tag">chips</span>
+                <span className="data text-xs" style={{ color: "var(--color-warn)" }}>
+                  {String(save.chips).padStart(4, "0")}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="mx-auto w-full max-w-5xl px-4 pb-20 pt-6 sm:px-6">
+          {exitNudge && (
+            <div
+              className="mb-6 border-l-2 bg-ink-2 p-4 text-sm"
+              style={{ borderColor: "var(--color-signal)" }}
             >
-              Table
-            </button>
+              <p className="tag">[ interrupted ]</p>
+              <p className="mt-2">{exitNudge}</p>
+              <button
+                type="button"
+                onClick={() => setExitNudge(null)}
+                className="tag mt-2 hover:text-paper"
+              >
+                dismiss
+              </button>
+            </div>
           )}
-          <button
-            type="button"
-            onClick={() => setScreen({ name: "gallery" })}
-            className="rounded-lg border border-white/12 px-3 py-1.5 text-xs transition hover:bg-white/5"
-          >
-            Collection
-          </button>
-          <button
-            type="button"
-            onClick={() => setScreen({ name: "settings" })}
-            className="rounded-lg border border-white/12 px-3 py-1.5 text-xs transition hover:bg-white/5"
-          >
-            Settings
-          </button>
+
+          {lastSummary && screen.name === "lounge" && (
+            <div className="mb-6 flex flex-wrap items-baseline gap-x-6 gap-y-1 border-b border-rule pb-4">
+              <p className="tag">last session</p>
+              <p className="data text-sm">
+                {Math.round(lastSummary.elapsedMs / 1000 / 60)} min · peak{" "}
+                {lastSummary.peakBpm} bpm
+              </p>
+              <p className="text-sm text-paper-dim">She was impressed.</p>
+            </div>
+          )}
+
+          {screen.name === "lounge" && (
+            <div className="animate-[cut-in_180ms_steps(3,end)_both]">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <h1 className="display text-6xl leading-[0.85] sm:text-8xl">
+                  Who&apos;s
+                  <br />
+                  dealing
+                  <br />
+                  tonight
+                </h1>
+                <p className="max-w-xs text-sm leading-relaxed text-paper-dim">
+                  Four channels. Her mood rolls over at midnight and her story
+                  picks up exactly where you left it.
+                </p>
+              </div>
+
+              <div className="mt-10">
+                <CharacterSelect
+                  progress={save.characters}
+                  onSelect={(character) =>
+                    setScreen({ name: "chapters", character })
+                  }
+                />
+              </div>
+            </div>
+          )}
+
+          {screen.name === "chapters" && (
+            <SceneSelect
+              profile={CHARACTERS[screen.character]}
+              progress={save.characters[screen.character]}
+              difficulty={settings.difficulty}
+              suggested={suggested}
+              onDifficulty={(difficulty) => updateSettings({ difficulty })}
+              onStart={(chapter) =>
+                setScreen({ name: "pre", character: screen.character, chapter })
+              }
+              onBack={() => setScreen({ name: "lounge" })}
+            />
+          )}
+
+          {screen.name === "settings" && (
+            <SettingsPanel onClose={() => setScreen({ name: "lounge" })} />
+          )}
+
+          {screen.name === "gallery" && (
+            <Gallery save={save} onClose={() => setScreen({ name: "lounge" })} />
+          )}
+
+          {screen.name === "casino" && (
+            <SlotMachine
+              profile={CHARACTERS.raven}
+              chips={save.chips}
+              onChips={addChips}
+              onJackpot={() =>
+                setScreen({
+                  name: "pre",
+                  character: "raven",
+                  chapter: Math.min(
+                    save.characters.raven.chapter,
+                    CHARACTERS.raven.chapters,
+                  ),
+                })
+              }
+              onClose={() => setScreen({ name: "lounge" })}
+            />
+          )}
         </div>
-      </header>
-
-      {exitNudge && (
-        <div className="panel mb-6 rounded-2xl border-blush/40 p-4 text-sm text-white/75">
-          {exitNudge}
-          <button
-            type="button"
-            onClick={() => setExitNudge(null)}
-            className="ml-3 text-xs text-white/40 underline"
-          >
-            dismiss
-          </button>
-        </div>
-      )}
-
-      {lastSummary && screen.name === "lounge" && (
-        <div className="panel mb-6 rounded-2xl p-4 text-sm text-white/75">
-          Last session: {Math.round(lastSummary.elapsedMs / 1000 / 60)} min at up
-          to {lastSummary.peakBpm} bpm. She was impressed.
-        </div>
-      )}
-
-      {screen.name === "lounge" && (
-        <div className="animate-[fade-up_320ms_ease-out_both]">
-          <h1 className="mb-1 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Who&apos;s dealing tonight?
-          </h1>
-          <p className="mb-7 text-sm text-white/50">
-            Pick a girl. Her mood changes daily, and her story picks up where you
-            left it.
-          </p>
-          <CharacterSelect
-            progress={save.characters}
-            onSelect={(character) => setScreen({ name: "chapters", character })}
-          />
-        </div>
-      )}
-
-      {screen.name === "chapters" && (
-        <SceneSelect
-          profile={CHARACTERS[screen.character]}
-          progress={save.characters[screen.character]}
-          difficulty={settings.difficulty}
-          suggested={suggested}
-          onDifficulty={(difficulty) => updateSettings({ difficulty })}
-          onStart={(chapter) =>
-            setScreen({ name: "pre", character: screen.character, chapter })
-          }
-          onBack={() => setScreen({ name: "lounge" })}
-        />
-      )}
-
-      {screen.name === "settings" && (
-        <SettingsPanel onClose={() => setScreen({ name: "lounge" })} />
-      )}
-
-      {screen.name === "gallery" && (
-        <Gallery save={save} onClose={() => setScreen({ name: "lounge" })} />
-      )}
-
-      {screen.name === "casino" && (
-        <SlotMachine
-          profile={CHARACTERS.raven}
-          chips={save.chips}
-          onChips={addChips}
-          onJackpot={() =>
-            setScreen({
-              name: "pre",
-              character: "raven",
-              chapter: Math.min(
-                save.characters.raven.chapter,
-                CHARACTERS.raven.chapters,
-              ),
-            })
-          }
-          onClose={() => setScreen({ name: "lounge" })}
-        />
-      )}
+      </div>
     </main>
   );
 }

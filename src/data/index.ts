@@ -1,23 +1,33 @@
 import type { CharacterId, CharacterLines, Chapter } from "@/lib/types";
 import { RAVEN_LINES } from "@/data/lines/raven";
 import { MIKO_LINES } from "@/data/lines/miko";
+import { BLAZE_LINES } from "@/data/lines/blaze";
+import { SERAPH_LINES } from "@/data/lines/seraph";
 import { RAVEN_CHAPTERS, RAVEN_REPLIES } from "@/data/chapters/raven";
 import { MIKO_CHAPTERS, MIKO_REPLIES } from "@/data/chapters/miko";
+import { BLAZE_CHAPTERS, BLAZE_REPLIES } from "@/data/chapters/blaze";
+import { SERAPH_CHAPTERS, SERAPH_REPLIES } from "@/data/chapters/seraph";
 import { SCENES } from "@/data/scenes";
 
 export const LINES: Record<CharacterId, CharacterLines> = {
   raven: RAVEN_LINES,
   miko: MIKO_LINES,
+  blaze: BLAZE_LINES,
+  seraph: SERAPH_LINES,
 };
 
 export const CHAPTERS: Record<CharacterId, Chapter[]> = {
   raven: RAVEN_CHAPTERS,
   miko: MIKO_CHAPTERS,
+  blaze: BLAZE_CHAPTERS,
+  seraph: SERAPH_CHAPTERS,
 };
 
 export const REPLIES: Record<CharacterId, Record<string, string>> = {
   raven: RAVEN_REPLIES,
   miko: MIKO_REPLIES,
+  blaze: BLAZE_REPLIES,
+  seraph: SERAPH_REPLIES,
 };
 
 export function chaptersFor(character: CharacterId): Chapter[] {

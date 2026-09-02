@@ -29,6 +29,8 @@ const BACKGROUNDS: Record<string, [string, string]> = {
   booth: ["#2a1030", "#0b0611"],
   velvet: ["#3a1230", "#0d0713"],
   shrine: ["#2d1720", "#0c0710"],
+  neon: ["#12283a", "#070b12"],
+  chapel: ["#2b2740", "#0a0912"],
 };
 
 export function CharacterStage({

@@ -33,9 +33,9 @@ function Slider({
 }) {
   return (
     <label className="block">
-      <div className="mb-2 flex items-center justify-between text-xs">
-        <span className="text-white/60">{label}</span>
-        <span className="tabular-nums text-white/40">
+      <div className="mb-2 flex items-center justify-between">
+        <span className="tag">{label}</span>
+        <span className="data text-[11px] text-paper-dim">
           {format ? format(value) : `${Math.round(value * 100)}%`}
         </span>
       </div>
@@ -67,20 +67,20 @@ function Toggle({
     <button
       type="button"
       onClick={() => onChange(!checked)}
-      className="flex w-full items-start justify-between gap-4 rounded-xl border border-white/12 px-4 py-3 text-left transition hover:bg-white/5"
+      className="flex w-full items-start justify-between gap-4 border border-rule px-4 py-3 text-left transition-colors hover:bg-ink-3"
     >
       <span>
-        <span className="block text-sm text-white/85">{label}</span>
-        <span className="mt-0.5 block text-[11px] text-white/45">{hint}</span>
+        <span className="block text-sm">{label}</span>
+        <span className="tag mt-1 block normal-case tracking-normal">{hint}</span>
       </span>
       <span
-        className={`mt-1 h-5 w-9 shrink-0 rounded-full p-0.5 transition ${
-          checked ? "bg-blush" : "bg-white/15"
+        className={`mt-1 h-4 w-8 shrink-0 p-0.5 transition-colors ${
+          checked ? "bg-[var(--signal)]" : "bg-rule"
         }`}
       >
         <span
-          className={`block h-4 w-4 rounded-full bg-white transition ${
-            checked ? "translate-x-4" : ""
+          className={`block h-3 w-3 transition-transform ${
+            checked ? "translate-x-4 bg-ink" : "bg-paper-dim"
           }`}
         />
       </span>
@@ -137,20 +137,20 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="animate-[fade-up_320ms_ease-out_both] space-y-6">
+    <div className="animate-[cut-in_180ms_steps(3,end)_both] space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Settings</h2>
+        <h2 className="display text-5xl">Setup</h2>
         <button
           type="button"
           onClick={onClose}
-          className="text-xs uppercase tracking-[0.2em] text-white/45 transition hover:text-white"
+          className="tag hover:text-paper"
         >
           Close
         </button>
       </div>
 
-      <section className="panel space-y-4 rounded-2xl p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">
+      <section className="slab space-y-4 p-5">
+        <h3 className="tag border-b border-rule pb-2" style={{ color: "#ece7dd" }}>
           Pace
         </h3>
         <Slider
@@ -162,7 +162,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
           format={(v) => `${v.toFixed(2)}×`}
           onChange={(baseSpeed) => updateSettings({ baseSpeed })}
         />
-        <p className="text-[11px] text-white/40">
+        <p className="tag normal-case tracking-normal">
           Scales every tempo so her &quot;fast&quot; matches your fast.
         </p>
         <Toggle
@@ -179,8 +179,8 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         />
       </section>
 
-      <section className="panel space-y-4 rounded-2xl p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">
+      <section className="slab space-y-4 p-5">
+        <h3 className="tag border-b border-rule pb-2" style={{ color: "#ece7dd" }}>
           Audio
         </h3>
         <Slider
@@ -200,28 +200,26 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         />
       </section>
 
-      <section className="panel space-y-4 rounded-2xl p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">
+      <section className="slab space-y-4 p-5">
+        <h3 className="tag border-b border-rule pb-2" style={{ color: "#ece7dd" }}>
           You
         </h3>
         <label className="block">
-          <span className="mb-2 block text-xs text-white/60">Your name</span>
+          <span className="tag mb-2 block">your name</span>
           <input
             value={save.playerName}
             onChange={(event) => setPlayerName(event.target.value)}
             placeholder="optional"
-            className="w-full rounded-xl border border-white/12 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-blush/60"
+            className="field"
           />
         </label>
         <label className="block">
-          <span className="mb-2 block text-xs text-white/60">
-            What she calls you
-          </span>
+          <span className="tag mb-2 block">what she calls you</span>
           <input
             value={save.petName}
             onChange={(event) => setPetName(event.target.value)}
             placeholder="good boy"
-            className="w-full rounded-xl border border-white/12 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-blush/60"
+            className="field"
           />
         </label>
         <Toggle
@@ -232,18 +230,16 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         />
       </section>
 
-      <section className="panel space-y-4 rounded-2xl p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">
+      <section className="slab space-y-4 p-5">
+        <h3 className="tag border-b border-rule pb-2" style={{ color: "#ece7dd" }}>
           Save slots
         </h3>
         <div className="grid gap-2">
           {slots.map((entry) => (
             <div
               key={entry.slot}
-              className={`rounded-xl border px-4 py-3 ${
-                entry.slot === slot
-                  ? "border-blush/60 bg-blush/10"
-                  : "border-white/12"
+              className={`border px-4 py-3 ${
+                entry.slot === slot ? "border-[var(--signal)] bg-ink-3" : "border-rule"
               }`}
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -253,7 +249,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                     setSlotLabel(entry.slot, event.target.value);
                     refresh();
                   }}
-                  className="min-w-0 flex-1 bg-transparent text-sm font-medium outline-none"
+                  className="min-w-0 flex-1 bg-transparent text-sm font-semibold outline-none"
                 />
                 <div className="flex gap-2">
                   {entry.slot !== slot && (
@@ -263,7 +259,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                         switchSlot(entry.slot);
                         refresh();
                       }}
-                      className="rounded-lg border border-white/15 px-3 py-1 text-xs transition hover:bg-white/5"
+                      className="tag border border-rule px-2 py-1 hover:text-paper"
                     >
                       Use
                     </button>
@@ -274,23 +270,23 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                       resetSlot(entry.slot);
                       refresh();
                     }}
-                    className="rounded-lg border border-white/15 px-3 py-1 text-xs text-white/50 transition hover:bg-white/5"
+                    className="tag border border-rule px-2 py-1 hover:text-paper"
                   >
                     Clear
                   </button>
                 </div>
               </div>
-              <p className="mt-1 text-[11px] text-white/40">{entry.summary}</p>
+              <p className="data mt-1 text-[10px] text-paper-dim">{entry.summary}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="panel space-y-4 rounded-2xl p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">
+      <section className="slab space-y-4 p-5">
+        <h3 className="tag border-b border-rule pb-2" style={{ color: "#ece7dd" }}>
           Transfer progress
         </h3>
-        <p className="text-[11px] text-white/45">
+        <p className="tag normal-case tracking-normal">
           Export a code to move this slot to another browser or device. No
           account needed.
         </p>
@@ -298,12 +294,12 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={copy}
-          className="w-full rounded-xl bg-white/10 px-4 py-2.5 text-sm transition hover:bg-white/15"
+          className="btn-paper w-full"
         >
           {copied ? "Copied to clipboard" : "Export this slot"}
         </button>
         {code && (
-          <p className="break-all rounded-xl border border-white/12 bg-black/40 p-3 font-mono text-[11px] tracking-wide text-mint">
+          <p className="data break-all border border-rule bg-ink p-3 text-[11px]" style={{ color: "var(--color-signal-2)" }}>
             {code}
           </p>
         )}
@@ -317,23 +313,23 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
               setError("");
             }}
             placeholder="BADDIE-XXXXX-XXXXX-…"
-            className="w-full rounded-xl border border-white/12 bg-black/30 px-4 py-2.5 font-mono text-xs outline-none focus:border-blush/60"
+            className="field"
           />
           <button
             type="button"
             onClick={tryDecode}
             disabled={!input.trim()}
-            className="mt-2 w-full rounded-xl border border-white/15 px-4 py-2.5 text-sm transition hover:bg-white/5 disabled:opacity-40"
+            className="btn-ghost mt-2 w-full"
           >
             Check code
           </button>
 
-          {error && <p className="mt-2 text-xs text-blush">{error}</p>}
+          {error && <p className="tag mt-2 normal-case tracking-normal" style={{ color: "var(--color-signal)" }}>{error}</p>}
 
           {pending && (
-            <div className="mt-3 rounded-xl border border-mint/40 bg-mint/10 p-3">
-              <p className="text-xs text-white/80">{describeSave(pending)}</p>
-              <p className="mt-1 text-[11px] text-white/45">
+            <div className="mt-3 border-l-2 bg-ink-3 p-3" style={{ borderColor: "var(--color-signal-2)" }}>
+              <p className="data text-[11px]">{describeSave(pending)}</p>
+              <p className="tag mt-1 normal-case tracking-normal">
                 This will overwrite the slot you are using now.
               </p>
               <button
@@ -344,7 +340,7 @@ export function SettingsPanel({ onClose }: { onClose: () => void }) {
                   setInput("");
                   refresh();
                 }}
-                className="mt-3 w-full rounded-lg bg-mint px-4 py-2 text-xs font-semibold text-ink"
+                className="btn-paper mt-3 w-full"
               >
                 Load this save
               </button>

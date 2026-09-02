@@ -83,15 +83,36 @@ export function Onboarding() {
         />
       </div>
 
-      <div className="relative flex min-h-dvh items-end justify-center p-4 sm:items-center sm:p-8">
-        <div className="panel w-full max-w-lg rounded-3xl p-6 sm:p-8">
+      <div
+        data-signal
+        style={{ ["--signal" as string]: profile.theme.primary }}
+        className="relative flex min-h-dvh items-end justify-center p-4 sm:items-center sm:p-8"
+      >
+        <div className="slab-lift w-full max-w-lg p-6 sm:p-8">
           {!isLast ? (
             <>
-              <p className="text-xs uppercase tracking-[0.24em] text-blush">
-                Step {step + 1} of {STEPS.length}
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold">{STEPS[step].title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-white/70">
+              <div className="flex items-center justify-between border-b border-rule pb-3">
+                <p className="tag" style={{ color: profile.theme.primary }}>
+                  [ setup {step + 1}/{STEPS.length} ]
+                </p>
+                <div className="flex gap-1">
+                  {STEPS.map((_, i) => (
+                    <span
+                      key={i}
+                      className="h-1 w-6"
+                      style={{
+                        background:
+                          i <= step
+                            ? profile.theme.primary
+                            : "var(--color-rule)",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <h2 className="display mt-5 text-4xl">{STEPS[step].title}</h2>
+              <p className="mt-4 text-sm leading-relaxed text-paper-dim">
                 {STEPS[step].body}
               </p>
 
@@ -99,23 +120,26 @@ export function Onboarding() {
                 <button
                   type="button"
                   onClick={startDemo}
-                  className="mt-5 w-full rounded-xl border border-blush/50 bg-blush/10 px-5 py-3 text-sm font-medium transition hover:bg-blush/20"
+                  className="btn-ghost mt-6 w-full"
                 >
                   Show me — start the pulse
                 </button>
               )}
               {step === 1 && demoing && (
-                <p className="mt-4 text-xs text-mint">
+                <p
+                  className="tag mt-5 normal-case tracking-normal"
+                  style={{ color: "var(--color-signal-2)" }}
+                >
                   That&apos;s the rhythm. Watch it climb.
                 </p>
               )}
 
-              <div className="mt-7 flex gap-3">
+              <div className="mt-8 flex gap-2">
                 {step > 0 && (
                   <button
                     type="button"
                     onClick={() => setStep((s) => s - 1)}
-                    className="rounded-xl border border-white/15 px-5 py-3 text-sm text-white/60 transition hover:bg-white/5"
+                    className="btn-ghost"
                   >
                     Back
                   </button>
@@ -123,7 +147,7 @@ export function Onboarding() {
                 <button
                   type="button"
                   onClick={() => setStep((s) => s + 1)}
-                  className="flex-1 rounded-xl bg-blush px-5 py-3 text-sm font-semibold text-ink transition hover:bg-ember"
+                  className="btn-paper flex-1"
                 >
                   {step === STEPS.length - 1 ? "Almost done" : "Next"}
                 </button>
@@ -131,41 +155,35 @@ export function Onboarding() {
             </>
           ) : (
             <>
-              <p className="text-xs uppercase tracking-[0.24em] text-blush">
-                Last thing
+              <p className="tag border-b border-rule pb-3" style={{ color: profile.theme.primary }}>
+                [ last thing ]
               </p>
-              <h2 className="mt-3 text-2xl font-semibold">
+              <h2 className="display mt-5 text-4xl">
                 What should she call you?
               </h2>
 
-              <label className="mt-5 block">
-                <span className="mb-2 block text-xs text-white/60">
-                  Your name (optional)
-                </span>
+              <label className="mt-6 block">
+                <span className="tag mb-2 block">your name (optional)</span>
                 <input
                   value={name}
                   onChange={(event) => setName(event.target.value)}
-                  className="w-full rounded-xl border border-white/12 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-blush/60"
+                  className="field"
                 />
               </label>
 
               <label className="mt-4 block">
-                <span className="mb-2 block text-xs text-white/60">
-                  Pet name she uses when she praises you
+                <span className="tag mb-2 block">
+                  pet name used when she praises you
                 </span>
                 <input
                   value={pet}
                   onChange={(event) => setPet(event.target.value)}
                   placeholder="good boy"
-                  className="w-full rounded-xl border border-white/12 bg-black/30 px-4 py-2.5 text-sm outline-none focus:border-blush/60"
+                  className="field"
                 />
               </label>
 
-              <button
-                type="button"
-                onClick={finish}
-                className="mt-7 w-full rounded-xl bg-blush px-5 py-3.5 text-sm font-semibold text-ink transition hover:bg-ember"
-              >
+              <button type="button" onClick={finish} className="btn-paper mt-8 w-full">
                 Take me to the floor
               </button>
             </>

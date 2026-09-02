@@ -96,70 +96,112 @@ export function SlotMachine({
     });
   }, [bet, chips, onChips, onJackpot, spinning]);
 
+  const signal = profile.theme.primary;
+
   return (
-    <div className="animate-[fade-up_320ms_ease-out_both] space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Her table</h2>
-        <button
-          type="button"
-          onClick={onClose}
-          className="text-xs uppercase tracking-[0.2em] text-white/45 transition hover:text-white"
-        >
-          Close
+    <div
+      data-signal
+      style={{ ["--signal" as string]: signal }}
+      className="animate-[cut-in_180ms_steps(3,end)_both]"
+    >
+      <div className="flex items-end justify-between border-b border-rule pb-4">
+        <div>
+          <p className="tag" style={{ color: signal }}>
+            [ {profile.name}&apos;s table ]
+          </p>
+          <h2 className="display mt-1 text-5xl">Her table</h2>
+        </div>
+        <button type="button" onClick={onClose} className="tag hover:text-paper">
+          close
         </button>
       </div>
 
-      <div className="panel rounded-3xl p-6">
-        <div className="flex justify-center gap-3">
-          {reels.map((symbol, index) => (
-            <div
-              key={index}
-              className="flex h-28 w-24 items-center justify-center rounded-2xl border text-5xl"
-              style={{
-                borderColor: `${profile.theme.primary}55`,
-                background: "rgba(0,0,0,0.35)",
-                color: profile.theme.primary,
-              }}
-            >
-              {symbol}
+      <div className="mt-8 grid gap-px border border-rule bg-rule lg:grid-cols-[1fr_18rem]">
+        {/* Reels. */}
+        <div className="bg-ink-2 p-6">
+          <div className="flex gap-px bg-rule">
+            {reels.map((symbol, index) => (
+              <div
+                key={index}
+                className="flex h-36 flex-1 items-center justify-center bg-ink text-6xl"
+                style={{ color: signal }}
+              >
+                {symbol}
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="mt-6 border-l-2 pl-4"
+            style={{ borderColor: signal }}
+          >
+            <p className="tag">she says</p>
+            <p className="mt-1 min-h-[3rem] text-base italic text-paper-dim">
+              {message}
+            </p>
+          </div>
+        </div>
+
+        {/* Controls. */}
+        <div className="flex flex-col justify-between bg-ink-2 p-6">
+          <div>
+            <p className="tag">stake</p>
+            <div className="mt-2 grid grid-cols-3 border border-rule">
+              {[10, 25, 50].map((amount, index) => (
+                <button
+                  key={amount}
+                  type="button"
+                  onClick={() => setBet(amount)}
+                  className={`data py-2.5 text-xs transition-colors ${
+                    index > 0 ? "border-l border-rule" : ""
+                  }`}
+                  style={
+                    bet === amount
+                      ? { background: signal, color: "#08080a" }
+                      : undefined
+                  }
+                >
+                  {amount}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <p className="mt-6 min-h-[2.5rem] text-center text-sm italic text-white/70">
-          {message}
-        </p>
+            <dl className="mt-6 space-y-2">
+              {Object.entries(PAYOUTS).map(([symbol, multiplier]) => (
+                <div
+                  key={symbol}
+                  className="flex items-baseline justify-between border-b border-rule pb-1"
+                >
+                  <dt className="text-sm" style={{ color: signal }}>
+                    {symbol}{symbol}{symbol}
+                  </dt>
+                  <dd className="data text-[11px] text-paper-dim">
+                    ×{multiplier}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          {[10, 25, 50].map((amount) => (
+          <div className="mt-6">
             <button
-              key={amount}
               type="button"
-              onClick={() => setBet(amount)}
-              className={`rounded-xl border px-4 py-2 text-sm transition ${
-                bet === amount
-                  ? "border-blush bg-blush/15"
-                  : "border-white/12 hover:bg-white/5"
-              }`}
+              onClick={spin}
+              disabled={spinning || chips < bet}
+              className="btn-paper w-full"
             >
-              {amount}
+              {spinning
+                ? "Spinning…"
+                : chips < bet
+                  ? "Not enough chips"
+                  : `Spin · ${bet}`}
             </button>
-          ))}
+            <p className="tag mt-3 normal-case tracking-normal">
+              Virtual chips only — no real-money wagering. Three sevens takes
+              you straight to her booth.
+            </p>
+          </div>
         </div>
-
-        <button
-          type="button"
-          onClick={spin}
-          disabled={spinning || chips < bet}
-          className="mt-5 w-full rounded-xl bg-blush px-5 py-3.5 text-sm font-semibold text-ink transition hover:bg-ember disabled:opacity-40"
-        >
-          {spinning ? "Spinning…" : chips < bet ? "Not enough chips" : `Spin (${bet})`}
-        </button>
-
-        <p className="mt-4 text-center text-[11px] text-white/40">
-          Virtual chips only — there is no real-money wagering. Three sevens
-          takes you to her private booth.
-        </p>
       </div>
     </div>
   );

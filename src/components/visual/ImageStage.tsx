@@ -184,6 +184,28 @@ export function ImageStage({
   const grade = PHASE_GRADE[art.grade];
   const variants = rig.variants ?? {};
 
+  /**
+   * Maps the crop region onto the container. Applied identically to every
+   * layer and variant so they stay registered with each other.
+   */
+  const crop = rig.crop;
+  const layerStyle: React.CSSProperties = crop
+    ? {
+        position: "absolute",
+        width: `${(manifest.width / crop.width) * 100}%`,
+        height: `${(manifest.height / crop.height) * 100}%`,
+        left: `${(-crop.x / crop.width) * 100}%`,
+        top: `${(-crop.y / crop.height) * 100}%`,
+        objectFit: "cover",
+      }
+    : {
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+      };
+
   // Escalation variants are driven by state rather than timers.
   const showAhegao = !!variants.ahegao && art.mouth === "tongue";
   const showBlush = !!variants.blushHeavy && art.blush === "heavy";
@@ -200,17 +222,14 @@ export function ImageStage({
         {/* eslint-disable @next/next/no-img-element -- rig frames are
             pre-sized local assets swapped every frame; the optimizer adds
             nothing and would break the cross-fade timing. */}
-        <img
-          src={`${base}${rig.base}`}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <img src={`${base}${rig.base}`} alt="" style={layerStyle} />
 
         {showBlush && (
           <img
             src={`${base}${variants.blushHeavy}`}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
+            style={layerStyle}
+            className="transition-opacity duration-500"
           />
         )}
 
@@ -218,7 +237,8 @@ export function ImageStage({
           <img
             src={`${base}${variants.ahegao}`}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300"
+            style={layerStyle}
+            className="transition-opacity duration-300"
           />
         )}
 
@@ -227,8 +247,7 @@ export function ImageStage({
             ref={mouthRef}
             src={`${base}${speakingVariant}`}
             alt=""
-            style={{ opacity: 0 }}
-            className="absolute inset-0 h-full w-full object-cover"
+            style={{ ...layerStyle, opacity: 0 }}
           />
         )}
 
@@ -237,8 +256,7 @@ export function ImageStage({
             ref={eyesRef}
             src={`${base}${variants.eyesClosed}`}
             alt=""
-            style={{ opacity: 0 }}
-            className="absolute inset-0 h-full w-full object-cover"
+            style={{ ...layerStyle, opacity: 0 }}
           />
         )}
 
@@ -247,8 +265,8 @@ export function ImageStage({
             ref={hairRef}
             src={`${base}${rig.layers.hair}`}
             alt=""
-            style={{ transformOrigin: "50% 18%" }}
-            className="absolute inset-0 h-full w-full object-cover will-change-transform"
+            style={{ ...layerStyle, transformOrigin: "50% 18%" }}
+            className="will-change-transform"
           />
         )}
 
@@ -258,11 +276,12 @@ export function ImageStage({
             src={`${base}${rig.layers.arm}`}
             alt=""
             style={{
+              ...layerStyle,
               transformOrigin: rig.armPivot
                 ? `${(rig.armPivot.x / manifest.width) * 100}% ${(rig.armPivot.y / manifest.height) * 100}%`
                 : "50% 30%",
             }}
-            className="absolute inset-0 h-full w-full object-cover will-change-transform"
+            className="will-change-transform"
           />
         )}
         {/* eslint-enable @next/next/no-img-element */}

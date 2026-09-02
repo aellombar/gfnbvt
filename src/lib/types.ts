@@ -1,6 +1,6 @@
 /** Shared domain types for Baddie Casino. */
 
-export type CharacterId = "raven" | "miko";
+export type CharacterId = "raven" | "miko" | "blaze" | "seraph";
 
 export type Mood = "playful" | "clingy" | "sleepy" | "hyped";
 
@@ -110,6 +110,15 @@ export interface RigShot {
   /** Full image for this framing. */
   base: string;
   /**
+   * Region of the source image to show, in source pixels.
+   *
+   * This is the main way to keep generation costs down: render one tall
+   * full-body image and derive the wide, waist-up and face framings by
+   * cropping it. Because every variant shares the same crop, they stay
+   * perfectly aligned.
+   */
+  crop?: { x: number; y: number; width: number; height: number };
+  /**
    * Same pose, same framing, one feature changed. Every entry is optional —
    * whatever is missing simply doesn't animate.
    */
@@ -201,5 +210,7 @@ export interface CharacterProfile {
   };
   /** Ambient lounge tone, in Hz, layered under her scenes. */
   ambientHz: number;
+  /** Backdrop used on the select and collection screens. */
+  homeBackground: string;
   chapters: number;
 }

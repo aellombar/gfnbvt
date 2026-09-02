@@ -18,6 +18,7 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
       eyes: "#ff4d6d",
     },
     ambientHz: 196,
+    homeBackground: "booth",
     chapters: 3,
   },
   miko: {
@@ -37,8 +38,54 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
       eyes: "#c07a4a",
     },
     ambientHz: 262,
+    homeBackground: "shrine",
     chapters: 2,
+  },
+  blaze: {
+    id: "blaze",
+    name: "Blaze",
+    archetype: "Hype street-racer girlfriend",
+    tagline:
+      "She bet against you, lost, and keeps coming back for a rematch. Loud about it, too.",
+    petNames: ["champ", "good boy", "speed demon"],
+    theme: { primary: "#ff7a3d", secondary: "#ffd93d", glow: "#ff7a3d33" },
+    rig: {
+      hair: "#f2643c",
+      hairBack: "#c0402a",
+      skin: "#f0cfae",
+      outfit: "#1f2733",
+      outfitTrim: "#ffd93d",
+      eyes: "#3ec9d6",
+    },
+    ambientHz: 220,
+    homeBackground: "neon",
+    chapters: 1,
+  },
+  seraph: {
+    id: "seraph",
+    name: "Seraph",
+    archetype: "Soft fallen-angel coach",
+    tagline:
+      "Calm, patient and absolutely certain. She never raises her voice and you never want to disappoint her.",
+    petNames: ["good boy", "dear one", "my light"],
+    theme: { primary: "#cbb6ff", secondary: "#8fd7ff", glow: "#cbb6ff33" },
+    rig: {
+      hair: "#f2ecdf",
+      hairBack: "#d8cfbe",
+      skin: "#f7e3d4",
+      outfit: "#f6f2ea",
+      outfitTrim: "#d9b96a",
+      eyes: "#8f9ff0",
+    },
+    ambientHz: 294,
+    homeBackground: "chapel",
+    chapters: 1,
   },
 };
 
-export const CHARACTER_IDS: CharacterId[] = ["raven", "miko"];
+export const CHARACTER_IDS: CharacterId[] = [
+  "raven",
+  "miko",
+  "blaze",
+  "seraph",
+];
