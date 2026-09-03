@@ -181,6 +181,43 @@ export function JoiPlayer({
         />
       </div>
 
+      <div className="pointer-events-none absolute left-3 top-16 z-[15] flex h-[58%] w-[22%] flex-col gap-2 sm:left-5 sm:w-[18%]">
+        <div className="relative min-h-0 flex-1 overflow-hidden border border-white/20 bg-ink/40">
+          <CharacterView
+            profile={profile}
+            art={state.art}
+            outfitLayer={state.outfitLayer}
+            background={scene.background}
+            speaking={false}
+            strokePosition={strokePosition}
+            beatPhase={beatPhase}
+            shot="body"
+            intensity={intensity}
+            animate={false}
+            sceneId={scene.id}
+            photoIndex={state.photoIndex + 3}
+            fit="cover"
+          />
+        </div>
+        <div className="relative min-h-0 flex-1 overflow-hidden border border-white/20 bg-ink/40">
+          <CharacterView
+            profile={profile}
+            art={state.art}
+            outfitLayer={state.outfitLayer}
+            background={scene.background}
+            speaking={false}
+            strokePosition={strokePosition}
+            beatPhase={beatPhase}
+            shot="full"
+            intensity={intensity}
+            animate={false}
+            sceneId={scene.id}
+            photoIndex={state.photoIndex + 4}
+            fit="cover"
+          />
+        </div>
+      </div>
+
       {/* Extra angles — same girl, other DROP stills, tighter crop. */}
       <div className="pointer-events-none absolute right-3 top-16 z-[15] flex h-[58%] w-[26%] flex-col gap-2 sm:right-5 sm:w-[22%]">
         <div className="relative min-h-0 flex-1 overflow-hidden border border-white/20 bg-ink/40">

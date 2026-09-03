@@ -1,10 +1,10 @@
 import type { CharacterId } from "@/lib/types";
 
 const HOME_SCENE: Record<CharacterId, string> = {
-  raven: "raven-first-timer",
-  miko: "miko-for-luck",
-  blaze: "blaze-rematch",
-  seraph: "seraph-descent",
+  raven: "raven-beach-dusk",
+  miko: "miko-beach-tide",
+  blaze: "blaze-beach-heat",
+  seraph: "seraph-beach-halo",
 };
 
 export function homeSceneId(character: CharacterId): string {

@@ -1,4 +1,5 @@
 import type { Difficulty, PaceSegment, Scene } from "@/lib/types";
+import { BEACH_SCENES } from "@/data/beach";
 
 /**
  * Scenes are mostly Sprint. Warmup is short, rest beats are brief breathers
@@ -399,6 +400,8 @@ export const SCENES: Scene[] = [
     peels: { 1: 1, 3: 2, 5: 3 },
   },
 ];
+
+SCENES.push(...BEACH_SCENES);
 
 export function getScene(id: string): Scene | undefined {
   return SCENES.find((scene) => scene.id === id);

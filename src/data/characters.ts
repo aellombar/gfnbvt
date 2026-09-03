@@ -18,8 +18,8 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
       eyes: "#ff4d6d",
     },
     ambientHz: 196,
-    homeBackground: "booth",
-    chapters: 5,
+    homeBackground: "beach",
+    chapters: 7,
   },
   miko: {
     id: "miko",
@@ -38,8 +38,8 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
       eyes: "#c07a4a",
     },
     ambientHz: 262,
-    homeBackground: "shrine",
-    chapters: 4,
+    homeBackground: "beach",
+    chapters: 6,
   },
   blaze: {
     id: "blaze",
@@ -58,8 +58,8 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
       eyes: "#3ec9d6",
     },
     ambientHz: 220,
-    homeBackground: "neon",
-    chapters: 4,
+    homeBackground: "beach",
+    chapters: 6,
   },
   seraph: {
     id: "seraph",
@@ -78,8 +78,8 @@ export const CHARACTERS: Record<CharacterId, CharacterProfile> = {
       eyes: "#8f9ff0",
     },
     ambientHz: 294,
-    homeBackground: "chapel",
-    chapters: 4,
+    homeBackground: "beach",
+    chapters: 6,
   },
 };
 

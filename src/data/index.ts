@@ -7,6 +7,7 @@ import { RAVEN_CHAPTERS, RAVEN_REPLIES } from "@/data/chapters/raven";
 import { MIKO_CHAPTERS, MIKO_REPLIES } from "@/data/chapters/miko";
 import { BLAZE_CHAPTERS, BLAZE_REPLIES } from "@/data/chapters/blaze";
 import { SERAPH_CHAPTERS, SERAPH_REPLIES } from "@/data/chapters/seraph";
+import { BEACH_CHAPTERS } from "@/data/beach";
 import { SCENES } from "@/data/scenes";
 
 import { withGoonHeat } from "@/data/lines/goon";
@@ -19,10 +20,10 @@ export const LINES: Record<CharacterId, CharacterLines> = {
 };
 
 export const CHAPTERS: Record<CharacterId, Chapter[]> = {
-  raven: RAVEN_CHAPTERS,
-  miko: MIKO_CHAPTERS,
-  blaze: BLAZE_CHAPTERS,
-  seraph: SERAPH_CHAPTERS,
+  raven: [...RAVEN_CHAPTERS, ...BEACH_CHAPTERS.raven],
+  miko: [...MIKO_CHAPTERS, ...BEACH_CHAPTERS.miko],
+  blaze: [...BLAZE_CHAPTERS, ...BEACH_CHAPTERS.blaze],
+  seraph: [...SERAPH_CHAPTERS, ...BEACH_CHAPTERS.seraph],
 };
 
 export const REPLIES: Record<CharacterId, Record<string, string>> = {

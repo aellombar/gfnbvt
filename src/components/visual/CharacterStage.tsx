@@ -31,6 +31,7 @@ const BACKGROUNDS: Record<string, [string, string]> = {
   shrine: ["#2d1720", "#0c0710"],
   neon: ["#12283a", "#070b12"],
   chapel: ["#2b2740", "#0a0912"],
+  beach: ["#1a5366", "#071018"],
 };
 
 export function CharacterStage({
