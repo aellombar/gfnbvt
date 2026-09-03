@@ -94,7 +94,7 @@ async function resolveLayer(
 function optimisticEntry(sceneId: string) {
   const urls: Record<number, string> = {};
   const layers: number[] = [];
-  for (let i = 0; i <= 7; i++) {
+  for (let i = 0; i <= 15; i++) {
     layers.push(i);
     urls[i] = dropPngUrl(sceneId, i);
   }
@@ -137,7 +137,7 @@ export function useSceneArt(sceneId: string | undefined): {
       const manifest = await loadManifest();
       const urls: Record<number, string> = {};
       const layers: number[] = [];
-      for (let i = 0; i <= 7; i++) {
+      for (let i = 0; i <= 15; i++) {
         const url = await resolveLayer(sceneId, i, manifest);
         if (url) {
           layers.push(i);

@@ -243,7 +243,7 @@ export function useSession(options: UseSessionOptions) {
       const line = pendingLine;
       pendingLine = null;
 
-      const PHOTO_MS = 3200;
+      const PHOTO_MS = 1600;
       const photoIndex = Math.floor(elapsed / PHOTO_MS);
 
       setState((prev) => ({
